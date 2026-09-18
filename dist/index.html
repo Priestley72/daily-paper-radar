@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="工作日更新的 Hugging Face Daily Papers 中文速览。">
+  <meta name="theme-color" content="#0b1020">
+  <title>Daily Paper Radar</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <header class="masthead">
+    <a class="brand" href="#" aria-label="Daily Paper Radar 首页">
+      <span class="brand-mark">DP</span>
+      <span>Daily Paper Radar</span>
+    </a>
+    <div class="edition-switcher">
+      <label for="editionSelect">期次</label>
+      <select id="editionSelect" aria-label="选择期次"></select>
+    </div>
+  </header>
+
+  <main>
+    <section class="overview" aria-labelledby="editionTitle">
+      <div>
+        <p class="eyebrow">HUGGING FACE · 工作日中文速览</p>
+        <h1 id="editionTitle">加载中…</h1>
+        <p id="editionSummary" class="summary"></p>
+      </div>
+      <dl class="stats" aria-label="本期统计">
+        <div><dt>论文</dt><dd id="paperCount">—</dd></div>
+        <div><dt>主题</dt><dd id="topicCount">—</dd></div>
+        <div><dt>优先读</dt><dd id="priorityCount">—</dd></div>
+      </dl>
+    </section>
+
+    <section class="toolbar" aria-label="筛选论文">
+      <label class="search">
+        <span aria-hidden="true">⌕</span>
+        <input id="searchInput" type="search" placeholder="搜索标题、作者或关键词" autocomplete="off">
+      </label>
+      <div id="topicFilters" class="filters" role="group" aria-label="按主题筛选"></div>
+    </section>
+
+    <section class="section-heading">
+      <div>
+        <p class="eyebrow">PAPER INDEX</p>
+        <h2>今天值得知道什么</h2>
+      </div>
+      <p id="resultCount" class="result-count"></p>
+    </section>
+    <div id="paperGrid" class="paper-grid" aria-live="polite"></div>
+    <p id="emptyState" class="empty" hidden>没有匹配的论文，换个关键词试试。</p>
+  </main>
+
+  <footer>
+    <p>内容用于快速筛选，不代替论文原文。事实与数值均以论文和 Hugging Face 页面为准。</p>
+    <a href="https://huggingface.co/papers" target="_blank" rel="noreferrer">Hugging Face Daily Papers ↗</a>
+  </footer>
+
+  <script src="./app.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,48 @@
+[
+  {
+    "date": "2026-09-18",
+    "title": "更省 token 的智能体，与更精准的视觉注意力",
+    "summary": "今天的三篇论文都在讨论同一个底层问题：模型能力已经很强，下一步如何把有限的上下文、工具调用和视觉 token 花在真正有用的地方。两篇聚焦 coding agent harness，一篇聚焦多模态模型的区域选择。",
+    "papers": [
+      {
+        "id": "2609.20519",
+        "title": "SoL-Pi: Recursively Scaling Auto-Research Loops for Efficient Agent Harness",
+        "authors": "Haozhe Liu 等 · NVIDIA 等",
+        "topics": ["Coding Agent", "效率优化"],
+        "priority": 1,
+        "explainer": "让 AI 自动阅读智能体运行轨迹、提出并验证 harness 改进方案，最终筛出四种可复用机制。作者报告：在 51 个 EdgeBench 任务上，SoL-Pi 与 Pi 的能力大致相当，但 token 流量减少 44.7%–49.0%，API 成本约下降三分之一。",
+        "why": "它把“优化 agent 外壳”本身变成了可扩展的自动研究流程，并且专门用隔离的 held-out 评测约束过拟合；对长时间运行的 coding agent 很有现实意义。",
+        "huggingface": "https://huggingface.co/papers/2609.20519",
+        "arxiv": "https://arxiv.org/abs/2609.20519",
+        "project": "https://nvlabs.github.io/SoL-Pi/",
+        "github": "https://github.com/NVlabs/SoL-Pi"
+      },
+      {
+        "id": "2609.20804",
+        "title": "An Empirical Study of Harness Design for Coding Agents",
+        "authors": "Run-Ze Fan、Zihao Zhang 等",
+        "topics": ["Coding Agent", "系统评测"],
+        "priority": 2,
+        "explainer": "作者固定 coding agent 的主循环，分别改变规划、操作接口和上下文管理，在四种模型、两类 benchmark 与 176 组配置上做受控实验。结果显示，没有一种 harness 组件始终最优：上下文越紧，压缩越重要；模型越会用 bash，通用 shell 接口越省钱。",
+        "why": "它没有只比较几个完整 agent，而是拆开研究 harness 组件何时有效，适合用来指导不同模型和预算下的工程配置。",
+        "huggingface": "https://huggingface.co/papers/2609.20804",
+        "arxiv": "https://arxiv.org/abs/2609.20804",
+        "project": null,
+        "github": null
+      },
+      {
+        "id": "2609.19745",
+        "title": "Region-Level Policy Optimization for Fine-grained MLLM Perception",
+        "authors": "Yuheng Shi、Xiaohuan Pei、Minjing Dong、Chang Xu",
+        "topics": ["多模态", "视觉效率"],
+        "priority": 3,
+        "explainer": "Vision-RL² 把细粒度视觉理解拆成“先粗定位、再精识别”：轻量网络先挑出可能有用的区域，冻结的 MLLM 再用答案似然判断各区域究竟有帮助还是有干扰。论文报告在六个 benchmark 和四种骨干模型上，约用少 4 倍的视觉 token 超过基础模型的大预算结果。",
+        "why": "核心洞察直观且可迁移：定位不需要和识别一样高的分辨率。方法只训练区域预测器，避免全模型强化学习与每次查询的多轮视觉搜索。",
+        "huggingface": "https://huggingface.co/papers/2609.19745",
+        "arxiv": "https://arxiv.org/abs/2609.19745",
+        "project": "https://yuhengsss.github.io/VisionRL2/",
+        "github": "https://github.com/YuHengsss/VisionRL2"
+      }
+    ]
+  }
+]
