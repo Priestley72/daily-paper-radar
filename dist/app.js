@@ -1,92 +1,10 @@
-const state = { editions: [], edition: null, topic: "全部", query: "" };
-
-const $ = (id) => document.getElementById(id);
-const normalize = (value) => (value || "").toLocaleLowerCase("zh-CN");
-
-async function load() {
-  const response = await fetch("./data/papers.json");
-  if (!response.ok) throw new Error("无法加载论文数据");
-  state.editions = await response.json();
-  state.edition = state.editions[0];
-  renderEditionSelect();
-  render();
-}
-
-function renderEditionSelect() {
-  $("editionSelect").innerHTML = state.editions
-    .map((item) => `<option value="${item.date}">${item.date}</option>`)
-    .join("");
-}
-
-function render() {
-  const edition = state.edition;
-  document.title = `${edition.date} · Daily Paper Radar`;
-  $("editionTitle").textContent = edition.title;
-  $("editionSummary").textContent = edition.summary;
-  $("paperCount").textContent = edition.papers.length;
-  const topics = [...new Set(edition.papers.flatMap((paper) => paper.topics))];
-  $("topicCount").textContent = topics.length;
-  $("priorityCount").textContent = edition.papers.filter((paper) => paper.priority).length;
-  renderFilters(topics);
-  renderPapers();
-}
-
-function renderFilters(topics) {
-  const options = ["全部", ...topics];
-  if (!options.includes(state.topic)) state.topic = "全部";
-  $("topicFilters").innerHTML = options.map((topic) =>
-    `<button class="filter ${state.topic === topic ? "active" : ""}" data-topic="${topic}">${topic}</button>`
-  ).join("");
-}
-
-function renderPapers() {
-  const query = normalize(state.query.trim());
-  const papers = state.edition.papers.filter((paper) => {
-    const matchesTopic = state.topic === "全部" || paper.topics.includes(state.topic);
-    const haystack = normalize([paper.title, paper.authors, paper.explainer, paper.why, ...paper.topics].join(" "));
-    return matchesTopic && (!query || haystack.includes(query));
-  });
-  $("resultCount").textContent = `显示 ${papers.length} / ${state.edition.papers.length} 篇`;
-  $("emptyState").hidden = papers.length !== 0;
-  $("paperGrid").innerHTML = papers.map(card).join("");
-}
-
-function card(paper) {
-  const links = [
-    ["Hugging Face", paper.huggingface],
-    ["arXiv", paper.arxiv],
-    ["项目主页", paper.project],
-    ["代码", paper.github]
-  ].filter(([, url]) => url);
-  return `
-    <article class="paper-card ${paper.priority ? "priority" : ""}">
-      <div class="card-top">
-        <div class="tags">${paper.topics.map((topic) => `<span class="tag">${topic}</span>`).join("")}</div>
-        ${paper.priority ? `<span class="rank">优先阅读 #${paper.priority}</span>` : ""}
-      </div>
-      <h3>${paper.title}</h3>
-      <p class="authors">${paper.authors}</p>
-      <p class="plain">${paper.explainer}</p>
-      <p class="why"><strong>为什么值得看：</strong>${paper.why}</p>
-      <div class="links">${links.map(([label, url]) => `<a href="${url}" target="_blank" rel="noreferrer">${label} ↗</a>`).join("")}</div>
-    </article>`;
-}
-
-$("editionSelect").addEventListener("change", (event) => {
-  state.edition = state.editions.find((item) => item.date === event.target.value);
-  state.topic = "全部";
-  render();
-});
-$("searchInput").addEventListener("input", (event) => { state.query = event.target.value; renderPapers(); });
-$("topicFilters").addEventListener("click", (event) => {
-  const button = event.target.closest("[data-topic]");
-  if (!button) return;
-  state.topic = button.dataset.topic;
-  renderFilters([...new Set(state.edition.papers.flatMap((paper) => paper.topics))]);
-  renderPapers();
-});
-
-load().catch((error) => {
-  $("editionTitle").textContent = "内容暂时无法加载";
-  $("editionSummary").textContent = error.message;
-});
+const state={editions:[],edition:null,topic:"全部",query:""};const $=id=>document.getElementById(id);const norm=v=>(v||"").toLocaleLowerCase("zh-CN");
+async function load(){const r=await fetch("./data/papers.json");if(!r.ok)throw new Error("无法加载论文数据");state.editions=await r.json();state.edition=state.editions[0];$("editionSelect").innerHTML=state.editions.map(x=>`<option value="${x.date}">${x.date}</option>`).join("");render()}
+function render(){const e=state.edition,t=[...new Set(e.papers.flatMap(p=>p.topics))];document.title=`${e.date} · Daily Paper Radar`;$("issueDate").textContent=`DAILY BRIEF · ${e.date.replaceAll("-",".")}`;$("issueNumber").textContent=`[DAILY PAPER RADAR · ${e.date}]`;$("editionTitle").textContent=e.title;$("editionSummary").textContent=e.summary;$("paperCount").textContent=String(e.papers.length).padStart(2,"0");$("topicCount").textContent=String(t.length).padStart(2,"0");$("priorityCount").textContent=String(e.papers.filter(p=>p.priority).length).padStart(2,"0");sidebar(t);map(t);papers()}
+function sidebar(topics){$("sidebarTopics").innerHTML=topics.map((t,i)=>`<button class="side-button ${state.topic===t?"selected":""}" data-topic="${t}"><span>${["◇","▧","◉","⌁","✓"][i%5]}</span>${t}</button>`).join("");document.querySelector('[data-topic="全部"]')?.classList.toggle("selected",state.topic==="全部")}
+function map(topics){$("coordinateMap").querySelectorAll(".map-dot").forEach(x=>x.remove());topics.slice(0,4).forEach(t=>{const d=document.createElement("i");d.className="map-dot";d.textContent=t;d.title=t;$("coordinateMap").appendChild(d)})}
+function papers(){const q=norm(state.query.trim()),list=state.edition.papers.filter(p=>(state.topic==="全部"||p.topics.includes(state.topic))&&(!q||norm([p.title,p.authors,p.explainer,p.why,...p.topics].join(" ")).includes(q)));$("resultCount").textContent=`${list.length} 篇匹配 · ${state.edition.date}`;$("emptyState").hidden=!!list.length;$("paperList").innerHTML=list.map(card).join("")}
+function card(p,i){const links=[["Hugging Face",p.huggingface,""],["arXiv",p.arxiv,"arxiv"],["项目",p.project,""],["代码",p.github,""]].filter(x=>x[1]);return `<article class="paper-card"><div class="paper-number">[${String(i+1).padStart(2,"0")}]</div><div><div class="paper-title-row"><div><h3>${p.title}</h3><div class="tags">${p.topics.map(t=>`<span>${t}</span>`).join("")}<span>${state.edition.date}</span></div></div>${p.priority?`<span class="priority">优先读 #${p.priority}</span>`:""}</div><p class="authors">${p.authors}</p><p class="summary">${p.explainer}</p><button class="detail-toggle" aria-expanded="false">查看完整说明 <span>↓</span></button><div class="paper-details"><div class="reason-grid"><section><h4>为什么值得看</h4><p>${p.why}</p></section><section><h4>怎么快速判断</h4><p>先核对摘要与核心实验，再根据你的研究方向决定是否进入方法和附录；页面简介只负责筛选，不替代原文证据。</p></section></div></div><div class="paper-footer"><span class="open-status"><i></i>论文与公开来源已索引</span><div class="paper-links">${links.map(x=>`<a class="${x[2]}" href="${x[1]}" target="_blank" rel="noreferrer">${x[0]} ↗</a>`).join("")}</div></div></div></article>`}
+function choose(topic){state.topic=topic;sidebar([...new Set(state.edition.papers.flatMap(p=>p.topics))]);papers();$("papers").scrollIntoView({behavior:"smooth"})}
+$("editionSelect").addEventListener("change",e=>{state.edition=state.editions.find(x=>x.date===e.target.value);state.topic="全部";render()});$("searchInput").addEventListener("input",e=>{state.query=e.target.value;papers()});document.querySelector(".sidebar").addEventListener("click",e=>{const b=e.target.closest("[data-topic]");if(b)choose(b.dataset.topic)});$("paperList").addEventListener("click",e=>{const b=e.target.closest(".detail-toggle");if(!b)return;const d=b.nextElementSibling,o=d.classList.toggle("expanded");b.setAttribute("aria-expanded",String(o));b.innerHTML=`${o?"收起":"查看完整说明"} <span>${o?"↑":"↓"}</span>`});
+load().catch(e=>{$("editionTitle").textContent="内容暂时无法加载";$("editionSummary").textContent=e.message});
