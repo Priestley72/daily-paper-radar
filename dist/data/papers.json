@@ -1,5 +1,25 @@
 [
   {
+    "date": "2026-09-21",
+    "title": "让机器人动作策略学会预判交互走向",
+    "summary": "今天仅收录一篇论文，主题集中在机器人操作与 3D diffusion policy。论文不要求模型显式生成未来轨迹，而是用稀疏的未来夹爪状态，在训练期教会策略从短期观测历史中提炼运动趋势；推理时只保留紧凑的前瞻 latent，兼顾动作生成效果与部署开销。",
+    "papers": [
+      {
+        "id": "2609.20669",
+        "title": "Learning Foresight without Explicit Trajectories for 3D Diffusion Policies",
+        "authors": "Zhongbo Zhang、Zaibin Zhang、Yifan Wang 等 · 大连理工大学",
+        "topics": ["机器人操作", "Diffusion Policy", "3D 感知"],
+        "priority": 1,
+        "explainer": "Movement Trend Guidance 从一小段观测历史中学习交互演化的 latent：训练时用稀疏的未来夹爪状态监督，推理时把该 latent 作为前瞻条件输入 DP3，并只在 UNet bottleneck 增加 gated FiLM 分支。新增参数为 3.52%；论文报告其在 RoboTwin2.0、LIBERO-40、DexArt 与五项真实机器人任务上均超过 DP3。",
+        "why": "它用训练期的弱未来监督换取推理期的隐式前瞻能力，无需显式规划轨迹，也不改变原有 dense-action 与 receding-horizon 框架，适合关注机器人策略泛化或低开销规划的人优先阅读。",
+        "huggingface": "https://huggingface.co/papers/2609.20669",
+        "arxiv": "https://arxiv.org/abs/2609.20669",
+        "project": "https://github.com/zhangzhongbo2213/movement-trend-guidance",
+        "github": "https://github.com/zhangzhongbo2213/movement-trend-guidance"
+      }
+    ]
+  },
+  {
     "date": "2026-09-18",
     "title": "更省 token 的智能体，与更精准的视觉注意力",
     "summary": "今天的三篇论文都在讨论同一个底层问题：模型能力已经很强，下一步如何把有限的上下文、工具调用和视觉 token 花在真正有用的地方。两篇聚焦 coding agent harness，一篇聚焦多模态模型的区域选择。",
