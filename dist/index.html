@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Hugging Face Daily Papers 中文速览，按日期和主题快速浏览论文。">
+  <meta name="description" content="Hugging Face Daily Papers 中文论文博客，按日浏览论文与优先阅读精读。">
   <meta name="theme-color" content="#f7f6f1">
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23174c3c'/%3E%3Cpath d='M8 22V10h6c4 0 7 2 7 6s-3 6-7 6H8zm4-3h2c2 0 3-1 3-3s-1-3-3-3h-2v6z' fill='white'/%3E%3C/svg%3E">
   <title>Daily Paper Radar</title>
@@ -21,12 +21,13 @@
     <section class="edition-intro" aria-labelledby="editionTitle">
       <div class="edition-meta">
         <span class="eyebrow">DAILY BRIEF</span>
-        <label class="date-control" for="editionSelect">日期 <select id="editionSelect" aria-label="选择 Daily Papers 日期"></select></label>
+        <div class="calendar-wrap"><button id="calendarToggle" class="calendar-toggle" type="button" aria-expanded="false" aria-controls="calendarPanel">📅 <span id="selectedDate">选择日期</span></button><div id="calendarPanel" class="calendar-panel" hidden><div class="calendar-nav"><button id="prevMonth" type="button" aria-label="上个月">‹</button><select id="calendarYear" aria-label="选择年份"></select><select id="calendarMonth" aria-label="选择月份"></select><button id="nextMonth" type="button" aria-label="下个月">›</button></div><div class="calendar-weekdays" aria-hidden="true"><span>一</span><span>二</span><span>三</span><span>四</span><span>五</span><span>六</span><span>日</span></div><div id="calendarDays" class="calendar-days" role="grid" aria-label="按日期浏览期次"></div><p class="calendar-hint">圆点标记已收录日期</p></div></div>
       </div>
       <h1 id="editionTitle">加载中…</h1>
       <p id="editionSummary" class="edition-summary"></p>
       <p id="editionCount" class="edition-count"></p>
     </section>
+    <article id="articleView" class="article-view" hidden></article>
     <section class="library" aria-labelledby="paperHeading">
       <div class="library-heading">
         <div><span class="eyebrow">PAPER INDEX</span><h2 id="paperHeading">论文速览</h2></div>
