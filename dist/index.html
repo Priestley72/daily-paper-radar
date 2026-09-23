@@ -1,1 +1,45 @@
-<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="工作日更新的 Hugging Face Daily Papers 中文研究雷达。"><meta name="theme-color" content="#f7f6f1"><link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23174c3c'/%3E%3Cpath d='M8 22V10h6c4 0 7 2 7 6s-3 6-7 6H8zm4-3h2c2 0 3-1 3-3s-1-3-3-3h-2v6z' fill='white'/%3E%3C/svg%3E"><title>Daily Paper Radar</title><link rel="stylesheet" href="./styles.css"></head><body id="top"><header class="topbar"><a class="brand" href="#top"><span class="brand-mark">DPR</span><span>Daily Paper Radar</span></a><nav class="topnav"><a class="active" href="#papers">今日论文</a><a href="#overview">今日脉络</a><a href="https://huggingface.co/papers" target="_blank" rel="noreferrer">原始页面</a></nav><label class="search-box"><span>⌕</span><input id="searchInput" type="search" placeholder="搜索论文、作者或主题" aria-label="搜索论文"></label><div class="update-status"><i></i><span>工作日更新</span></div></header><div class="issue-strip"><span>▣</span><strong id="issueDate">DAILY BRIEF</strong><i></i><span>Hugging Face Daily Papers 中文速览</span></div><div class="workspace"><aside class="sidebar"><h2>研究索引</h2><div class="nav-group"><h3>快速访问</h3><button class="side-button selected" data-topic="全部"><span>★</span>今日精选</button><a class="side-button" href="#papers"><span>▦</span>全部论文</a><a class="side-button" href="#overview"><span>⌁</span>今日脉络</a></div><div class="nav-group topic-nav"><h3>本期主题</h3><div id="sidebarTopics"></div></div><div class="edition-panel"><h3>浏览期次</h3><label for="editionSelect">Daily Paper 日期</label><select id="editionSelect"></select></div><p class="side-note">每篇只保留快速判断所需的信息。需要深入时，请回到论文原文核验方法、实验与限制。</p></aside><main class="content"><section class="hero" id="overview"><div><p class="eyebrow" id="issueNumber">[DAILY PAPER RADAR]</p><h1 id="editionTitle">加载中…</h1><p id="editionSummary" class="hero-copy"></p><div class="hero-actions"><a class="primary-button" href="#papers">查看今日论文</a><a class="text-button" href="https://huggingface.co/papers" target="_blank" rel="noreferrer">打开 Hugging Face <span>→</span></a></div><div class="taxonomy-note"><b>阅读方法</b><span>先看白话简介判断相关性</span><i>→</i><span>再按优先级进入原文</span></div><dl class="stats"><div><dd id="paperCount">—</dd><dt>篇论文</dt></div><div><dd id="topicCount">—</dd><dt>个主题</dt></div><div><dd id="priorityCount">—</dd><dt>篇优先读</dt></div></dl></div><aside class="radar-card"><p>TOPIC COORDINATES</p><div class="coordinate-map" id="coordinateMap"><span class="axis-label top">模型与方法</span><span class="axis-label bottom">系统与应用</span><span class="axis-label left">能力提升</span><span class="axis-label right">效率优化</span></div><p class="map-caption">本期论文按研究对象与主要目标粗略定位，仅用于快速建立全局印象。</p></aside></section><section class="papers-section" id="papers"><div class="section-heading"><div><p class="eyebrow">CURATED RESEARCH</p><h2>今日论文</h2></div><p id="resultCount"></p></div><div id="paperList" class="paper-list" aria-live="polite"></div><p id="emptyState" class="empty-state" hidden>没有匹配的论文，换个关键词或主题试试。</p></section><footer><span>DAILY PAPER RADAR</span><p>把每天的论文列表，变成可以快速判断和持续回看的研究索引。</p></footer></main></div><script src="./app.js" defer></script></body></html>
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Hugging Face Daily Papers 中文速览，按日期和主题快速浏览论文。">
+  <meta name="theme-color" content="#f7f6f1">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23174c3c'/%3E%3Cpath d='M8 22V10h6c4 0 7 2 7 6s-3 6-7 6H8zm4-3h2c2 0 3-1 3-3s-1-3-3-3h-2v6z' fill='white'/%3E%3C/svg%3E">
+  <title>Daily Paper Radar</title>
+  <link rel="stylesheet" href="./styles.css">
+  <script src="./app.js" defer></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="./" aria-label="Daily Paper Radar 首页"><span class="brand-mark">DPR</span><span>Daily Paper Radar</span></a>
+      <a class="source-link" href="https://huggingface.co/papers" target="_blank" rel="noopener noreferrer">Hugging Face 原站 ↗</a>
+    </div>
+  </header>
+  <main class="page">
+    <section class="edition-intro" aria-labelledby="editionTitle">
+      <div class="edition-meta">
+        <span class="eyebrow">DAILY BRIEF</span>
+        <label class="date-control" for="editionSelect">日期 <select id="editionSelect" aria-label="选择 Daily Papers 日期"></select></label>
+      </div>
+      <h1 id="editionTitle">加载中…</h1>
+      <p id="editionSummary" class="edition-summary"></p>
+      <p id="editionCount" class="edition-count"></p>
+    </section>
+    <section class="library" aria-labelledby="paperHeading">
+      <div class="library-heading">
+        <div><span class="eyebrow">PAPER INDEX</span><h2 id="paperHeading">论文速览</h2></div>
+        <p id="resultCount" class="result-count"></p>
+      </div>
+      <div class="controls">
+        <label class="search-control" for="searchInput"><span aria-hidden="true">⌕</span><input id="searchInput" type="search" placeholder="搜索标题、作者、主题或简介" autocomplete="off"></label>
+        <div id="topicFilters" class="topic-filters" role="group" aria-label="筛选论文"></div>
+      </div>
+      <div id="paperList" class="paper-list" aria-live="polite"></div>
+      <p id="emptyState" class="empty-state" hidden>没有匹配的论文。请清除搜索词或选择其他主题。</p>
+    </section>
+  </main>
+  <footer class="site-footer"><span>Daily Paper Radar</span><span>简介用于快速筛选；方法和实验细节以论文原文为准。</span></footer>
+</body>
+</html>

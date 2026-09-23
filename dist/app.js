@@ -1,10 +1,120 @@
-const state={editions:[],edition:null,topic:"全部",query:""};const $=id=>document.getElementById(id);const norm=v=>(v||"").toLocaleLowerCase("zh-CN");
-async function load(){const r=await fetch("./data/papers.json");if(!r.ok)throw new Error("无法加载论文数据");state.editions=await r.json();state.edition=state.editions[0];$("editionSelect").innerHTML=state.editions.map(x=>`<option value="${x.date}">${x.date}</option>`).join("");render()}
-function render(){const e=state.edition,t=[...new Set(e.papers.flatMap(p=>p.topics))];document.title=`${e.date} · Daily Paper Radar`;$("issueDate").textContent=`DAILY BRIEF · ${e.date.replaceAll("-",".")}`;$("issueNumber").textContent=`[DAILY PAPER RADAR · ${e.date}]`;$("editionTitle").textContent=e.title;$("editionSummary").textContent=e.summary;$("paperCount").textContent=String(e.papers.length).padStart(2,"0");$("topicCount").textContent=String(t.length).padStart(2,"0");$("priorityCount").textContent=String(e.papers.filter(p=>p.priority).length).padStart(2,"0");sidebar(t);map(t);papers()}
-function sidebar(topics){$("sidebarTopics").innerHTML=topics.map((t,i)=>`<button class="side-button ${state.topic===t?"selected":""}" data-topic="${t}"><span>${["◇","▧","◉","⌁","✓"][i%5]}</span>${t}</button>`).join("");document.querySelector('[data-topic="全部"]')?.classList.toggle("selected",state.topic==="全部")}
-function map(topics){$("coordinateMap").querySelectorAll(".map-dot").forEach(x=>x.remove());topics.slice(0,4).forEach(t=>{const d=document.createElement("i");d.className="map-dot";d.textContent=t;d.title=t;$("coordinateMap").appendChild(d)})}
-function papers(){const q=norm(state.query.trim()),list=state.edition.papers.filter(p=>(state.topic==="全部"||p.topics.includes(state.topic))&&(!q||norm([p.title,p.authors,p.explainer,p.why,...p.topics].join(" ")).includes(q)));$("resultCount").textContent=`${list.length} 篇匹配 · ${state.edition.date}`;$("emptyState").hidden=!!list.length;$("paperList").innerHTML=list.map(card).join("")}
-function card(p,i){const links=[["Hugging Face",p.huggingface,""],["arXiv",p.arxiv,"arxiv"],["项目",p.project,""],["代码",p.github,""]].filter(x=>x[1]);return `<article class="paper-card"><div class="paper-number">[${String(i+1).padStart(2,"0")}]</div><div><div class="paper-title-row"><div><h3>${p.title}</h3><div class="tags">${p.topics.map(t=>`<span>${t}</span>`).join("")}<span>${state.edition.date}</span></div></div>${p.priority?`<span class="priority">优先读 #${p.priority}</span>`:""}</div><p class="authors">${p.authors}</p><p class="summary">${p.explainer}</p><button class="detail-toggle" aria-expanded="false">查看完整说明 <span>↓</span></button><div class="paper-details"><div class="reason-grid"><section><h4>为什么值得看</h4><p>${p.why}</p></section><section><h4>怎么快速判断</h4><p>先核对摘要与核心实验，再根据你的研究方向决定是否进入方法和附录；页面简介只负责筛选，不替代原文证据。</p></section></div></div><div class="paper-footer"><span class="open-status"><i></i>论文与公开来源已索引</span><div class="paper-links">${links.map(x=>`<a class="${x[2]}" href="${x[1]}" target="_blank" rel="noreferrer">${x[0]} ↗</a>`).join("")}</div></div></div></article>`}
-function choose(topic){state.topic=topic;sidebar([...new Set(state.edition.papers.flatMap(p=>p.topics))]);papers();$("papers").scrollIntoView({behavior:"smooth"})}
-$("editionSelect").addEventListener("change",e=>{state.edition=state.editions.find(x=>x.date===e.target.value);state.topic="全部";render()});$("searchInput").addEventListener("input",e=>{state.query=e.target.value;papers()});document.querySelector(".sidebar").addEventListener("click",e=>{const b=e.target.closest("[data-topic]");if(b)choose(b.dataset.topic)});$("paperList").addEventListener("click",e=>{const b=e.target.closest(".detail-toggle");if(!b)return;const d=b.nextElementSibling,o=d.classList.toggle("expanded");b.setAttribute("aria-expanded",String(o));b.innerHTML=`${o?"收起":"查看完整说明"} <span>${o?"↑":"↓"}</span>`});
-load().catch(e=>{$("editionTitle").textContent="内容暂时无法加载";$("editionSummary").textContent=e.message});
+const state = { editions: [], edition: null, filter: "all", query: "" };
+const element = (id) => document.getElementById(id);
+
+function escapeHtml(value) {
+  return String(value ?? "").replace(/[&<>"']/g, (character) => ({
+    "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+  })[character]);
+}
+
+function safeUrl(value) {
+  try {
+    const url = new URL(value);
+    return url.protocol === "https:" ? escapeHtml(url.href) : "";
+  } catch {
+    return "";
+  }
+}
+
+function topics() {
+  return [...new Set(state.edition.papers.flatMap((paper) => paper.topics || []))];
+}
+
+function setEdition(date) {
+  const edition = state.editions.find((item) => item.date === date) || state.editions[0];
+  state.edition = edition;
+  state.filter = "all";
+  state.query = "";
+  element("searchInput").value = "";
+  element("editionSelect").value = edition.date;
+  document.title = `${edition.date} · Daily Paper Radar`;
+  element("editionTitle").textContent = edition.title;
+  element("editionSummary").textContent = edition.summary;
+  element("editionCount").textContent = `${edition.date} · 已收录 ${edition.papers.length} 篇`;
+  const address = new URL(window.location.href);
+  address.searchParams.set("date", edition.date);
+  history.replaceState(null, "", address);
+  renderFilters();
+  renderPapers();
+}
+
+function renderFilters() {
+  const filters = [["all", "全部"], ["priority", "优先阅读"], ...topics().map((topic) => [`topic:${topic}`, topic])];
+  element("topicFilters").innerHTML = filters.map(([value, label]) =>
+    `<button class="filter-button" type="button" data-filter="${escapeHtml(value)}" aria-pressed="${state.filter === value}">${escapeHtml(label)}</button>`
+  ).join("");
+}
+
+function paperCard(paper, index) {
+  const links = [
+    ["Hugging Face", paper.huggingface], ["arXiv", paper.arxiv],
+    ["项目", paper.project], ["代码", paper.github]
+  ];
+  const uniqueLinks = [...new Map(links.filter(([, url]) => safeUrl(url)).map(([label, url]) => [url, [label, url]])).values()];
+  const titleUrl = safeUrl(paper.huggingface) || safeUrl(paper.arxiv);
+  const title = escapeHtml(paper.title);
+  return `<article class="paper-card">
+    <span class="paper-number">[${String(index + 1).padStart(2, "0")}]</span>
+    <div>
+      <div class="paper-heading">
+        <h3 class="paper-title">${titleUrl ? `<a href="${titleUrl}" target="_blank" rel="noopener noreferrer">${title} ↗</a>` : title}</h3>
+        ${paper.priority ? `<span class="priority">优先读 #${escapeHtml(paper.priority)}</span>` : ""}
+      </div>
+      <div class="paper-meta">
+        ${(paper.topics || []).map((topic) => `<span class="tag">${escapeHtml(topic)}</span>`).join("")}
+        <span class="authors">${escapeHtml(paper.authors)}</span>
+      </div>
+      <p class="explainer">${escapeHtml(paper.explainer)}</p>
+      ${paper.why ? `<p class="why"><strong>为什么值得看：</strong>${escapeHtml(paper.why)}</p>` : ""}
+      <div class="paper-links">${uniqueLinks.map(([label, url]) =>
+        `<a href="${safeUrl(url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(label)} ↗</a>`
+      ).join("")}</div>
+    </div>
+  </article>`;
+}
+
+function renderPapers() {
+  const query = state.query.trim().toLocaleLowerCase("zh-CN");
+  const papers = state.edition.papers.filter((paper) => {
+    const matchesFilter = state.filter === "all"
+      || (state.filter === "priority" && Boolean(paper.priority))
+      || (state.filter.startsWith("topic:") && paper.topics?.includes(state.filter.slice(6)));
+    const searchable = [paper.title, paper.authors, paper.explainer, paper.why, ...(paper.topics || [])]
+      .join(" ").toLocaleLowerCase("zh-CN");
+    return matchesFilter && (!query || searchable.includes(query));
+  });
+  element("resultCount").textContent = `显示 ${papers.length} / ${state.edition.papers.length} 篇`;
+  element("emptyState").hidden = papers.length > 0;
+  element("paperList").innerHTML = papers.map(paperCard).join("");
+}
+
+element("editionSelect").addEventListener("change", (event) => setEdition(event.target.value));
+element("searchInput").addEventListener("input", (event) => {
+  state.query = event.target.value;
+  renderPapers();
+});
+element("topicFilters").addEventListener("click", (event) => {
+  const button = event.target.closest("button[data-filter]");
+  if (!button) return;
+  state.filter = button.dataset.filter;
+  renderFilters();
+  renderPapers();
+});
+
+fetch("./data/papers.json")
+  .then((response) => {
+    if (!response.ok) throw new Error("数据加载失败");
+    return response.json();
+  })
+  .then((editions) => {
+    if (!Array.isArray(editions) || editions.length === 0) throw new Error("暂无可浏览的期次");
+    state.editions = editions;
+    element("editionSelect").innerHTML = editions.map((item) =>
+      `<option value="${escapeHtml(item.date)}">${escapeHtml(item.date)}</option>`
+    ).join("");
+    setEdition(new URLSearchParams(window.location.search).get("date"));
+  })
+  .catch((error) => {
+    element("editionTitle").textContent = "内容暂时无法加载";
+    element("editionSummary").textContent = error.message;
+  });
