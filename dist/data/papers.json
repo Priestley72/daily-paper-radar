@@ -1,26 +1,9 @@
 [
   {
     "date": "2026-09-21",
-    "title": "数据与操作智能体的新训练环境（持续补录）",
-    "summary": "本期页面与接口共列出 31 篇论文，目前先整理了其中 6 篇。已收录内容涵盖数据智能体的可演化语义层、原生音视频对话、从代码构造训练任务与技能，以及跨图形界面和代码的混合智能体。其余论文仍在核对和补录中；当前优先阅读排序也可能随完整期次调整。",
+    "title": "智能体训练环境、数字操作与可验证评测",
+    "summary": "本期共收录 31 篇论文。智能体相关工作尤为集中：从源码生成 coding agent 训练任务与技能，用可重放环境评估跨界面操作，并让机器人在长任务中针对瓶颈练习。其他论文涉及原生音视频对话、图像与视频生成、模型效率、语音反诈及安全授权。以下优先阅读排序是编辑判断，不代表论文质量的客观评分。",
     "papers": [
-      {
-        "id": "2609.20669",
-        "title": "Learning Foresight without Explicit Trajectories for 3D Diffusion Policies",
-        "authors": "Zhongbo Zhang、Zaibin Zhang、Yifan Wang 等 · 大连理工大学",
-        "topics": [
-          "机器人操作",
-          "Diffusion Policy",
-          "3D 感知"
-        ],
-        "priority": 5,
-        "explainer": "Movement Trend Guidance 从一小段观测历史中学习交互演化的 latent：训练时用稀疏的未来夹爪状态监督，推理时把该 latent 作为前瞻条件输入 DP3，并只在 UNet bottleneck 增加 gated FiLM 分支。新增参数为 3.52%；论文报告其在 RoboTwin2.0、LIBERO-40、DexArt 与五项真实机器人任务上均超过 DP3。",
-        "why": "它用训练期的弱未来监督换取推理期的隐式前瞻能力，无需显式规划轨迹，也不改变原有 dense-action 与 receding-horizon 框架，适合关注机器人策略泛化或低开销规划的人优先阅读。",
-        "huggingface": "https://huggingface.co/papers/2609.20669",
-        "arxiv": "https://arxiv.org/abs/2609.20669",
-        "project": "https://github.com/zhangzhongbo2213/movement-trend-guidance",
-        "github": "https://github.com/zhangzhongbo2213/movement-trend-guidance"
-      },
       {
         "id": "2609.15779",
         "title": "EvoOntology: A Self-Evolving Ontology Layer for Data Agents",
@@ -47,7 +30,7 @@
         ],
         "explainer": "OmniVChat 研究用户直接用音频和视频提问、模型以文本回应的对话，不预先把问题转写成文字。作者用多智能体数据引擎合成单轮和多轮对话，建立覆盖五类能力的评测，并设计同时考虑正确性、效率与风格的强化学习奖励。论文报告，合成对话训练后的模型在合成集和真人录制集上都获得提升。",
         "why": "这项工作把数据构造、评测和训练放在同一任务定义下，有助于判断原生音视频交互是否真的超过依赖转写与描述的流水线。真人数据上的迁移结果尤其值得细看。",
-        "priority": 4,
+        "priority": null,
         "project": null,
         "github": "https://github.com/HarlandZZC/OmniVChat",
         "huggingface": "https://huggingface.co/papers/2609.21465",
@@ -79,7 +62,7 @@
         ],
         "explainer": "Code2Skill 从源码单元提炼原子操作、组合流程和常见模式，不要求智能体先在环境里执行任务。每条技能还要经过不看原实现的重建和对照验证，以保留来源证据。作者处理 19769 个 GitHub 仓库，建立含约 100 万条记录的 CodeSkillBank；在协议匹配评估中，检索这些技能带来平均 11.7% 的提升。",
         "why": "它为智能体提供了一条从既有代码获取可追溯流程知识的路径。值得重点检查技能验证与检索是否真正降低了错误迁移，而不只是扩大知识库规模。",
-        "priority": 3,
+        "priority": 4,
         "project": "https://ant-international-research.github.io/developer-skill-hubs/",
         "github": "https://github.com/ant-intl/Code2Skill",
         "huggingface": "https://huggingface.co/papers/2609.05571",
@@ -100,6 +83,422 @@
         "github": "https://github.com/QwenLM/RecreationWorld",
         "huggingface": "https://huggingface.co/papers/2609.22000",
         "arxiv": "https://arxiv.org/abs/2609.22000"
+      },
+      {
+        "id": "2609.20816",
+        "title": "Paint-Anything: Unified Any-Color Control for Image Generation and Editing",
+        "authors": "Ji Xie、Dewei Zhou、Xinyu Huang 等",
+        "topics": [
+          "图像生成",
+          "颜色控制"
+        ],
+        "explainer": "Paint-Anything 让用户直接用任意 24 位十六进制色值指定物体颜色，统一支持文生图和编辑。作者从真实图像构造物体级颜色监督，又加入像素与色值精确对应的纯色锚点，以减少阴影造成的标签误差；这些锚点只在高噪声阶段使用。论文建立 ACBench，并报告在 FLUX.2-4B 上比基础模型更准确地满足颜色要求。",
+        "why": "它把颜色控制变成普通提示词接口，不必为生成和编辑设计两套机制。值得检查真实图像中的光照、材质与目标色值之间如何权衡。",
+        "priority": null,
+        "project": null,
+        "github": null,
+        "huggingface": "https://huggingface.co/papers/2609.20816",
+        "arxiv": "https://arxiv.org/abs/2609.20816"
+      },
+      {
+        "id": "2609.21346",
+        "title": "IntBMoE: Integrating Block-Level Conditioning into Expert Composition for Full-Participation Mixture-of-Experts",
+        "authors": "Ran Cheng、Longfei Xu、Zheng Liu 等",
+        "topics": [
+          "MoE",
+          "模型效率"
+        ],
+        "explainer": "IntBMoE 区分每个 token 有多少专家参与知识贡献、实际计算多少专家，以及要存储多少组专家参数。方法用固定规模的条件码本和轻量超网络，把专家基底合成为少量块；每个 token 只路由到部分块，却可让全部专家参与组合。论文在视觉、语言与推荐任务上报告收益，并给出推荐系统线上实验结果。",
+        "why": "它尝试拆开传统 MoE 中相互绑定的容量、计算与内存开销。真正看点在于合成块的额外成本和线上延迟约束下是否仍有收益。",
+        "priority": null,
+        "project": null,
+        "github": null,
+        "huggingface": "https://huggingface.co/papers/2609.21346",
+        "arxiv": "https://arxiv.org/abs/2609.21346"
+      },
+      {
+        "id": "2609.22069",
+        "title": "OmniVBench: A Benchmark and Large-Scale Dataset for Omni Reference-to-Video Generation",
+        "authors": "Wenxue Li、Peiyan Guan、Haoyang Jiang 等",
+        "topics": [
+          "视频生成",
+          "基准数据"
+        ],
+        "explainer": "参考驱动视频生成已不只复制单一人物或风格，还要组合内容、动作、结构和多参考信息。OmniVBench 覆盖七类任务、18 项细粒度任务，并用 12172 条案例相关检查项判断参考因素是否被保留、分离并正确作用到目标。作者同时提供约 34 万个训练样本的 Omni-R2V 数据集；对现有模型的评估显示不同任务间仍有明显能力缺口。",
+        "why": "它比整体相似度更关注参考因素有没有被用对位置，适合分析视频生成模型的可控性。评测清单的覆盖面与判定一致性值得细看。",
+        "priority": null,
+        "project": "https://wxliii.github.io/OmniVBench/",
+        "github": null,
+        "huggingface": "https://huggingface.co/papers/2609.22069",
+        "arxiv": "https://arxiv.org/abs/2609.22069"
+      },
+      {
+        "id": "2609.22083",
+        "title": "MintAct: A Unified Visual Agent for Digital Environments",
+        "authors": "Mingfei Gao、Rui Tian、Haiming Gang 等",
+        "topics": [
+          "视觉智能体",
+          "计算机操作"
+        ],
+        "explainer": "MintAct 用同一家族的 2B、4B、8B 视觉语言模型处理界面定位、跨手机桌面网页的多步导航和视觉工具使用。训练依托可并发运行的异构环境与异步强化学习框架，显式控制不同领域的样本分布，并应对噪声反馈和离策略偏移。论文报告在多个相近规模比较中达到各领域专用模型的水平，OSWorld-Verified 得分为 48.9。",
+        "why": "把多种数字界面能力放进统一模型有助于减少跨平台切换成本。值得重点阅读其环境规模、训练稳定性，以及不同设备上的迁移是否均衡。",
+        "priority": 3,
+        "project": null,
+        "github": null,
+        "huggingface": "https://huggingface.co/papers/2609.22083",
+        "arxiv": "https://arxiv.org/abs/2609.22083"
+      },
+      {
+        "id": "2609.22086",
+        "title": "Designer-RSI: Evolving Procedural Memory from User Traffic for Agentic Graphic Design",
+        "authors": "Hongyang Du、Lan Yan、Christian Flores 等",
+        "topics": [
+          "设计智能体",
+          "程序记忆"
+        ],
+        "explainer": "Designer-RSI 让冻结模型使用专业设计软件的 230 多种工具，同时把真实任务中有效的操作流程存进外部自然语言技能库。系统为新子任务扩充技能，也根据成功与失败执行修订旧技能；只有匹配回放证明能修复失败且不损害既有成功时才接受更新。作者在多轮真实用户简报与自动评分轨迹上报告设计任务表现提升。",
+        "why": "设计没有简单可靠的程序判定器，因此这种带回放门槛的程序记忆值得关注。关键要看自动评分与真实设计质量有多一致，以及技能增长后的维护成本。",
+        "priority": 5,
+        "project": null,
+        "github": null,
+        "huggingface": "https://huggingface.co/papers/2609.22086",
+        "arxiv": "https://arxiv.org/abs/2609.22086"
+      },
+      {
+        "id": "2609.20886",
+        "title": "BI-Agent and BI-Bench: Towards Automating End-to-End Business Intelligence",
+        "authors": "Chuxuan Hu、Yeye He、Penny Zhou 等",
+        "topics": [
+          "数据智能体",
+          "商业分析"
+        ],
+        "explainer": "BI-Bench 用公开的真实商业分析项目和仪表盘问答，检验模型能否从找表、转换、建立关联一路完成问题回答，而不要求用户先手工准备数据。论文报告前沿模型在该基准上的准确率低于 50%。作者据此设计可调用搜索、连接和转换工具的 BI-Agent，并用真实项目合成轨迹进行监督与强化学习后训练，报告显著提升。",
+        "why": "它把企业分析中常被省略的数据准备环节纳入评测。看点在于工具编排与后训练分别解决了哪些错误，以及真实项目构造的答案能覆盖多复杂的业务问题。",
+        "priority": null,
+        "project": "https://github.com/Hu-Chuxuan/bi-agent",
+        "huggingface": "https://huggingface.co/papers/2609.20886",
+        "arxiv": "https://arxiv.org/abs/2609.20886"
+      },
+      {
+        "id": "2609.18620",
+        "title": "DeformSmith: Physics Harness-Guided Hierarchical Generation of Deformable Assets for Robot Manipulation",
+        "authors": "Can Li、Jie Gu、Zishun Deng 等",
+        "topics": [
+          "机器人仿真",
+          "可变形物体"
+        ],
+        "explainer": "仅凭文字或单张图片生成可供机器人操作的柔性物体，需要同时确定形状、外观和接触后的物理行为。DeformSmith 用分层智能体逐步构建几何、物理模型和材料，并通过共享的物理测试框架和机器人交互反馈反复修正。论文报告生成资产在视觉与物理可信度上优于所比较的基线，并可用于合成操作数据。",
+        "why": "可变形资产难点不只在“看起来像”，更在受力时能否合理响应。这篇论文值得看其交互反馈如何进入生成闭环，以及物理可信度的实际检验方式。",
+        "priority": null,
+        "project": "https://can-lee.github.io/deformsmith-web/",
+        "github": "https://github.com/CAN-Lee/DeformSmith",
+        "huggingface": "https://huggingface.co/papers/2609.18620",
+        "arxiv": "https://arxiv.org/abs/2609.18620"
+      },
+      {
+        "id": "2609.21749",
+        "title": "GraphSkillEvo: Evolutionary Optimization of Graph-Structured Agent Skills",
+        "authors": "Rui Sun、Zhi Zheng、Zhenkun Wang 等",
+        "topics": [
+          "智能体技能",
+          "优化"
+        ],
+        "explainer": "自然语言技能常把多个步骤写成冗长说明，既难执行也难搜索改进。GraphSkillEvo 把技能表示为节点是执行步骤、边是条件转移的图，再通过保留多个候选并做变异、交叉来优化流程。论文在五个智能体基准上报告超过 SkillOpt，平均准确率在两种测试模型上分别提高 4.01% 和 1.76%。",
+        "why": "它把技能从松散提示词变成可组合的流程结构，便于观察哪些步骤与分支产生收益。需要进一步看图结构的构造成本，以及效果是否依赖特定任务。",
+        "priority": null,
+        "project": null,
+        "github": "https://github.com/ruisun7/GraphSkillEvo",
+        "huggingface": "https://huggingface.co/papers/2609.21749",
+        "arxiv": "https://arxiv.org/abs/2609.21749"
+      },
+      {
+        "id": "2609.16251",
+        "title": "CADWorld: Computer-Use Benchmark for Long-Horizon Computer-Aided Design",
+        "authors": "Zihan Dong、Yuanzhe Liu、Zhiyuan Ma 等",
+        "topics": [
+          "计算机操作",
+          "工程评测"
+        ],
+        "explainer": "CADWorld 在 FreeCAD 中评估智能体完成长期机械设计任务的能力，覆盖草图、零件、装配、加工、仿真和工程图等 11 类、200 个任务。智能体只通过截图和图形界面操作，结果由保存的原生文件与辅助输出上的可执行检查判定。论文报告最强受测智能体成功率 17.5%，专家参考为 87.0%。",
+        "why": "它要求交付可编辑、可检查的工程文件，而非一张看似正确的截图。这样的评测更能暴露界面操作与真实工程约束之间的差距。",
+        "priority": null,
+        "project": "https://cad-world.github.io",
+        "github": null,
+        "huggingface": "https://huggingface.co/papers/2609.16251",
+        "arxiv": "https://arxiv.org/abs/2609.16251"
+      },
+      {
+        "id": "2609.21788",
+        "title": "From Pretraining to Proficiency: Real-World Subtask RL for Long-Horizon Manipulation with Minimal Human Intervention",
+        "authors": "Sichang Su、Benjamin Yang、Zhiyun Deng 等",
+        "topics": [
+          "机器人操作",
+          "强化学习"
+        ],
+        "explainer": "预训练机器人策略常只在长任务中的少数关键子步骤反复失败，重新收集整条任务示范成本高。PARTS 保持原策略冻结，由选择器在瓶颈处启用残差动作修正，并由局部成功验证器提供奖励；随后结合在线强化学习与成功轨迹重训练。论文在两组真实机器人任务上分别报告完整任务成功率从 32% 升至 61%、从 50% 升至 95%。",
+        "why": "它把练习预算集中到失败子任务，避免让人反复示范已会的步骤。需要留意瓶颈识别、物理重置仍需多少人工，以及不同任务间能否复用选择器。",
+        "priority": null,
+        "project": "https://destiny000621.github.io/PARTS/",
+        "github": null,
+        "huggingface": "https://huggingface.co/papers/2609.21788",
+        "arxiv": "https://arxiv.org/abs/2609.21788"
+      },
+      {
+        "id": "2609.22039",
+        "title": "Gricea: An Open Science Platform for Conversational AI Research",
+        "authors": "Nikhil Sharma、Yunlin Gong、Xinyang Cheng 等",
+        "topics": [
+          "对话智能体",
+          "研究平台"
+        ],
+        "explainer": "对话 AI 的用户研究经常只报告部分系统配置和实验过程，难以复现。Gricea 将研究流程、参与者看到的系统及对话任务行为打包成可配置、部署和共享的研究产物。作者在复现研究中重建了符合条件论文中 93% 的配置，同时指出 96% 的论文仍缺少妨碍忠实复现的信息；用户研究也展示了研究者可搭建可运行实验。",
+        "why": "这篇论文关注的不是对话模型分数，而是研究设置能否被别人重新运行。对设计用户实验、比较不同对话系统的人，平台的配置与共享机制有参考价值。",
+        "priority": null,
+        "project": "https://gricea.com/",
+        "github": null,
+        "huggingface": "https://huggingface.co/papers/2609.22039",
+        "arxiv": "https://arxiv.org/abs/2609.22039"
+      },
+      {
+        "id": "2609.20633",
+        "title": "Refinement Is Inherently Editable: Training-Free Prompt-to-Prompt Image Editing with Generative Refinement Network",
+        "authors": "Yulong Chen、Ziqian Zhang、Haoyu Zhang 等",
+        "topics": [
+          "图像编辑",
+          "生成模型"
+        ],
+        "explainer": "文本引导图像编辑既要修改指定内容，也要保留背景。RefineEdit 不额外训练模型或提供人工掩码，而是从源图的中间状态启动编辑分支，对比源分支与编辑分支对同一二值图像编码的概率，逐步选出可编辑位置；空间冻结和位锁定控制改动范围。论文在 PIE-Bench 九类编辑中报告多项保真与语义指标领先。",
+        "why": "它将“改哪里”和“生成什么”放进同一细化过程，减少对外部定位工具的依赖。关键值得检查的是复杂局部修改时掩码是否稳定，以及保留背景与完成编辑的权衡。",
+        "priority": null,
+        "project": null,
+        "github": "https://github.com/mura1n/RefineEdit",
+        "huggingface": "https://huggingface.co/papers/2609.20633",
+        "arxiv": "https://arxiv.org/abs/2609.20633"
+      },
+      {
+        "id": "2609.21619",
+        "title": "Calibrating Teacher--Student Discrepancy for On-Policy Distillation",
+        "authors": "Qiangqiang He、Jin Li、MingCai Chen 等",
+        "topics": [
+          "模型蒸馏",
+          "推理训练"
+        ],
+        "explainer": "On-policy distillation 通常把教师和学生在学生生成轨迹上的差异全作为学习信号，但其中也含教师自身因信息干预产生的偏移。Cal-OPD 用正、负特权信息干预估计教师自偏移区间，只保留超出该区间的教师—学生差异用于更新。论文在数学推理基准上报告，即使仅使用原差异约 52%–65% 的信号，仍优于标准方法。",
+        "why": "它提醒我们教师给出的差异未必全是学生缺失的能力。若校准能排除教师自身偏移，蒸馏目标会更聚焦；适用性还需看特权干预如何构造。",
+        "priority": null,
+        "project": null,
+        "github": null,
+        "huggingface": "https://huggingface.co/papers/2609.21619",
+        "arxiv": "https://arxiv.org/abs/2609.21619"
+      },
+      {
+        "id": "2609.15126",
+        "title": "MoME: Mixture-of-Memory Embeddings for Context-Aware Sparse Lookup",
+        "authors": "Muchen Li、Leonid Sigal、Renjie Liao",
+        "topics": [
+          "语言模型",
+          "参数记忆"
+        ],
+        "explainer": "传统记忆嵌入按 token 字面形式查固定条目，同一个词在不同语境下仍读同一记忆。MoME 为每个 token 提供多个记忆槽，并用当前隐藏状态学习门控选择，从而让“Python”等多义词按上下文读取不同信息。论文在多种模型骨干的受控预训练中，按相同参数量或训练 FLOP 比较，报告优于几类记忆嵌入基线。",
+        "why": "它在保持稀疏查找开销的同时引入语境区分。值得看的是额外记忆槽的扩展曲线，以及不同骨干与词义场景下的收益是否一致。",
+        "priority": null,
+        "project": null,
+        "github": "https://github.com/jojo23333/Mixutre-Of-Memory-Embedding",
+        "huggingface": "https://huggingface.co/papers/2609.15126",
+        "arxiv": "https://arxiv.org/abs/2609.15126"
+      },
+      {
+        "id": "2609.09206",
+        "title": "MLLMs Hallucinate when Information Distribution Drifts in Synergy Heads",
+        "authors": "Meng'en Qin、Junye Chen、Jucheng Liu 等",
+        "topics": [
+          "多模态",
+          "幻觉抑制"
+        ],
+        "explainer": "HEAL 研究多模态模型生成与图像不符内容时，注意力头内部的信息分布如何变化。方法先用因果噪声干预排除冗余头，再用反事实差分分析区分剩余头的作用；作者观察到幻觉与协同头的信息分布偏移有关，随后在这些头的 value 向量中加入动态校准。论文报告在多个多模态模型上降低幻觉。",
+        "why": "它从头级信息流而非单纯注意力权重寻找可干预位置。读者可重点核查“分布偏移”与幻觉之间的证据，以及校准是否损伤正常回答。",
+        "priority": null,
+        "project": null,
+        "github": "https://github.com/mason-ching/HEAL",
+        "huggingface": "https://huggingface.co/papers/2609.09206",
+        "arxiv": "https://arxiv.org/abs/2609.09206"
+      },
+      {
+        "id": "2609.18748",
+        "title": "TeleAntiFraud 2.0: A Refreshable, Profile-Grounded, and Audio-Based Benchmark for Telecom Fraud Detection",
+        "authors": "Huiyuan Liu、Zhiming Ma、Yanxing Liu 等",
+        "topics": [
+          "语音安全",
+          "基准评测"
+        ],
+        "explainer": "电信诈骗话术变化快，评测若只用与诈骗主题明显不同的正常通话，容易高估检测能力。TeleAntiFraud 2.0 将新案例转成有用户画像的场景，生成诈骗及相近的合法对话，再合成语音并按月冻结数据和来源记录。每期包含 900 段中文通话；论文显示，引入相近负例后，部分文本分类器的 Macro-F1 从满分降至约 0.65–0.68。",
+        "why": "它把容易混淆的合法通话纳入负例，并保留每月快照，较适合检验模型面对新骗局时是否仍可靠。需注意合成语音和真实通话之间的差距。",
+        "priority": null,
+        "project": "https://teleantifraud.github.io/",
+        "github": null,
+        "huggingface": "https://huggingface.co/papers/2609.18748",
+        "arxiv": "https://arxiv.org/abs/2609.18748"
+      },
+      {
+        "id": "2609.20942",
+        "title": "When AI Reviews Train AI Reviewers: Scientific-Judgment Collapse and Mitigation",
+        "authors": "Sy-Tuyen Ho、Minghui Liu、Furong Huang",
+        "topics": [
+          "科研评审",
+          "模型训练"
+        ],
+        "explainer": "当模型生成的评审进入后续训练语料，新一代 AI 评审可能反复学习前一代判断。作者用 ICLR 历年评审构造受控训练链，改变官方评审与合成评审的混合比例，观察到评分分布收缩、同篇和全体语义多样性下降。TrustReviewer 则通过筛选训练数据和测试时激活引导，尝试缓解这种“科学判断坍缩”。",
+        "why": "它讨论的是评审质量随训练反馈循环变窄的风险，而非单次评审分数。若大量评审工具进入科研流程，多样性与推荐一致性的权衡值得关注。",
+        "priority": null,
+        "project": "https://hosytuyen.github.io/projects/TrustReviewer/",
+        "github": null,
+        "huggingface": "https://huggingface.co/papers/2609.20942",
+        "arxiv": "https://arxiv.org/abs/2609.20942"
+      },
+      {
+        "id": "2609.20669",
+        "title": "Learning Foresight without Explicit Trajectories for 3D Diffusion Policies",
+        "authors": "Zhongbo Zhang、Zaibin Zhang、Yifan Wang 等 · 大连理工大学",
+        "topics": [
+          "机器人操作",
+          "Diffusion Policy",
+          "3D 感知"
+        ],
+        "priority": null,
+        "explainer": "Movement Trend Guidance 从一小段观测历史中学习交互演化的 latent：训练时用稀疏的未来夹爪状态监督，推理时把该 latent 作为前瞻条件输入 DP3，并只在 UNet bottleneck 增加 gated FiLM 分支。新增参数为 3.52%；论文报告其在 RoboTwin2.0、LIBERO-40、DexArt 与五项真实机器人任务上均超过 DP3。",
+        "why": "它用训练期的弱未来监督换取推理期的隐式前瞻能力，无需显式规划轨迹，也不改变原有 dense-action 与 receding-horizon 框架，适合关注机器人策略泛化或低开销规划的人优先阅读。",
+        "huggingface": "https://huggingface.co/papers/2609.20669",
+        "arxiv": "https://arxiv.org/abs/2609.20669",
+        "project": "https://github.com/zhangzhongbo2213/movement-trend-guidance",
+        "github": "https://github.com/zhangzhongbo2213/movement-trend-guidance"
+      },
+      {
+        "id": "2609.18766",
+        "title": "FRAUDSkill: Structured Frozen-Weight Skill Optimization for Audio Anti-Fraud Detection",
+        "authors": "Chengxian Hu、Zhiming Ma、Mingjun Pan 等",
+        "topics": [
+          "语音安全",
+          "智能体技能"
+        ],
+        "explainer": "语音反诈模型除了判断是否诈骗，还要遵守先识别服务场景、再分类风险的固定决策协议。FRAUDSkill 不更新底层音频语言模型，而是优化外部技能程序、路径政策和决策规则，并用结构化输出与多路径验证保证格式。论文在 TeleAntiFraud 基准上报告 73.50% Macro-F1，同时将无效输出降至 1.94%。",
+        "why": "它展示了不改模型权重、只调整外部规则层的适配路径，适合关注诈骗类型变化时的维护成本。检测准确率仍应结合近领域负例和实际录音判断。",
+        "priority": null,
+        "project": "https://teleantifraud.github.io/",
+        "github": null,
+        "huggingface": "https://huggingface.co/papers/2609.18766",
+        "arxiv": "https://arxiv.org/abs/2609.18766"
+      },
+      {
+        "id": "2609.12623",
+        "title": "SteerDuplex: Steerable Duplex Speech Dialogue Models",
+        "authors": "Utkarsh Tyagi、Ramaneswaran Selvakumar、Advait Gosai 等",
+        "topics": [
+          "语音对话",
+          "可控生成"
+        ],
+        "explainer": "全双工语音模型能边听边说、处理打断，但未必能稳定遵循语气、人设、语速等声音指令。SteerDuplex 在自然与合成对话上微调 Moshi，再用结合可验证交互检查和语义评估的两阶段强化学习改善时机与连贯性。作者还提出含 390 个语音提示的 SteerBench，并报告语音风格遵循与打断响应的提升。",
+        "why": "这篇论文把“说什么”与“何时说、怎么说”一起纳入评测。奖励分析还发现不完整回答可能钻指标空子，提醒读者不要只看打断速度。",
+        "priority": null,
+        "project": null,
+        "github": null,
+        "huggingface": "https://huggingface.co/papers/2609.12623",
+        "arxiv": "https://arxiv.org/abs/2609.12623"
+      },
+      {
+        "id": "2609.19169",
+        "title": "SiliconBench: Speed, Memory, and Fidelity for LLM Serving on Unified-Memory Desktops",
+        "authors": "Ranran Haoran Zhang、Aysa Xuemo Fan、David Munhá Correia 等",
+        "topics": [
+          "本地推理",
+          "系统评测"
+        ],
+        "explainer": "SiliconBench 比较九种 Apple Silicon 上的模型服务引擎，不只看速度，还测并发时的内存余量与输出质量。它在多种聊天和智能体负载上测试 Qwen、Gemma 等模型，并用分类任务对照参考实现。论文指出，能完成请求不代表内存安全，模型架构支持也不一致；仅三套受测方案同时满足完成率、质量和覆盖门槛。",
+        "why": "对在统一内存桌面上本地运行模型的人，吞吐排名不足以指导选择。该基准把内存逼近物理容量和质量回退一起纳入决策。",
+        "priority": null,
+        "project": "https://ranranhaoranzhang.com/siliconbench/",
+        "github": "https://github.com/WindChimeRan/SiliconBench",
+        "huggingface": "https://huggingface.co/papers/2609.19169",
+        "arxiv": "https://arxiv.org/abs/2609.19169"
+      },
+      {
+        "id": "2609.21094",
+        "title": "Geometry of Values: Task Vector Composition for Ethical Preference Alignment in Language Models",
+        "authors": "Utkarsh Agarwal、Monojit Choudhury",
+        "topics": [
+          "模型对齐",
+          "跨语言"
+        ],
+        "explainer": "作者用 1.2 万条两难选择题考察模型在诚实、公正、自主三组价值冲突中的偏好，并翻译到五种语言。论文观察到部分模型有固定选项偏差；随后通过微调和任务向量实验，尝试把特定价值偏好方向与一般指令遵循方向分开，并用向量运算改变模型立场。该实验检验的是受控题目中的偏好表达。",
+        "why": "它提供了分析价值偏好是否可分解、可迁移的实验工具。需要警惕把两选一数据上的高准确率直接理解为真实伦理判断能力。",
+        "priority": null,
+        "project": null,
+        "github": "https://github.com/mbzuai-nlp/geometry-of-values-task-vectors",
+        "huggingface": "https://huggingface.co/papers/2609.21094",
+        "arxiv": "https://arxiv.org/abs/2609.21094"
+      },
+      {
+        "id": "2609.19122",
+        "title": "Training-Adaptive Convolutional Sparse Coding via Information Bottleneck for Robust Visual Representation",
+        "authors": "Meng'en Qin、Yinchen Liu、Mingxuan Cui 等",
+        "topics": [
+          "视觉表征",
+          "鲁棒性"
+        ],
+        "explainer": "卷积稀疏编码能压缩冗余视觉信息，但稀疏系数通常人工固定。论文将 FISTA 展开为可训练网络，让该系数与模型参数联合学习，在保留任务相关内容和压缩之间自适应权衡；面对受扰动输入，还提出冻结主网络、只调整压缩强度的后训练策略。作者在 CIFAR 与 ImageNet 上报告有竞争力的干净样本表现及更好的扰动鲁棒性。",
+        "why": "方法的价值在于让压缩程度随训练和输入条件调整，而非依赖统一手工阈值。可重点核查不同扰动类型下的收益与额外计算成本。",
+        "priority": null,
+        "project": null,
+        "github": "https://github.com/mason-ching/TA-CSC",
+        "huggingface": "https://huggingface.co/papers/2609.19122",
+        "arxiv": "https://arxiv.org/abs/2609.19122"
+      },
+      {
+        "id": "2609.19315",
+        "title": "GAVEL: Graph World Models for Verified and Efficient Long-Horizon LLM Task Planning",
+        "authors": "Ruiyang Wang、Hao-Lun Hsu、Swarajh Mehta 等",
+        "topics": [
+          "机器人规划",
+          "图世界模型"
+        ],
+        "explainer": "GAVEL 为长程机器人任务建立显式图世界模型，记录物体关系、动作前提与效果，并保存未见物体位置的概率信念。它先在执行前检查语言模型生成的动作，能按图规则修复的错误就本地修复，只有需语义判断时才重新调用模型；多任务时还按位置分布重排搜索。论文在 BEHAVIOR-1K 上报告显著提高任务成功率。",
+        "why": "它把可验证的环境规则与语言模型的语义判断分工，减少每一步都重新规划的成本。关键是图模型错误或不完整时，修复机制能否仍可靠。",
+        "priority": null,
+        "project": null,
+        "github": null,
+        "huggingface": "https://huggingface.co/papers/2609.19315",
+        "arxiv": "https://arxiv.org/abs/2609.19315"
+      },
+      {
+        "id": "2609.22076",
+        "title": "APort Vault: Benchmarking AI Agent Payment Authorization with the Open Agent Passport",
+        "authors": "Uchi Uchibeke",
+        "topics": [
+          "智能体安全",
+          "支付授权"
+        ],
+        "explainer": "APort Vault 回放公开攻防活动中针对支付智能体的 4371 条人工攻击，比较模型单独执行与加入支付前确定性授权检查的结果。论文分别记录请求、拒绝、执行等事件，避免只报一个成功率；在其评测设置中，授权层阻止了向政策不允许收款方的转账，而仍允许大量合规支付。数据含 14 种模型、多个政策配置与回放轨道。",
+        "why": "它将“模型提出支付请求”与“系统真正执行支付”分开，是评估智能体权限边界时的重要区别。结果不应脱离具体政策、攻击分组和回放设置推广。",
+        "priority": null,
+        "project": "https://aport.io/blog/ai-agent-jailbreak-benchmark-secure-ai/",
+        "github": "https://github.com/aporthq/aport-agent-guardrails",
+        "huggingface": "https://huggingface.co/papers/2609.22076",
+        "arxiv": "https://arxiv.org/abs/2609.22076"
+      },
+      {
+        "id": "2609.21038",
+        "title": "Retention-Constrained Post-Training Quantization of Cellpose-SAM for Stem Cell Microscopy",
+        "authors": "Sebastián A. Cruz Romero",
+        "topics": [
+          "显微图像",
+          "模型量化"
+        ],
+        "explainer": "这篇论文评估 Cellpose-SAM 在实验室 CPU 与边缘设备上的量化部署，事先设定各成像类型的性能保留门槛，而不只看压缩比。研究覆盖 176 个显微视野：W8A16 保持各模态的实例 F1，混合 W4/W8 将权重存储缩至约六分之一；更激进的三值权重量化虽更省空间，却在多数视野出现严重失败。",
+        "why": "它强调显微分割压缩应按成像模态分别检查性能和失败案例。样本规模与设备条件限定了结论，不能把存储压缩率当成临床或实验可靠性的保证。",
+        "priority": null,
+        "project": null,
+        "github": null,
+        "huggingface": "https://huggingface.co/papers/2609.21038",
+        "arxiv": "https://arxiv.org/abs/2609.21038"
       }
     ]
   },
