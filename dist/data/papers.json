@@ -1,5 +1,140 @@
 [
   {
+    "date": "2026-09-22",
+    "title": "智能体自改进、世界记忆与机器人控制（持续补录）",
+    "summary": "本期 Hugging Face 页面与接口共列出 34 篇论文，目前先收录其中 8 篇。首批论文集中在智能体 harness 自改进、带长期记忆的视频世界模型、游戏与机器人操作，以及可异步委托任务的实时音视频交互。余下条目仍在核对，优先阅读排序为暂定编辑判断。",
+    "papers": [
+      {
+        "id": "2609.23088",
+        "title": "OmniEdu: Open Foundation Models for Learning and Teaching",
+        "authors": "Hao Liang、Qihan Lin、Meiyi Qiang 等",
+        "topics": [
+          "教育模型",
+          "教学支持"
+        ],
+        "explainer": "OmniEdu 希望教育模型不只会解题，还能理解课程结构、诊断学习困难并给出教学支架。作者把百余种教育与通用来源按四类能力整理，再经过清洗、语义审核、质量评分与多样性筛选，形成约 7 万条指令样本，用于微调 4B、9B 和 27B 模型。论文报告各规模在课程定位、K–12 解题和辅导评测上均有提升。",
+        "why": "它把教育能力拆成学科知识、课程定位、诊断和教学动作，较容易看清数据配方作用。但基准成绩与真实课堂中的学习效果仍应分开判断。",
+        "priority": null,
+        "project": "https://haolpku.github.io/Omni-Edu/",
+        "github": "https://github.com/haolpku/Omni-Edu",
+        "huggingface": "https://huggingface.co/papers/2609.23088",
+        "arxiv": "https://arxiv.org/abs/2609.23088"
+      },
+      {
+        "id": "2609.13814",
+        "title": "Realtime-Venus: A full-duplex interaction system with asynchronous delegation",
+        "authors": "Ruixiang Zhao、Hualei Wang、Renhe Sun 等",
+        "topics": [
+          "实时交互",
+          "音视频模型"
+        ],
+        "explainer": "Realtime-Venus 由两种分别训练的 9B 模型处理实时音视频或语音对话。系统用共享时间线同步输入、输出与委托事件，并以双循环运行：前台持续感知和回应，后台通过工具与推理处理较慢任务，再把结果接回当前对话。作者报告在多项流式视频、语音理解和打断处理评测中优于所比较的在线模型。",
+        "why": "实时助手不能为了查工具或推理而完全停下对话。该系统的前后台分工值得看，尤其要核查异步结果回到对话时的时序与错误处理。",
+        "priority": null,
+        "project": "https://realtime-venus.github.io/",
+        "github": "https://github.com/inclusionAI/Realtime-Venus",
+        "huggingface": "https://huggingface.co/papers/2609.13814",
+        "arxiv": "https://arxiv.org/abs/2609.13814"
+      },
+      {
+        "id": "2609.24972",
+        "title": "RRSI: Regularized Recursive Self-Improvement of Agent Harnesses",
+        "authors": "Peng Xia、Rujun Han、Zifeng Wang 等",
+        "topics": [
+          "Coding Agent",
+          "Harness 优化"
+        ],
+        "explainer": "让模型反复修改自身 harness 容易记住开发任务，却不能迁移到新任务。RRSI 在候选提出阶段限制一次可捆绑的修改并鼓励未探索路线，在筛选阶段用评论器排除基准特化方案、用剪枝器剔除过小或昂贵的改动。论文在编码、工作区和工程设计任务中报告，分布外基准最多提升 4.7 分，策略 token 较未正则化演化减少 30%。",
+        "why": "它直接处理自动调优 harness 的过拟合问题，和只报告开发集收益的方案形成有用对照。值得重点检查分布外任务选择和各项正则约束的消融。",
+        "priority": 1,
+        "project": "https://regularized-rsi.com/",
+        "github": "https://github.com/google-research/rrsi",
+        "huggingface": "https://huggingface.co/papers/2609.24972",
+        "arxiv": "https://arxiv.org/abs/2609.24972"
+      },
+      {
+        "id": "2609.24984",
+        "title": "WorldCrafter: Consistent Video World Model with Implicit 3D-aware Memory",
+        "authors": "Wangbo Yu、Kunhao Liu、Wenbo Hu 等",
+        "topics": [
+          "世界模型",
+          "视频生成"
+        ],
+        "explainer": "交互式视频世界模型在长时间探索和视角切换时，常忘记之前看到的场景。WorldCrafter 学习可按目标相机视角查询的隐式 3D 感知记忆：编码历史多视图信息，再根据请求视角读出固定数量的条件 token，送入视频去噪过程。作者将其与近期时间上下文和少步蒸馏结合，报告分钟级探索中的一致性与相机控制改善。",
+        "why": "它让查询视角决定历史信息如何压缩到有限 token 中，避免显式深度对应。关键值得看遮挡、动态物体和长期记忆误差如何影响连续探索。",
+        "priority": 2,
+        "project": "https://drexubery.github.io/WorldCrafter",
+        "github": "https://github.com/TencentARC/WorldCrafter",
+        "huggingface": "https://huggingface.co/papers/2609.24984",
+        "arxiv": "https://arxiv.org/abs/2609.24984"
+      },
+      {
+        "id": "2609.25001",
+        "title": "GameHorizon Suite: Multi-Horizon Data and Evaluation in Gameplay",
+        "authors": "Yiran Wang、Xingyilang Yin、Junfu Pu 等",
+        "topics": [
+          "游戏智能体",
+          "基准评测"
+        ],
+        "explainer": "GameHorizon 用电子游戏同时测试视觉理解、指令拆解、规划与精细操作，并按不同时间跨度组织任务。套件包括自动标注器、来自 21 款游戏和 100 名熟练玩家的 5000 小时对齐视频与动作数据，以及可复现的离线和逐步在线评测。作者评估了 47 个模型，发现不同时间跨度之间存在明显能力层级。",
+        "why": "它把离线问答分数与真实分步游戏表现放在一起，有助于发现看懂画面却无法持续行动的模型。数据与游戏类型的覆盖是判断泛化性的重点。",
+        "priority": null,
+        "project": "https://gamehorizon-suite.github.io/",
+        "github": "https://github.com/TencentARC/GameHorizon",
+        "huggingface": "https://huggingface.co/papers/2609.25001",
+        "arxiv": "https://arxiv.org/abs/2609.25001"
+      },
+      {
+        "id": "2609.22966",
+        "title": "Transferring the Intelligence of VLMs to Robotic Control",
+        "authors": "Meng-Hao Guo、Zhe-Han Mo、Jia-Jun Wang 等",
+        "topics": [
+          "机器人操作",
+          "VLM"
+        ],
+        "explainer": "RoboDawn 让视觉语言模型通过离散的平移、旋转和夹爪指令控制机器人，并在每步观察执行结果后调整下一动作。作者还用少量示范在上下文中教模型理解接口和任务策略，而非对特定机器人任务重新训练。论文在 RoboTwin 2.0 C2R 报告成功率从零样本 53.2% 升到单示范 73.6%，也展示了真实机器人操作。",
+        "why": "它用简洁动作接口检验数字视觉模型的能力能否迁移到物理控制。闭环频率、动作粒度与示范选择可能显著影响结果，适合细读。",
+        "priority": 3,
+        "project": null,
+        "github": null,
+        "huggingface": "https://huggingface.co/papers/2609.22966",
+        "arxiv": "https://arxiv.org/abs/2609.22966"
+      },
+      {
+        "id": "2609.23863",
+        "title": "Grounded Action Model: 3D Grounding as a Foundation for Robotics",
+        "authors": "Gehao Zhang、Weikai Huang、Shailesh Shailesh 等",
+        "topics": [
+          "机器人操作",
+          "3D Grounding"
+        ],
+        "explainer": "Grounded Action Model 把目标物体的三维定位作为机器人策略的基础，而不让它只从动作示范中隐式学习。语言、点或框提示先转为共享的物体中心表示，再与机器人状态历史一起进入多流 Transformer 预测动作片段；模型既可独立执行，也可受高层规划器调用。论文在 RoboTwin、LIBERO-PRO 与两类真实机器人设置中报告泛化收益。",
+        "why": "它把“操作哪个物体、位于哪里”显式接入动作模型，尤其适合目标被移动或重新指定的场景。应细看三维定位误差如何传到控制结果。",
+        "priority": 4,
+        "project": "https://grounded-action-model.github.io/",
+        "github": "https://github.com/GehaoZhang6/Grounded-Action-Model",
+        "huggingface": "https://huggingface.co/papers/2609.23863",
+        "arxiv": "https://arxiv.org/abs/2609.23863"
+      },
+      {
+        "id": "2609.24997",
+        "title": "VideoGen-Agent: Reinforcing Video Generation Agents",
+        "authors": "Binxu Li、Haoyi Duan、Yuhui Zhang 等",
+        "topics": [
+          "视频生成",
+          "工具智能体"
+        ],
+        "explainer": "VideoGen-Agent 让多模态智能体通过多轮交互选择增强、生成和验证工具，以处理身份保持、物理一致性或事件顺序等复杂视频要求。训练先用教师轨迹建立工具使用能力，再用考虑调用有效性、任务适配和视频质量的奖励做强化学习。作者建立 600 条提示的 VABench，报告相对基础视频生成器提升 19.1 分。",
+        "why": "它将视频生成瓶颈部分交给可替换工具，而非只改生成模型。值得看升级生成工具后无需重训智能体的收益，以及验证器对主观质量的覆盖。",
+        "priority": 5,
+        "project": "https://andyca111.github.io/VideoGen_Agent/",
+        "github": null,
+        "huggingface": "https://huggingface.co/papers/2609.24997",
+        "arxiv": "https://arxiv.org/abs/2609.24997"
+      }
+    ]
+  },
+  {
     "date": "2026-09-21",
     "title": "智能体训练环境、数字操作与可验证评测",
     "summary": "本期共收录 31 篇论文。智能体相关工作尤为集中：从源码生成 coding agent 训练任务与技能，用可重放环境评估跨界面操作，并让机器人在长任务中针对瓶颈练习。其他论文涉及原生音视频对话、图像与视频生成、模型效率、语音反诈及安全授权。以下优先阅读排序是编辑判断，不代表论文质量的客观评分。",
