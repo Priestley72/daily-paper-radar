@@ -2,7 +2,7 @@
   {
     "date": "2026-09-22",
     "title": "智能体自改进、世界记忆与机器人控制（持续补录）",
-    "summary": "本期 Hugging Face 页面与接口共列出 34 篇论文，目前先收录其中 8 篇。首批论文集中在智能体 harness 自改进、带长期记忆的视频世界模型、游戏与机器人操作，以及可异步委托任务的实时音视频交互。余下条目仍在核对，优先阅读排序为暂定编辑判断。",
+    "summary": "本期 Hugging Face 页面与接口共列出 34 篇论文，目前已核对收录其中 18 篇。内容涵盖智能体训练与记忆、软件工程、机器人安全和失败恢复、视频生成物理一致性，以及企业文档检索。其余论文仍在逐篇核对；优先阅读排序属于编辑判断，不代表论文结论。",
     "papers": [
       {
         "id": "2609.23088",
@@ -131,6 +131,176 @@
         "github": null,
         "huggingface": "https://huggingface.co/papers/2609.24997",
         "arxiv": "https://arxiv.org/abs/2609.24997"
+      },
+      {
+        "id": "2609.24220",
+        "title": "Document Retrieval-Aware Chunking (D-RAC): Universal Retrieval-Aware Ingestion of Enterprise Documents via PDF Normalization and Multimodal Markdown Conversion",
+        "authors": "Uday Allu、Abhivanth Sivaprakash、Pratik Singh 等",
+        "topics": [
+          "文档检索",
+          "RAG",
+          "文档解析"
+        ],
+        "explainer": "企业文档常混有 PDF、Word、幻灯片和扫描页，固定长度切块容易拆散表格与上下文。D-RAC 先把文档统一转为 PDF，再用多模态模型生成面向检索的 Markdown，将标题、表格内容和来源位置整理成可寻址单元；后续模型只规划单元组合，不重写原文。在一个跨领域 PDF 子集上，作者报告切块过程无错误且成本、耗时低于所比较的 agentic 切块方案。",
+        "why": "值得关注的是“先稳定表示、再规划切块”的分工，尤其适合复杂企业文档。论文给出的效率收益针对切块阶段，仍需结合具体检索任务判断端到端效果。",
+        "priority": null,
+        "project": null,
+        "github": null,
+        "huggingface": "https://huggingface.co/papers/2609.24220",
+        "arxiv": "https://arxiv.org/abs/2609.24220"
+      },
+      {
+        "id": "2609.24983",
+        "title": "onPanda: Efficient Annotation of On-Policy Alignment Data for LLMs and Agents via Token-Level Correction",
+        "authors": "Lei Yang、Mengyin Liu、Jia Wang 等",
+        "topics": [
+          "数据标注",
+          "模型对齐",
+          "智能体"
+        ],
+        "explainer": "要为模型自身生成的回答制作纠错数据，完整重写既慢，也会脱离原模型的生成分布。onPanda 让标注者定位第一个错误 token，替换后从那里继续生成；遇到新错误再重复。这样既留下正负 token 对照，也能延伸到工具调用轨迹。小规模受控实验中，作者报告标注耗时的中位数比手工后编辑低 52%。",
+        "why": "它把纠错变为局部交互，可能降低高质量 on-policy 数据的制作门槛。时间收益来自受控标注实验，复杂真实任务中的质量和规模化效果仍值得追踪。",
+        "priority": null,
+        "project": "https://on-panda.github.io/research/",
+        "github": "https://github.com/on-panda/on-panda",
+        "huggingface": "https://huggingface.co/papers/2609.24983",
+        "arxiv": "https://arxiv.org/abs/2609.24983"
+      },
+      {
+        "id": "2609.23377",
+        "title": "One to More, More to One: Category-Aware Iterative Expert Training for Software Engineering Agents",
+        "authors": "Jie Zhao、Ziyu Jiang、Suhang Zheng 等",
+        "topics": [
+          "代码智能体",
+          "强化学习",
+          "专家蒸馏"
+        ],
+        "explainer": "软件工程任务混合训练时，不同问题类别的收益可能不均衡。作者先用有执行证据的任务标注类别，再分别训练类别专家；专家训练中交替进行强化学习和任务刷新、修复与扩展，并利用已验证成功轨迹。最后通过按类别路由的多教师在线蒸馏，把多个专家的能力合回一个学生策略。论文在多个软件修复基准上报告了相对基础策略的提升。",
+        "why": "这篇适合看“分而治之”如何落到任务标签、专家训练和蒸馏闭环。重点也在于验证过的成功轨迹怎样复用，而不只是增加训练任务数量。",
+        "priority": null,
+        "project": "https://github.com/alibaba/AgenticBigBang",
+        "github": "https://github.com/alibaba/AgenticBigBang",
+        "huggingface": "https://huggingface.co/papers/2609.23377",
+        "arxiv": "https://arxiv.org/abs/2609.23377"
+      },
+      {
+        "id": "2609.24974",
+        "title": "Harness-Zero: Harness Distillation via Agent-as-Harness",
+        "authors": "Haoran Ye、Yuxing Lu、Haonan Dong 等",
+        "topics": [
+          "智能体",
+          "训练蒸馏",
+          "工具使用"
+        ],
+        "explainer": "智能体常靠外部 harness 约束执行，但部署时持续运行复杂 harness 会增加系统负担。Harness-Zero 在训练阶段让优化过的 harness 代理审查并修正学生的候选行为，再把符合目标执行空间的示范用于微调学生，部署时不再依赖专门 harness。作者在知识工作、工具和科学任务上报告，基础模型的宏平均任务成功率由 23.3% 升至 44.3%。",
+        "why": "它关心的是把运行时编排能力转移到模型本身，适合比较系统脚手架与参数化行为的边界。结果仍取决于训练用 harness 的质量及测试任务覆盖。",
+        "priority": null,
+        "project": null,
+        "github": "https://github.com/metaevo-ai/harness-zero",
+        "huggingface": "https://huggingface.co/papers/2609.24974",
+        "arxiv": "https://arxiv.org/abs/2609.24974"
+      },
+      {
+        "id": "2609.23658",
+        "title": "Why Do Video Diffusion Models Violate Physics? Unveiling the Flaws in Attention Mechanisms",
+        "authors": "Yueyan Li、Haibo Wang、Caixia Yuan 等",
+        "topics": [
+          "视频生成",
+          "可解释性",
+          "物理一致性"
+        ],
+        "explainer": "视频扩散模型生成的运动有时会违背直观物理规律。论文追踪去噪早期的轨迹形成过程，定位对运动规划有因果作用的注意力头，并指出 RoPE 可能带来过强的空间注意力衰减，使物体位置过早固定在不合理状态。作者据此按生成阶段调整 RoPE 频率，在无需重新训练及需要训练的设置中测试物理常识表现。",
+        "why": "它没有只把物理错误归因于数据或提示词，而是给出了可检验的注意力机制假设。值得细看干预是否改善不同运动类型，以及画质与一致性的权衡。",
+        "priority": null,
+        "project": "https://siriuslala.github.io/physics",
+        "github": "https://github.com/Siriuslala/physics",
+        "huggingface": "https://huggingface.co/papers/2609.23658",
+        "arxiv": "https://arxiv.org/abs/2609.23658"
+      },
+      {
+        "id": "2609.24118",
+        "title": "CARE: Experience-Guided Atomic Corrective Execution for Vision-Language-Action Policies",
+        "authors": "Junlan Xiao、Junwei Jiang、Zaibin Zhang 等",
+        "topics": [
+          "机器人",
+          "VLA",
+          "错误恢复"
+        ],
+        "explainer": "机器人操作中途出错时，从头重做会浪费已完成的步骤。CARE 从失败轨迹中学习各阶段常见偏差，合成代表性的失败状态与纠正示范；推理时结合阶段规划和三维状态监测，在触发异常后执行局部、原子化的纠正动作，尽量保留已有进度。作者还提出 FSR-Bench 检验中间失败恢复，并在仿真和真实双臂任务中报告平均成功率提升。",
+        "why": "它把评估焦点从一次性完成转向“失败后能否继续”，对真实机器人更有现实意义。局部恢复依赖阶段识别与三维监测，适用边界值得看。",
+        "priority": null,
+        "project": null,
+        "github": "https://github.com/xiaojunlan/care",
+        "huggingface": "https://huggingface.co/papers/2609.24118",
+        "arxiv": "https://arxiv.org/abs/2609.24118"
+      },
+      {
+        "id": "2609.23986",
+        "title": "Jev-Mem: System-One-Controlled Agentic Memory for Efficient AI Agents",
+        "authors": "Dongming Jiang、Yi Li、Bingzhe Li 等",
+        "topics": [
+          "智能体记忆",
+          "检索",
+          "效率"
+        ],
+        "explainer": "长时运行的智能体需要记住历史，但让大模型参与每次存取与检索会增加延迟。Jev-Mem 用较快的 System-One 控制器负责记忆分类、关系组织、查询路由、预算和停止条件；较慢的 System-Two 只处理复杂推理与答案合成。结构化多关系记忆支持按需遍历。论文在 LoCoMo 上同时报告了回答质量及记忆构建、查询速度的改进。",
+        "why": "这篇的价值在于把记忆系统的控制决策显式拆出来，便于观察质量与时延的交换。评测以长对话记忆为主，跨任务泛化仍需另看。",
+        "priority": null,
+        "project": null,
+        "github": "https://github.com/libingzheren/Jev-Mem",
+        "huggingface": "https://huggingface.co/papers/2609.23986",
+        "arxiv": "https://arxiv.org/abs/2609.23986"
+      },
+      {
+        "id": "2609.22255",
+        "title": "Deep Persona: A Psychologically Grounded Architecture and Evaluation Framework for Role-Playing Agents and Simulations",
+        "authors": "Rotem Dror、Zohar Elyoseph、Yuval Haber 等",
+        "topics": [
+          "角色智能体",
+          "心理模拟",
+          "评测"
+        ],
+        "explainer": "角色扮演模型语言流畅，却未必能稳定模拟人的动机与行为。Deep Persona 将人格设定拆成可观察表达、潜在信念和核心动机三层，并在脚本确定性与有限自主性之间约束智能体反应。评测不依赖单个参考答案，而是把角色输出与心理测量及人群经验分布比较，并加入对抗压力测试。作者报告现有模型在情感表达和共同注意等方面仍有不足。",
+        "why": "它提供了比“像不像某个人”更可操作的角色评测路径，适合做社会模拟或虚拟角色研究的读者；不过心理测量与真实情境行为的对应关系仍要谨慎看待。",
+        "priority": null,
+        "project": null,
+        "github": null,
+        "huggingface": "https://huggingface.co/papers/2609.22255",
+        "arxiv": "https://arxiv.org/abs/2609.22255"
+      },
+      {
+        "id": "2609.13231",
+        "title": "ShieldVLA: Feasibility-Aware Safety Alignment for Vision-Language-Action Models",
+        "authors": "Manan Tayal、Akshay Nambi 等",
+        "topics": [
+          "机器人安全",
+          "VLA",
+          "策略优化"
+        ],
+        "explainer": "视觉语言动作模型要完成任务，也需要避开不可恢复的危险状态。ShieldVLA 从视觉观测近似可达性安全值，用安全 critic 判断当前状态是否仍可行；策略优化在安全区域追求任务回报，在接近危险边界时切换到恢复行为。训练目标还利用视觉语言模型的规则化安全评分，减少对人工逐步成本标签的依赖。作者在导航和操作基准上报告安全成本下降、成功率提升。",
+        "why": "它把安全约束前移到“是否还来得及恢复”的判断，而非只在违规后惩罚。关键问题是视觉近似的安全值在分布外场景能否可靠。",
+        "priority": null,
+        "project": null,
+        "github": null,
+        "huggingface": "https://huggingface.co/papers/2609.13231",
+        "arxiv": "https://arxiv.org/abs/2609.13231"
+      },
+      {
+        "id": "2609.10706",
+        "title": "HuRo: Robotizing Human Videos for Scalable VLA Pretraining",
+        "authors": "Jinho Jeong、Se June Joo、Jaehyun Kang 等",
+        "topics": [
+          "机器人",
+          "视频预训练",
+          "VLA"
+        ],
+        "explainer": "真实机器人操作数据昂贵，而人类活动视频缺少机器人动作与观察视角。HuRo 把多来源的人类视频转成与机器人对齐的观测和动作轨迹，并推断缺失信号，形成约 63 万段可用于 VLA 预训练的序列。作者在四项真实操作任务中比较不同数据规模，报告总体任务完成率随预训练数据增加而提高，分布外变化下也有改善。",
+        "why": "它展示了人类视频到机器人训练轨迹的可扩展转换路径。阅读时应区分视觉对齐与动作重定向各自的贡献，以及转换误差对新任务的影响。",
+        "priority": null,
+        "project": "https://3587jjh.github.io/HuRo",
+        "github": "https://github.com/3587jjh/HuRo",
+        "huggingface": "https://huggingface.co/papers/2609.10706",
+        "arxiv": "https://arxiv.org/abs/2609.10706"
       }
     ]
   },
