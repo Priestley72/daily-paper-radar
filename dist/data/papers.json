@@ -1,21 +1,105 @@
 [
   {
     "date": "2026-09-21",
-    "title": "让机器人动作策略学会预判交互走向",
-    "summary": "今天仅收录一篇论文，主题集中在机器人操作与 3D diffusion policy。论文不要求模型显式生成未来轨迹，而是用稀疏的未来夹爪状态，在训练期教会策略从短期观测历史中提炼运动趋势；推理时只保留紧凑的前瞻 latent，兼顾动作生成效果与部署开销。",
+    "title": "数据与操作智能体的新训练环境（持续补录）",
+    "summary": "本期页面与接口共列出 31 篇论文，目前先整理了其中 6 篇。已收录内容涵盖数据智能体的可演化语义层、原生音视频对话、从代码构造训练任务与技能，以及跨图形界面和代码的混合智能体。其余论文仍在核对和补录中；当前优先阅读排序也可能随完整期次调整。",
     "papers": [
       {
         "id": "2609.20669",
         "title": "Learning Foresight without Explicit Trajectories for 3D Diffusion Policies",
         "authors": "Zhongbo Zhang、Zaibin Zhang、Yifan Wang 等 · 大连理工大学",
-        "topics": ["机器人操作", "Diffusion Policy", "3D 感知"],
-        "priority": 1,
+        "topics": [
+          "机器人操作",
+          "Diffusion Policy",
+          "3D 感知"
+        ],
+        "priority": 5,
         "explainer": "Movement Trend Guidance 从一小段观测历史中学习交互演化的 latent：训练时用稀疏的未来夹爪状态监督，推理时把该 latent 作为前瞻条件输入 DP3，并只在 UNet bottleneck 增加 gated FiLM 分支。新增参数为 3.52%；论文报告其在 RoboTwin2.0、LIBERO-40、DexArt 与五项真实机器人任务上均超过 DP3。",
         "why": "它用训练期的弱未来监督换取推理期的隐式前瞻能力，无需显式规划轨迹，也不改变原有 dense-action 与 receding-horizon 框架，适合关注机器人策略泛化或低开销规划的人优先阅读。",
         "huggingface": "https://huggingface.co/papers/2609.20669",
         "arxiv": "https://arxiv.org/abs/2609.20669",
         "project": "https://github.com/zhangzhongbo2213/movement-trend-guidance",
         "github": "https://github.com/zhangzhongbo2213/movement-trend-guidance"
+      },
+      {
+        "id": "2609.15779",
+        "title": "EvoOntology: A Self-Evolving Ontology Layer for Data Agents",
+        "authors": "Meiduo Chong、Shaolei Zhang、Ju Fan 等",
+        "topics": [
+          "数据智能体",
+          "本体层"
+        ],
+        "explainer": "数据智能体面对表格、文件和数据库时，往往只能通过通用工具看到列名或路径，难以理解数据含义。EvoOntology 将 schema、内容和工具封装为可查询的 MCP 本体服务，由构建智能体生成，并根据执行归因提出有类型的修改；修改通过配对评估后才被接受。论文在三个数据智能体基准、四种模型上报告优于所比较的基线。",
+        "why": "它把人工维护的语义层改成可随智能体使用方式调整的服务，适合关注异构数据发现与数据智能体可靠性的人阅读；具体收益仍要结合数据源规模和评估设置判断。",
+        "priority": null,
+        "project": "https://github.com/ruc-datalab/EvoOntology",
+        "github": "https://github.com/ruc-datalab/EvoOntology",
+        "huggingface": "https://huggingface.co/papers/2609.15779",
+        "arxiv": "https://arxiv.org/abs/2609.15779"
+      },
+      {
+        "id": "2609.21465",
+        "title": "OmniVChat: Synthesizing, Benchmarking, and Training for Native Audio-Visual Dialogue",
+        "authors": "Haolin He、Yunfei Chu、Qi Chen 等",
+        "topics": [
+          "多模态对话",
+          "评测数据"
+        ],
+        "explainer": "OmniVChat 研究用户直接用音频和视频提问、模型以文本回应的对话，不预先把问题转写成文字。作者用多智能体数据引擎合成单轮和多轮对话，建立覆盖五类能力的评测，并设计同时考虑正确性、效率与风格的强化学习奖励。论文报告，合成对话训练后的模型在合成集和真人录制集上都获得提升。",
+        "why": "这项工作把数据构造、评测和训练放在同一任务定义下，有助于判断原生音视频交互是否真的超过依赖转写与描述的流水线。真人数据上的迁移结果尤其值得细看。",
+        "priority": 4,
+        "project": null,
+        "github": "https://github.com/HarlandZZC/OmniVChat",
+        "huggingface": "https://huggingface.co/papers/2609.21465",
+        "arxiv": "https://arxiv.org/abs/2609.21465"
+      },
+      {
+        "id": "2609.22068",
+        "title": "CodeMidas: Scaling Agentic Coding RL Environments from Code Itself",
+        "authors": "Bowen Ye、Lei Li、Shicheng Li 等",
+        "topics": [
+          "Coding Agent",
+          "强化学习"
+        ],
+        "explainer": "训练 coding agent 需要大量可验证任务，现有做法常依赖 issue 和提交记录。CodeMidas 只从现成源码中的功能出发，让智能体提出行为规格、构造基于原始代码运行结果的测试，再经执行检查和多次解题轨迹筛选。作者从 3185 个仓库得到 5545 个训练任务；用这些任务训练 MiMo-V2.5 后，在论文报告的五个基准上均有改善。",
+        "why": "如果任务和验证器能从代码本身稳定生成，训练数据就不必受 issue 数量限制。它的任务过滤与验证流程，是判断这种规模化方案是否可信的关键。",
+        "priority": 1,
+        "project": "https://mimo.xiaomi.com/rl/",
+        "github": null,
+        "huggingface": "https://huggingface.co/papers/2609.22068",
+        "arxiv": "https://arxiv.org/abs/2609.22068"
+      },
+      {
+        "id": "2609.05571",
+        "title": "Grounded Skill Synthesis from Code at Scale for Agentic Intelligence",
+        "authors": "Yongqi Tong、Pan Wang、Hang Wang 等",
+        "topics": [
+          "智能体技能",
+          "代码知识"
+        ],
+        "explainer": "Code2Skill 从源码单元提炼原子操作、组合流程和常见模式，不要求智能体先在环境里执行任务。每条技能还要经过不看原实现的重建和对照验证，以保留来源证据。作者处理 19769 个 GitHub 仓库，建立含约 100 万条记录的 CodeSkillBank；在协议匹配评估中，检索这些技能带来平均 11.7% 的提升。",
+        "why": "它为智能体提供了一条从既有代码获取可追溯流程知识的路径。值得重点检查技能验证与检索是否真正降低了错误迁移，而不只是扩大知识库规模。",
+        "priority": 3,
+        "project": "https://ant-international-research.github.io/developer-skill-hubs/",
+        "github": "https://github.com/ant-intl/Code2Skill",
+        "huggingface": "https://huggingface.co/papers/2609.05571",
+        "arxiv": "https://arxiv.org/abs/2609.05571"
+      },
+      {
+        "id": "2609.22000",
+        "title": "RecreationWorld: Scalable and Verifiable Environments for Hybrid Computer-Use Agents",
+        "authors": "Shuai Bai、Jiayong Deng、Yikun Fu 等",
+        "topics": [
+          "计算机操作",
+          "智能体评测"
+        ],
+        "explainer": "RecreationWorld 让智能体观察运行中的参考应用，自行探索界面、编写实现并通过运行验证，而不是按预设步骤操作。框架覆盖 Ubuntu、macOS、Windows、Android 和 Web，参考应用可作为隐藏行为测试的依据。配套 RecreationBench 含 250 个跨平台任务；论文显示，模型复现静态界面通常比复现交互和计算结果容易。",
+        "why": "它把图形界面探索与代码实现放进同一可验证任务，较接近日常数字工作的混合流程。参考程序作为测试依据，也让长程操作能力的评估更具体。",
+        "priority": 2,
+        "project": "https://recreation-bench.cc/",
+        "github": "https://github.com/QwenLM/RecreationWorld",
+        "huggingface": "https://huggingface.co/papers/2609.22000",
+        "arxiv": "https://arxiv.org/abs/2609.22000"
       }
     ]
   },
@@ -28,7 +112,10 @@
         "id": "2609.20519",
         "title": "SoL-Pi: Recursively Scaling Auto-Research Loops for Efficient Agent Harness",
         "authors": "Haozhe Liu 等 · NVIDIA 等",
-        "topics": ["Coding Agent", "效率优化"],
+        "topics": [
+          "Coding Agent",
+          "效率优化"
+        ],
         "priority": 1,
         "explainer": "让 AI 自动阅读智能体运行轨迹、提出并验证 harness 改进方案，最终筛出四种可复用机制。作者报告：在 51 个 EdgeBench 任务上，SoL-Pi 与 Pi 的能力大致相当，但 token 流量减少 44.7%–49.0%，API 成本约下降三分之一。",
         "why": "它把“优化 agent 外壳”本身变成了可扩展的自动研究流程，并且专门用隔离的 held-out 评测约束过拟合；对长时间运行的 coding agent 很有现实意义。",
@@ -41,7 +128,10 @@
         "id": "2609.20804",
         "title": "An Empirical Study of Harness Design for Coding Agents",
         "authors": "Run-Ze Fan、Zihao Zhang 等",
-        "topics": ["Coding Agent", "系统评测"],
+        "topics": [
+          "Coding Agent",
+          "系统评测"
+        ],
         "priority": 2,
         "explainer": "作者固定 coding agent 的主循环，分别改变规划、操作接口和上下文管理，在四种模型、两类 benchmark 与 176 组配置上做受控实验。结果显示，没有一种 harness 组件始终最优：上下文越紧，压缩越重要；模型越会用 bash，通用 shell 接口越省钱。",
         "why": "它没有只比较几个完整 agent，而是拆开研究 harness 组件何时有效，适合用来指导不同模型和预算下的工程配置。",
@@ -54,7 +144,10 @@
         "id": "2609.19745",
         "title": "Region-Level Policy Optimization for Fine-grained MLLM Perception",
         "authors": "Yuheng Shi、Xiaohuan Pei、Minjing Dong、Chang Xu",
-        "topics": ["多模态", "视觉效率"],
+        "topics": [
+          "多模态",
+          "视觉效率"
+        ],
         "priority": 3,
         "explainer": "Vision-RL² 把细粒度视觉理解拆成“先粗定位、再精识别”：轻量网络先挑出可能有用的区域，冻结的 MLLM 再用答案似然判断各区域究竟有帮助还是有干扰。论文报告在六个 benchmark 和四种骨干模型上，约用少 4 倍的视觉 token 超过基础模型的大预算结果。",
         "why": "核心洞察直观且可迁移：定位不需要和识别一样高的分辨率。方法只训练区域预测器，避免全模型强化学习与每次查询的多轮视觉搜索。",
