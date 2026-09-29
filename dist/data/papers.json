@@ -1,5 +1,141 @@
 [
   {
+    "date": "2026-09-23",
+    "title": "长程决策、多模态表示与三维生成（持续补录）",
+    "summary": "Hugging Face 页面与接口列出本期 24 篇论文，目前先核对收录 8 篇。首批涵盖智能体长程决策、SVG 奖励设计、统一多模态检索、三维一致性生成、视觉分词稳定性和多语言 OCR。其余论文仍在补录；优先阅读顺序是编辑判断，卡片仅供快速筛选。",
+    "papers": [
+      {
+        "id": "2609.25804",
+        "title": "The Tasteful Agent: Measuring and Improving Taste in Long-Horizon Tasks",
+        "authors": "Wenbo Pan、Zhichao Liu、Shujie Liu 等",
+        "topics": [
+          "智能体评测",
+          "长程决策"
+        ],
+        "explainer": "长程工程与研究任务成败常取决于中途选择哪个假设或实现方向。作者把这种判断力称为 taste，从同一任务的并行尝试及单条轨迹中的绕路自动挖掘决策岔口，构成 Taste-Bench；模型只看岔口之前的信息来选方向。论文还用知道后续结果的教师指导学生，在未见任务上改善选择，并报告软件工程任务的端到端收益。",
+        "why": "它把智能体评测从最终是否成功推进到过程决策质量，可能更容易定位失败原因。需注意自动挖掘的“更好分支”是否充分代表真实任务目标。",
+        "priority": 1,
+        "project": null,
+        "github": "https://github.com/wbopan/tastebench",
+        "huggingface": "https://huggingface.co/papers/2609.25804",
+        "arxiv": "https://arxiv.org/abs/2609.25804"
+      },
+      {
+        "id": "2609.25270",
+        "title": "RULER: Instance-aware Rubric Rewards for SVG Generation",
+        "authors": "Hangyu Ran、Yuhao Zheng、Yingying Zhang 等",
+        "topics": [
+          "SVG 生成",
+          "奖励设计"
+        ],
+        "explainer": "文字生成 SVG 没有唯一标准图，直接用自然图像评分当奖励容易偏离用户意图。RULER 先为每条指令生成覆盖语义、视觉和风格的六项评分细则，再让视觉语言模型逐项评估渲染后的 SVG，并把结果用作强化学习奖励。作者先比较细则评分与人工判断的相关性，再在插画和图标任务中训练，报告评分与生成质量均有提升。",
+        "why": "值得看的是把开放式图形任务拆成实例化评分细则的做法，而非单一分数。细则和裁判模型的偏差仍可能传入训练目标。",
+        "priority": null,
+        "project": "https://hangyuran.github.io/RULER/",
+        "github": null,
+        "huggingface": "https://huggingface.co/papers/2609.25270",
+        "arxiv": "https://arxiv.org/abs/2609.25270"
+      },
+      {
+        "id": "2609.25165",
+        "title": "Ovis-Embedding: Pushing the Frontiers of Universal Omni-Modal Embeddings",
+        "authors": "Embedding Team",
+        "topics": [
+          "多模态检索",
+          "向量表示"
+        ],
+        "explainer": "文本、图像、视频和音频检索常依赖分开的编码器，跨模态表示难以统一。Ovis-Embedding 在共享的多模态骨干上进行对比学习，配合覆盖多种模态与交错内容的数据、同源批次采样、难例损失和相似度蒸馏；推理时还能调整向量维度。报告在多个文本与多模态检索基准上比较，声称统一表示能支持跨模态的任意到任意检索。",
+        "why": "它更适合关注统一检索基础设施的读者，重点在训练数据配方与维度压缩。所谓领先性能应按各基准和对比模型分别核对。",
+        "priority": 2,
+        "project": null,
+        "github": "https://github.com/ATH-MaaS/Ovis-Omni-Embedding",
+        "huggingface": "https://huggingface.co/papers/2609.25165",
+        "arxiv": "https://arxiv.org/abs/2609.25165"
+      },
+      {
+        "id": "2609.24981",
+        "title": "GAE: Learning a Geometry-Native Latent Space for 3D-Consistent World Generation",
+        "authors": "Jiahao Lu、Minghao Yin、Wenbo Hu 等",
+        "topics": [
+          "世界模型",
+          "三维生成"
+        ],
+        "explainer": "视觉生成器可以产生逼真画面，却可能无法维持一致的三维场景。GAE 从几何基础模型的特征构造紧凑潜空间，使同一个潜变量可解码为外观、深度、相机和点图，再交给条件流模型生成。作者在控制生成器和训练设置不变的比较中，报告更好的视觉质量与独立测量的三维一致性，强调问题不仅在生成器，也在表示空间。",
+        "why": "这篇把几何一致性放进潜表示，而不是事后增加几何输出。其受控替换实验有助于判断收益是否真正来自表示设计。",
+        "priority": 3,
+        "project": "https://jiah-cloud.github.io/GAE.github.io/",
+        "github": "https://github.com/TencentARC/GAE-GeometricAutoEncoder",
+        "huggingface": "https://huggingface.co/papers/2609.24981",
+        "arxiv": "https://arxiv.org/abs/2609.24981"
+      },
+      {
+        "id": "2609.26774",
+        "title": "StableVQ: Practical Guidelines for Stable Vector-Quantized Tokenizer Training",
+        "authors": "Bao Tang、Jiahao Guo、Haoxiang Cao 等",
+        "topics": [
+          "视觉分词",
+          "训练稳定性"
+        ],
+        "explainer": "离散视觉分词器使用向量量化时，编码器与码本相互依赖，训练压力下容易出现码本利用不足或重建不稳。StableVQ 重新区分两者的学习职责：动态直通估计调整编码器目标，区域量化损失帮助码本跟踪编码器分布，再用分离的学习率调度匹配不同优化节奏。方案不增加可学习参数；论文在 ImageNet 上报告稳定性、码本利用率及重建质量改善。",
+        "why": "它把训练不稳定拆解为编码器和码本各自的优化问题，适合复现或调试视觉 tokenizer。结论主要来自所测码本架构与图像数据设置。",
+        "priority": null,
+        "project": "https://tt-day.github.io/StableVQ/",
+        "github": null,
+        "huggingface": "https://huggingface.co/papers/2609.26774",
+        "arxiv": "https://arxiv.org/abs/2609.26774"
+      },
+      {
+        "id": "2609.24058",
+        "title": "All-in-One Multilingual Scene Text Recognition with Script-aware Mixture-of-Experts",
+        "authors": "Xingsong Ye、Yongkun Du、Jiaxin Zhang 等",
+        "topics": [
+          "文字识别",
+          "多语言",
+          "MoE"
+        ],
+        "explainer": "多语言场景文字识别若每种语言用独立模型，部署昂贵；通用大模型又可能太慢。作者先构建覆盖多种文字体系的合成文本数据，再设计 ScriptMoE：共享视觉编码器、图像级路由器和按文字体系分工的稀疏专家，另设共享专家保留跨体系知识。论文在多语言识别基准以及替换现有 OCR 系统识别器的实验中报告准确率提升。",
+        "why": "它展示了按文字体系分配专家的工程折中，适合多语言 OCR 场景。合成数据与真实街景、文档图像之间的差距值得留意。",
+        "priority": null,
+        "project": "https://huggingface.co/spaces/Yesianrohn/MultilingualOCR-Demo",
+        "github": "https://github.com/YesianRohn/ScriptMoE",
+        "huggingface": "https://huggingface.co/papers/2609.24058",
+        "arxiv": "https://arxiv.org/abs/2609.24058"
+      },
+      {
+        "id": "2609.15987",
+        "title": "Bellman Policy Optimization",
+        "authors": "Zhuoqing Song、Haotian Xu、Xikun Zhang 等",
+        "topics": [
+          "强化学习",
+          "推理模型"
+        ],
+        "explainer": "可验证奖励的语言模型强化学习通常只在完整回答末尾得到反馈。Bellman Policy Optimization 从策略镜像下降出发，利用 Bellman 方程把目标改写为轨迹级形式，从而避免估计每个中间状态的价值；作者证明改写目标与原目标具有同一最优解，再近似得到可训练损失，其中包含修正生成分布差异的权重。论文在数学推理基准上验证该方法。",
+        "why": "这篇偏理论与训练目标设计，重点是终点奖励下如何绕开中间价值估计。实际优势需结合所用近似和基线实现判断。",
+        "priority": null,
+        "project": null,
+        "github": null,
+        "huggingface": "https://huggingface.co/papers/2609.15987",
+        "arxiv": "https://arxiv.org/abs/2609.15987"
+      },
+      {
+        "id": "2609.26550",
+        "title": "JEV-as-a-Judge: Accept When Confident, Escalate When Unsure",
+        "authors": "Yubo Li、Yidi Miao、Ramayya Krishnan 等",
+        "topics": [
+          "模型评测",
+          "成本优化"
+        ],
+        "explainer": "大规模模型评测若每条都调用强生成式裁判，费用较高。作者研究先用只输出判定的轻量裁判处理明显样本，再把低置信度样本交给更强裁判的级联方案。与多种生成式和奖励模型裁判比较，并由盲审人工复核后，论文报告轻量裁判在普通偏好和证据核查任务上接近强裁判；推导核验及迷惑性错误回答仍更难。",
+        "why": "它把裁判能力与调用成本之间的交换做成可操作的置信度分流。关键是置信度在新任务上是否校准，以及升级阈值如何设定。",
+        "priority": null,
+        "project": "https://yubol-bobo.github.io/jev-as-a-judge/",
+        "github": null,
+        "huggingface": "https://huggingface.co/papers/2609.26550",
+        "arxiv": "https://arxiv.org/abs/2609.26550"
+      }
+    ]
+  },
+  {
     "date": "2026-09-22",
     "title": "智能体训练、机器人控制与生成系统",
     "summary": "本期共收录 34 篇论文，覆盖智能体持续学习、技能检测与工具任务生成，机器人控制和安全，视频与三维生成，以及低精度训练、蒸馏和模型评测。卡片用于快速筛选，优先阅读顺序是编辑判断；论文声称的实验结果仍需按原文条件理解。",
