@@ -1,8 +1,8 @@
 [
   {
     "date": "2026-09-22",
-    "title": "智能体自改进、世界记忆与机器人控制（持续补录）",
-    "summary": "本期 Hugging Face 页面与接口共列出 34 篇论文，目前核对收录其中 26 篇。主题涵盖智能体持续学习与技能检测、低精度训练、稀疏蒸馏、机器人控制、视频编辑，以及文档检索。余下条目仍在核对；优先阅读排序为编辑判断，不能代替论文结论。",
+    "title": "智能体训练、机器人控制与生成系统",
+    "summary": "本期共收录 34 篇论文，覆盖智能体持续学习、技能检测与工具任务生成，机器人控制和安全，视频与三维生成，以及低精度训练、蒸馏和模型评测。卡片用于快速筛选，优先阅读顺序是编辑判断；论文声称的实验结果仍需按原文条件理解。",
     "papers": [
       {
         "id": "2609.23088",
@@ -430,6 +430,135 @@
         "github": "https://github.com/IainZhang/SkillSpec",
         "huggingface": "https://huggingface.co/papers/2609.06052",
         "arxiv": "https://arxiv.org/abs/2609.06052"
+      },
+      {
+        "id": "2609.21996",
+        "title": "A Lie Detector Test for Language Models: Reading Knowledge a Model Won't Reveal",
+        "authors": "Hiskias Dingeto",
+        "topics": [
+          "模型审计",
+          "内部表示"
+        ],
+        "explainer": "模型不回答某个问题，可能是确实不知道，也可能是有意隐藏。论文借鉴隐匿信息测试，把正确答案放在多个候选项中，从模型内部状态判断它识别了哪一个，而不依赖诚实参考模型或标注真值库。作者在多个模型及提示诱导、训练性隐藏等设置中测试，报告内部识别信号能区分“不会回答”和“不知道”，并尝试用于遗忘验证。",
+        "why": "如果内部识别信号可靠，它可补充只看输出的能力审计。阅读重点是候选答案构造、跨模型泛化，以及这种信号是否会被刻意规避。",
+        "priority": null,
+        "project": null,
+        "github": null,
+        "huggingface": "https://huggingface.co/papers/2609.21996",
+        "arxiv": "https://arxiv.org/abs/2609.21996"
+      },
+      {
+        "id": "2609.22220",
+        "title": "Measuring the Checker: Mutation Analysis for GPU-Kernel Benchmark Oracles",
+        "authors": "Mingzhe Du、Anh Tuan Luu、Dong Huang 等",
+        "topics": [
+          "GPU 内核",
+          "基准评测",
+          "变异测试"
+        ],
+        "explainer": "GPU 内核基准常用少量随机输入和浮点容差判定正确性，但测试器本身是否足够严格很少被量化。作者给已验证的 CUDA 内核注入可编译故障，并用独立见证样本确认部分故障，再统计不同检查协议能抓住多少。论文指出官方检查遗漏了部分有见证的错误，精度类错误尤其明显；基于故障覆盖矩阵优化输入组合后，检测能力得到提升。",
+        "why": "它把基准的“裁判是否可靠”变成可测指标，直接关系到排行榜和训练奖励的可信度。应关注故障类型覆盖范围及改进测试的误报代价。",
+        "priority": null,
+        "project": null,
+        "github": null,
+        "huggingface": "https://huggingface.co/papers/2609.22220",
+        "arxiv": "https://arxiv.org/abs/2609.22220"
+      },
+      {
+        "id": "2609.11063",
+        "title": "The information geometry of large language models is shared, learned, and controllable",
+        "authors": "Dario Picozzi",
+        "topics": [
+          "信息几何",
+          "模型控制"
+        ],
+        "explainer": "不同架构的大模型可能学到相近的行为结构，但隐藏层坐标不一定可比。论文用下一 token 概率的 Fisher-Rao 几何描述输出行为，比较 Transformer、状态空间和循环模型，发现输出几何比激活几何更一致。作者还研究训练与语料证据怎样改变该结构，并据此设计尽量少扰动其他行为的局部控制，在提示间迁移编辑或引导效果。",
+        "why": "这篇试图用输出分布的几何结构统一解释相似性、知识获得和可控编辑。范围很广，宜分别核对理论条件和每类实验支持的结论。",
+        "priority": null,
+        "project": "https://llm-geometry.dariopicozzi.com",
+        "github": "https://github.com/dariopicozzi/llm-geometry",
+        "huggingface": "https://huggingface.co/papers/2609.11063",
+        "arxiv": "https://arxiv.org/abs/2609.11063"
+      },
+      {
+        "id": "2609.24115",
+        "title": "EDGEGEN: Improving Tool-Calling Agents Beyond Happy Paths with Synthetic Edge Case Generation",
+        "authors": "Harshavardhan Abichandani、Penny Chong、Jiyuan Shen 等",
+        "topics": [
+          "工具智能体",
+          "合成数据"
+        ],
+        "explainer": "企业工具智能体需要处理违反规则、状态复杂的边缘任务，但真实数据受隐私和标注成本限制。EdgeGen 从智能体规范抽取合规规则，再结合数据库状态，生成有意触碰规则边界的任务；这些数据可用于微调模型或优化运行时 harness，形成无需人工标注的闭环。作者在航空领域工具任务上报告，部分模型的任务进度得到改善。",
+        "why": "它把任务生成与真实数据库状态和业务规则绑定，比泛泛生成问答更贴近部署风险。价值也取决于规范是否完整，以及生成边缘任务与真实流量的相似度。",
+        "priority": null,
+        "project": null,
+        "github": null,
+        "huggingface": "https://huggingface.co/papers/2609.24115",
+        "arxiv": "https://arxiv.org/abs/2609.24115"
+      },
+      {
+        "id": "2609.23796",
+        "title": "Mira-Scene: Pixel-Aligned Layouts for Generative 3D Scene",
+        "authors": "Yang-Tian Sun、Tianjia Liu、Zehuan Huang 等",
+        "topics": [
+          "三维重建",
+          "场景布局"
+        ],
+        "explainer": "单图生成三维物体已有较好效果，但把多个物体准确摆进同一场景仍困难。Mira-Scene 不直接回归稀疏位姿，而是为可见物体像素预测其规范空间中的表面坐标，再与单目几何估计得到的场景点云建立稠密对应，通过几何对齐恢复物体变换。模型同时生成物体几何和坐标图；作者在室内、室外及自然场景测试布局精度。",
+        "why": "核心是用稠密、范围有界的对应关系代替难学的位姿参数，较容易利用物体级数据训练。应留意遮挡严重或单目几何不准时的表现。",
+        "priority": null,
+        "project": "https://sunyangtian.github.io/Mira-Scene-web/",
+        "github": "https://github.com/VAST-AI-Research/Mira-Scene",
+        "huggingface": "https://huggingface.co/papers/2609.23796",
+        "arxiv": "https://arxiv.org/abs/2609.23796"
+      },
+      {
+        "id": "2609.20758",
+        "title": "Prediction-Powered Smoothing and Validation for Disaggregated AI Evaluation",
+        "authors": "Sho Kawano、Zehang Richard Li、Paul A. Parker 等",
+        "topics": [
+          "模型评测",
+          "统计估计"
+        ],
+        "explainer": "评估 AI 系统的不同任务或人群切片时，每个切片可标注样本往往很少，直接算平均值和区间会不稳定。作者把评估集视为有限总体，在预测辅助估计基础上用贝叶斯平滑借用切片之间的信息，并提出基于抽样设计的交叉验证分数，选择直接估计还是平滑估计。在可核验基准和人工评分的智能体流量中，论文报告点估计与区间估计改善。",
+        "why": "它关注的不只是总体平均分，而是样本稀少切片的可靠报告。适合负责模型评测的人，但需仔细看平滑假设是否适合自己的分组结构。",
+        "priority": null,
+        "project": null,
+        "github": "https://github.com/sho-kawano/disagg-ai-eval",
+        "huggingface": "https://huggingface.co/papers/2609.20758",
+        "arxiv": "https://arxiv.org/abs/2609.20758"
+      },
+      {
+        "id": "2609.23169",
+        "title": "UltraTex: Unleashing 2K Multi-View Diffusion for 3D Texturing",
+        "authors": "Yibo Zhang、Ze Yuan、Nan Cao 等",
+        "topics": [
+          "三维纹理",
+          "扩散模型"
+        ],
+        "explainer": "多视角扩散可为三维物体生成纹理，但提升到 2K 分辨率后，视角序列过长、注意力开销很大。UltraTex 先去掉背景 token，再用块稀疏注意力处理前景，并设计面向前景的 VAE 解码以减少重建伪影。作者还建立高分辨率多视角训练数据，在自建数据的常见样本上报告明显的训练与推理加速，同时保持细节丰富的纹理。",
+        "why": "它把高分辨率纹理生成的瓶颈拆成背景冗余与前景注意力稀疏性。性能数字依赖数据和基线设置，值得结合视觉质量一起判断。",
+        "priority": null,
+        "project": "https://yiboz2001.github.io/UltraTex/",
+        "github": "https://github.com/yiboz2001/UltraTex",
+        "huggingface": "https://huggingface.co/papers/2609.23169",
+        "arxiv": "https://arxiv.org/abs/2609.23169"
+      },
+      {
+        "id": "2609.20869",
+        "title": "TAPe+ML: A Compact Structured Representation for Multi-Task Computer Vision",
+        "authors": "Sergey Kurinov、Alexey Upatov",
+        "topics": [
+          "计算机视觉",
+          "结构化表示"
+        ],
+        "explainer": "常见视觉模型直接从像素张量学习多种任务，可能需要大量参数。TAPe+ML v3 先把感知元素间的关系编码成共享结构化表示，再由背景与轮廓处理、局部定位、原型分类和子模型协调模块完成分类、检测及实例分割。作者报告整个系统参数量较小，并在公开图像数据及工业试验中给出多任务结果，主张把部分建模负担移到输入表示。",
+        "why": "它提供了低参数多任务视觉系统的另一种路线。阅读时要特别核对预处理成本、与强基线的同条件比较，以及公开数据结果的可复现性。",
+        "priority": null,
+        "project": "https://ml.comexp.net/",
+        "github": null,
+        "huggingface": "https://huggingface.co/papers/2609.20869",
+        "arxiv": "https://arxiv.org/abs/2609.20869"
       }
     ]
   },
