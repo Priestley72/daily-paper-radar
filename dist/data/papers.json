@@ -2,7 +2,7 @@
   {
     "date": "2026-09-22",
     "title": "智能体自改进、世界记忆与机器人控制（持续补录）",
-    "summary": "本期 Hugging Face 页面与接口共列出 34 篇论文，目前已核对收录其中 18 篇。内容涵盖智能体训练与记忆、软件工程、机器人安全和失败恢复、视频生成物理一致性，以及企业文档检索。其余论文仍在逐篇核对；优先阅读排序属于编辑判断，不代表论文结论。",
+    "summary": "本期 Hugging Face 页面与接口共列出 34 篇论文，目前核对收录其中 26 篇。主题涵盖智能体持续学习与技能检测、低精度训练、稀疏蒸馏、机器人控制、视频编辑，以及文档检索。余下条目仍在核对；优先阅读排序为编辑判断，不能代替论文结论。",
     "papers": [
       {
         "id": "2609.23088",
@@ -301,6 +301,135 @@
         "github": "https://github.com/3587jjh/HuRo",
         "huggingface": "https://huggingface.co/papers/2609.10706",
         "arxiv": "https://arxiv.org/abs/2609.10706"
+      },
+      {
+        "id": "2609.22870",
+        "title": "Towards Full Pipeline FP8 Reinforcement Learning for LLMs",
+        "authors": "Fanchao Chen、Ziheng Jiang、Ziyun Wei 等",
+        "topics": [
+          "低精度训练",
+          "强化学习"
+        ],
+        "explainer": "FP8 可降低大模型强化学习的计算开销，但整条训练链路都用 FP8 时会出现熵突然上升、输出乱码等不稳定现象。作者分析发现，叠加的量化噪声扭曲了重要性比率，使负优势 token 更容易落到裁剪区外，无法得到应有惩罚。论文提出动态校准裁剪界限，让 FP8 的裁剪分布接近 BF16；在不同算法、模型规模和量化粒度下，报告训练稳定性与性能恢复。",
+        "why": "这篇把 FP8 强化学习失稳定位到梯度裁剪机制，比单纯报告精度差异更有解释力。适合关注低精度训练的人核对其机制分析和跨设置复现。",
+        "priority": null,
+        "project": null,
+        "github": null,
+        "huggingface": "https://huggingface.co/papers/2609.22870",
+        "arxiv": "https://arxiv.org/abs/2609.22870"
+      },
+      {
+        "id": "2609.24432",
+        "title": "1% of Tokens Can Be Enough: On Gradient Estimation in On-Policy Distillation",
+        "authors": "Huanxin Sheng、Zhiling Ye、Haonan Wang 等",
+        "topics": [
+          "知识蒸馏",
+          "训练效率"
+        ],
+        "explainer": "稀疏在线蒸馏只让教师监督学生轨迹中的少量 token，但被选中的 token 即使有价值，也可能产生噪声很大的梯度估计。作者从固定前缀下的信息几何出发，提出衡量梯度估计信噪比的信息效率比，并据此改进 token 选择。数学和医学推理实验显示，在部分设置里，只监督 0.1% 至 1% 的 token 就能达到或超过全量在线蒸馏的表现。",
+        "why": "它提醒人们稀疏监督不只看 token 是否“重要”，还要看梯度能否可靠估计。小预算结果很有吸引力，但需留意适用任务与比较设置。",
+        "priority": null,
+        "project": null,
+        "github": "https://github.com/BruceSheng1202/IER-OPD",
+        "huggingface": "https://huggingface.co/papers/2609.24432",
+        "arxiv": "https://arxiv.org/abs/2609.24432"
+      },
+      {
+        "id": "2609.15991",
+        "title": "The Functionalizer: Lossless Functional Decomposition for Subword Tokenization",
+        "authors": "Connor Makowski、Willem Guter",
+        "topics": [
+          "分词",
+          "语言模型"
+        ],
+        "explainer": "传统子词分词要么把大小写、变音符号等写法分别存入词表，要么归一化后丢失信息。Functionalizer 在分词前把词拆成规范形式和可逆的变换指令，覆盖大小写、重音符号及字符重复。这样可以共享基础词表示又保留原始写法。作者在自然语言与代码语料、较小规模语言模型上测试，报告词表占用减少，并观察到代码语法有效性改善。",
+        "why": "它提供了词表压缩与信息保留兼顾的具体设计，适合关注 tokenizer 的读者。下游测试模型规模有限，生产级模型是否同样获益仍待验证。",
+        "priority": null,
+        "project": null,
+        "github": "https://github.com/connor-makowski/functionalizer",
+        "huggingface": "https://huggingface.co/papers/2609.15991",
+        "arxiv": "https://arxiv.org/abs/2609.15991"
+      },
+      {
+        "id": "2609.23989",
+        "title": "ACLArena: Agent Continue Learning in Multi-stage Post-training",
+        "authors": "Haixin Wang、Xiaoxuan Wang、Junkai Zhang 等",
+        "topics": [
+          "持续学习",
+          "智能体训练"
+        ],
+        "explainer": "通用智能体往往分阶段学会不同能力，但新阶段训练可能忘掉旧能力。ACLArena 建立顺序训练和评测流程，从模型与 token 两个层面分析遗忘和迁移，再比较多教师在线蒸馏、自蒸馏微调和模型合并。作者据此组合高质量轨迹的离线回放与按任务路由的多个 LoRA 强化学习专家，在四类推理和智能体任务上评估域内、域外效果。",
+        "why": "它的重点是把多阶段能力整合的代价与机制摆到同一实验框架里。适合研究后训练配方的人，但其推荐方案仍要结合部署复杂度考量。",
+        "priority": null,
+        "project": null,
+        "github": "https://github.com/WillDreamer/ACLArena",
+        "huggingface": "https://huggingface.co/papers/2609.23989",
+        "arxiv": "https://arxiv.org/abs/2609.23989"
+      },
+      {
+        "id": "2609.24682",
+        "title": "Think Like a World Model, Act Like a VLA: Distilling World-Model Representations into Compact Robot Policies",
+        "authors": "Trung Dao、Sankalp Yamsani、Jaden Park 等",
+        "topics": [
+          "机器人",
+          "世界模型",
+          "蒸馏"
+        ],
+        "explainer": "世界模型能学习动作后的场景变化，却难以在机器人控制环里逐步生成未来。作者让冻结的世界模型先为训练帧提取并缓存内部特征，再为 VLA 训练增加特征对齐目标；训练后丢弃投影层，部署策略不加载教师模型，也不增加推理模块。论文在仿真操作基准和单臂、双臂真实平台上报告增益，主张收益来自表示迁移而非测试时计算。",
+        "why": "它提出了较清楚的计算分工：用世界模型提供训练信号，保留 VLA 的快速部署形式。值得核对表示对齐在不同教师和真实场景下的稳定性。",
+        "priority": null,
+        "project": "https://thaw-vla.trung-dt.com/",
+        "github": "https://github.com/trungdt880/THAW-VLA",
+        "huggingface": "https://huggingface.co/papers/2609.24682",
+        "arxiv": "https://arxiv.org/abs/2609.24682"
+      },
+      {
+        "id": "2609.24797",
+        "title": "Complex KDA: Understanding and Enhancing the Expressivity of Kimi Delta Attention",
+        "authors": "Julien Siems、Riccardo Grazzi、Korbinian Pöppel 等",
+        "topics": [
+          "序列模型",
+          "线性注意力"
+        ],
+        "explainer": "线性循环模型的低秩状态更新效率高，但可能限制状态追踪能力。Complex KDA 扩展 Kimi Delta Attention 的门控和更新系数取值，让单次 delta 更新结合反射实现二维旋转，同时保持对角加秩一结构和非扩张性质。论文给出正交转换表达能力的理论刻画，并在群状态追踪、周期音频续写及语言建模任务上测试，报告部分长度外推优势。",
+        "why": "它把表达能力问题落实为可证明的状态转换性质，适合关心线性注意力理论与实践联系的人。语言建模结果需与理论任务分别判断。",
+        "priority": null,
+        "project": null,
+        "github": "https://github.com/OpenEuroLLM/ComplexKDA",
+        "huggingface": "https://huggingface.co/papers/2609.24797",
+        "arxiv": "https://arxiv.org/abs/2609.24797"
+      },
+      {
+        "id": "2609.24788",
+        "title": "Streaming Video Editing with Easy Adaptation",
+        "authors": "Yujia Hu、Jiajun Li、Zihao He 等",
+        "topics": [
+          "视频编辑",
+          "流式生成"
+        ],
+        "explainer": "双向视频扩散模型通常需要看到完整片段，难以直接处理流式编辑。SVEET 给预训练骨干加入辅助分支，以时间独立的注意力编码输入视频，再把特征注入对应骨干层；训练时还分离视频可控性与因果生成的优化方向，以减少二者冲突。作者报告该方案可跨不同骨干迁移，并在单张 H100 上达到每秒 15 帧的流式编辑速度。",
+        "why": "它针对现成双向视频模型的流式改造问题，设计上兼顾源视频控制和因果生成。比较价值在于画质、延迟及跨骨干迁移是否同时成立。",
+        "priority": null,
+        "project": null,
+        "github": "https://github.com/YujiaHu1109/SVEET",
+        "huggingface": "https://huggingface.co/papers/2609.24788",
+        "arxiv": "https://arxiv.org/abs/2609.24788"
+      },
+      {
+        "id": "2609.06052",
+        "title": "SkillSpec: Intent-Masked Specification Reasoning for Agent Skill Correctness",
+        "authors": "Yizhuo Zhang、Bo Kang、Yi Yang 等",
+        "topics": [
+          "智能体技能",
+          "质量检测"
+        ],
+        "explainer": "可复用智能体技能由说明、指令和代码等材料组成，错误有时是意图与实现不一致，而非代码报错。SkillSpec 把技能仓库转为统一图结构，从周围声明推导期望规范，再根据局部行为推断事实规范；意图遮罩控制可见上下文，随后在隔离环境验证疑似缺陷。作者在 515 个真实技能中发现 763 个经人工确认的缺陷，同时指出纯文本节点仍是检测难点。",
+        "why": "它把“技能是否正确”变成可检查的规范一致性问题，尤其适合维护大量可复用 agent 技能。报告的检测精度也提示人工复核不可省略。",
+        "priority": null,
+        "project": "https://iainzhang.github.io/SkillSpec/",
+        "github": "https://github.com/IainZhang/SkillSpec",
+        "huggingface": "https://huggingface.co/papers/2609.06052",
+        "arxiv": "https://arxiv.org/abs/2609.06052"
       }
     ]
   },
