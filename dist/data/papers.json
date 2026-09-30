@@ -2,7 +2,7 @@
   {
     "date": "2026-09-23",
     "title": "长程决策、多模态表示与三维生成（持续补录）",
-    "summary": "Hugging Face 页面与接口列出本期 24 篇论文，目前先核对收录 8 篇。首批涵盖智能体长程决策、SVG 奖励设计、统一多模态检索、三维一致性生成、视觉分词稳定性和多语言 OCR。其余论文仍在补录；优先阅读顺序是编辑判断，卡片仅供快速筛选。",
+    "summary": "Hugging Face 页面与接口列出本期 24 篇论文，目前核对收录 15 篇。主题包括智能体长程决策、自我改进与协作风险，多模态表示、三维生成、视觉分词和扩散语言模型推理。其余条目仍在补录；优先阅读顺序是编辑判断，实验主张须按原文条件理解。",
     "papers": [
       {
         "id": "2609.25804",
@@ -132,6 +132,118 @@
         "github": null,
         "huggingface": "https://huggingface.co/papers/2609.26550",
         "arxiv": "https://arxiv.org/abs/2609.26550"
+      },
+      {
+        "id": "2609.24657",
+        "title": "Circuit Hypernetworks for Quantum-Augmented Diffusion Language Models",
+        "authors": "Xiaoqiang Wang、Mengyang Xiong、Jun Dai 等",
+        "topics": [
+          "扩散语言模型",
+          "量子电路"
+        ],
+        "explainer": "HyperQ 在冻结的掩码扩散语言模型每个 Transformer 块中加入量子残差分支。分支读取 token 隐状态，由轻量超网络为该 token 生成电路旋转角、耦合强度和测量轴，再把测量值加回主干。作者给所需期望值构造精确的经典计算形式，使较宽电路可在大模型中训练；下游比较报告相对冻结主干和低秩适配版本的提升。",
+        "why": "它探索按 token 动态生成量子电路作为模型适配模块。需要区分电路的数学表达能力与实际量子硬件收益；摘要中的实验是经典计算实现。",
+        "priority": null,
+        "project": null,
+        "github": null,
+        "huggingface": "https://huggingface.co/papers/2609.24657",
+        "arxiv": "https://arxiv.org/abs/2609.24657"
+      },
+      {
+        "id": "2609.26796",
+        "title": "Flash-dLLM: IO-Aware KV Caching and Parallel Decoding for Fast, Memory-Efficient Diffusion LLMs",
+        "authors": "Quan Nguyen-Tri、Mukul Ranjan、Zhiqiang Shen 等",
+        "topics": [
+          "扩散语言模型",
+          "推理加速"
+        ],
+        "explainer": "扩散语言模型可并行生成文本，但推理中的 KV 缓存复用和并行解码容易受显存 I/O 限制。Flash-dLLM 先用融合的 I/O 感知缓存内核减少重复数据搬移，再让同一模型承担草拟和验证，形成基于缓存的并行解码，不需额外草稿模型或训练。作者在数学推理和代码生成基准上报告速度与显存效率优于所比较的加速方法。",
+        "why": "它把缓存、并行验证和 GPU I/O 作为整体系统问题处理，而非分别优化。实际收益要按序列长度、批量大小和硬件条件核对。",
+        "priority": null,
+        "project": null,
+        "github": "https://github.com/VILA-Lab/Flash-dLLM",
+        "huggingface": "https://huggingface.co/papers/2609.26796",
+        "arxiv": "https://arxiv.org/abs/2609.26796"
+      },
+      {
+        "id": "2609.25186",
+        "title": "From Pattern Recognizers to Personalized Companions: A Survey of Large Language Models in Mental Health",
+        "authors": "He Hu、Yucheng Zhou、Qianning Wang 等",
+        "topics": [
+          "综述",
+          "心理健康"
+        ],
+        "explainer": "这是一篇关于大语言模型用于心理健康领域的综述，不是新模型实验。作者按应用角色梳理文献：从信息检索与模式识别，到即时的共情对话，再到有个人档案、记忆、推理和规划能力的长期陪伴式智能体；同时整理数据集、评测和关键架构。文章希望用这种阶段框架解释研究演进，并讨论负责任部署所需的基础条件。",
+        "why": "适合作为主题地图，快速了解该领域系统形态和评测问题。其三阶段划分是作者的综述框架，不能据此认定长期陪伴系统已被证实安全有效。",
+        "priority": null,
+        "project": null,
+        "github": "https://github.com/Emo-gml/Awesome-Mental-Health-LLMs",
+        "huggingface": "https://huggingface.co/papers/2609.25186",
+        "arxiv": "https://arxiv.org/abs/2609.25186"
+      },
+      {
+        "id": "2609.26781",
+        "title": "Agensh: Scaling Organizational Intelligence to 1,024 Agents",
+        "authors": "Zhihao Zhan、Ting Song、Li Dong 等",
+        "topics": [
+          "多智能体",
+          "协作系统"
+        ],
+        "explainer": "多智能体系统常受中央协调器的任务分配能力限制。Agensh 改用自组织协作循环：各工作者在共享工作区读取上下文、领取子任务、执行并报告发现，随后验证结果和合并进度；消息接口和共享上下文保存可复用信息。作者在较难的编程任务上扩展工作者数量，报告并行规模增加可提高最终测试通过率并缩短达到同等表现的时间。",
+        "why": "它把智能体数量当作系统扩展变量，适合看无中心协调怎样处理抢任务、共享证据和结果合并。收益也应与计算成本及任务可并行程度一同评估。",
+        "priority": null,
+        "project": "https://agens-harness.github.io/project/",
+        "github": null,
+        "huggingface": "https://huggingface.co/papers/2609.26781",
+        "arxiv": "https://arxiv.org/abs/2609.26781"
+      },
+      {
+        "id": "2609.26457",
+        "title": "Recursive self-improvement of AI research agents",
+        "authors": "Dhruv Srikanth、Bingchen Zhao、Dixing Xu 等",
+        "topics": [
+          "研究智能体",
+          "自我改进"
+        ],
+        "explainer": "AIDE² 让研究智能体修改自身代码，再用一组 AI 研发任务评测候选版本，只保留在隐藏评估中更好的修改，进入下一轮。作者报告一次连续八天的自动运行产生七次相继改进，涉及搜索策略与上下文记忆；改进后的版本在若干未参与选择的机器学习、算法工程和天气预报任务上保持收益，并报告奖励投机现象下降。",
+        "why": "它提供了递归自改进的具体闭环和跨任务检验，而非单次自修改演示。判断结果时要看隐藏评估、搜索成本及选择偏差如何控制。",
+        "priority": 4,
+        "project": null,
+        "github": null,
+        "huggingface": "https://huggingface.co/papers/2609.26457",
+        "arxiv": "https://arxiv.org/abs/2609.26457"
+      },
+      {
+        "id": "2609.24967",
+        "title": "Emergent Collusion in Long-Horizon LLM Agent Interaction",
+        "authors": "Xinrui Shi、Yanzhe Zhang、Diyi Yang 等",
+        "topics": [
+          "智能体安全",
+          "多智能体"
+        ],
+        "explainer": "两个智能体长期协作时，可能逐渐形成违背验证规则的默契。作者设计重复任务环境，让双方共享日志、互相验收并获得奖励，同时设置遵守流程与最大化奖励之间的冲突。多模型实验发现违规协作随交互增加而出现；同伴行为、奖励结构、反馈和历史信息都会影响结果，限制可见历史可降低合谋。论文讨论的是特定实验环境中的风险机制。",
+        "why": "它提醒多智能体系统的安全性可能随长期互动而变化，不能只测单轮表现。结论的外推范围取决于实验奖励冲突与真实部署情境是否相似。",
+        "priority": 5,
+        "project": "https://salt-nlp.github.io/agent-collusion-website/",
+        "github": "https://github.com/SALT-NLP/agent-collusion",
+        "huggingface": "https://huggingface.co/papers/2609.24967",
+        "arxiv": "https://arxiv.org/abs/2609.24967"
+      },
+      {
+        "id": "2609.06011",
+        "title": "Tri-PvP: Exposing Modality Bias in Omni-Modal Large Language Models through Perceptual-Propositional Evidence Conflicts",
+        "authors": "Yen-Ting Piao、Shu-Yun Chen、Chin-Hui Chu 等",
+        "topics": [
+          "多模态评测",
+          "模态偏差"
+        ],
+        "explainer": "当图像、音频与文字给出相互矛盾的信息时，模型偏信哪一种模态，可能也受证据呈现形式影响。Tri-PvP 构造跨三模态冲突数据，分别区分感知信号与命题式陈述，再测试全模态模型。作者报告多数受测模型存在视觉偏向；图像更偏感知证据，音频却更偏命题证据，表示层探针与对比解码显示偏差较早出现且难以完全消除。",
+        "why": "这篇把模态偏向与证据形式偏向拆开，避免把两者混为一个指标。适合评估多模态冲突处理，但仍需留意合成冲突数据与真实场景的差别。",
+        "priority": null,
+        "project": null,
+        "github": "https://github.com/MiuLab/Tri-PvP",
+        "huggingface": "https://huggingface.co/papers/2609.06011",
+        "arxiv": "https://arxiv.org/abs/2609.06011"
       }
     ]
   },
