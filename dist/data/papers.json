@@ -1,8 +1,8 @@
 [
   {
     "date": "2026-09-23",
-    "title": "长程决策、多模态表示与三维生成（持续补录）",
-    "summary": "Hugging Face 页面与接口列出本期 24 篇论文，目前核对收录 15 篇。主题包括智能体长程决策、自我改进与协作风险，多模态表示、三维生成、视觉分词和扩散语言模型推理。其余条目仍在补录；优先阅读顺序是编辑判断，实验主张须按原文条件理解。",
+    "title": "长程智能体、多模态表示与三维生成",
+    "summary": "本期 24 篇论文覆盖智能体长程决策、自我改进与协作风险，统一多模态表示、扩散语言模型推理、机器人指令遵循和三维场景重建，也包含形式化数学知识库与专业领域综述。卡片用于快速筛选，优先阅读顺序是编辑判断；实验结论仍应按原文条件理解。",
     "papers": [
       {
         "id": "2609.25804",
@@ -244,6 +244,151 @@
         "github": "https://github.com/MiuLab/Tri-PvP",
         "huggingface": "https://huggingface.co/papers/2609.06011",
         "arxiv": "https://arxiv.org/abs/2609.06011"
+      },
+      {
+        "id": "2609.25199",
+        "title": "Lean Pool: An AI-Maintained Archive of Formalized Mathematics",
+        "authors": "Vasily Ilin",
+        "topics": [
+          "形式化数学",
+          "知识库"
+        ],
+        "explainer": "Lean Pool 是收集和维护 Lean 4 形式化数学项目的仓库，而非一个新的定理证明模型。论文摘要称其由 AI 智能体扩展、维护和优化；项目仓库说明，它接纳不适合并入 mathlib 的形式化成果，以确定性检查、构建测试和语言模型评审把关，并提供文档与检索。仓库还设有开放命题和可核验的证明提交机制。",
+        "why": "适合关心形式化成果如何长期保存与复用的人。卡片中关于准入和质检的细节来自项目仓库，论文摘要本身非常简短，应分清来源。",
+        "priority": null,
+        "project": "https://github.com/Vilin97/lean-pool",
+        "github": "https://github.com/Vilin97/lean-pool",
+        "huggingface": "https://huggingface.co/papers/2609.25199",
+        "arxiv": "https://arxiv.org/abs/2609.25199"
+      },
+      {
+        "id": "2609.22319",
+        "title": "Embedding Physics Priors in Robot Learning: A Survey",
+        "authors": "Mattia Piccinini、Lucas Schulze、Alice Plebe 等",
+        "topics": [
+          "机器人学习",
+          "物理先验",
+          "综述"
+        ],
+        "explainer": "机器人数据有限，纯数据驱动方法在真实交互和可靠性方面面临挑战。这篇综述梳理如何把物理规律与约束融入学习：作为输入、数据和表示的引导，写进模型架构，或进入训练损失。作者用统一分类讨论动力学学习、轨迹规划、预测、控制和状态估计等应用，并整理相关开源生态与待解决问题；它不提出单一新算法。",
+        "why": "它为分散的物理先验方法提供检索框架，适合快速定位某种机器人任务可采用的嵌入方式。综述中的潜在收益不等同于所有方法都已验证有效。",
+        "priority": null,
+        "project": null,
+        "github": "https://github.com/TUM-AVS/survey-physics-embedded-robot-learning",
+        "huggingface": "https://huggingface.co/papers/2609.22319",
+        "arxiv": "https://arxiv.org/abs/2609.22319"
+      },
+      {
+        "id": "2609.25053",
+        "title": "LatentPort: Beyond KV Cache - Cross-Model Transfer of Recurrent Memory in Hybrid Language Models: A 4B-to-9B Hybrid-State Handoff Without Target Prefix Replay",
+        "authors": "Simon P. Villani",
+        "topics": [
+          "模型推理",
+          "状态迁移"
+        ],
+        "explainer": "一个语言模型能否把运行中的记忆交给另一个模型，而不让后者重读全部上下文？LatentPort 研究架构匹配的 4B 到 9B 混合模型状态交接：除转换注意力 KV 缓存，还转移持续的循环与卷积状态，并用小型修正模块降低续写损失。作者在文档续写上报告接近目标模型原生状态的结果，同时明确仅验证了一个模型对、一个方向和有限上下文设置。",
+        "why": "它把跨模型交接的关注点从 KV 缓存扩展到循环记忆。论文对未验证范围交代较清楚；自由生成等价性和通用状态接口仍不能据此认定。",
+        "priority": null,
+        "project": null,
+        "github": "https://github.com/mmprotest/latentport-paper",
+        "huggingface": "https://huggingface.co/papers/2609.25053",
+        "arxiv": "https://arxiv.org/abs/2609.25053"
+      },
+      {
+        "id": "2609.25636",
+        "title": "RoboFollow: Unveiling the Instruction Following Mirage in Embodied Agents",
+        "authors": "Chang Guo、Yukun Xie、Bohan Tan 等",
+        "topics": [
+          "具身智能",
+          "指令遵循"
+        ],
+        "explainer": "机器人策略在普通场景中成功，可能只是看图就能猜出唯一任务，未真正理解语言。RoboFollow 为每个场景设置多个动作分支，让指令成为必要信息，再逐级改变布局与语义，分别诊断意图理解和动作执行。作者评估多种 VLA 与世界动作模型，发现基础场景的好成绩不能稳定迁移到更复杂的指令变化，所测补救方法也未消除差距。",
+        "why": "它针对具身评测中的语言冗余问题，能帮助区分“会做动作”和“按指令做动作”。应关注场景设计是否覆盖真实任务的歧义。",
+        "priority": null,
+        "project": "https://mrc-crm.github.io/RoboFollow/",
+        "github": "https://github.com/AutoLab-SAI-SJTU/RoboFollow",
+        "huggingface": "https://huggingface.co/papers/2609.25636",
+        "arxiv": "https://arxiv.org/abs/2609.25636"
+      },
+      {
+        "id": "2609.25267",
+        "title": "ImIR: Image-Instruction Tuning for All-in-One Image Restoration",
+        "authors": "Süleyman Aslan、Görkay Aydemir、Mısra Yavuz 等",
+        "topics": [
+          "图像修复",
+          "多任务"
+        ],
+        "explainer": "一个图像修复模型要处理多种退化，文字提示不一定能准确表达每张图需要怎样修。ImIR 从受损图像的视觉语言表示生成连续的“图像指令”，同时把图像结构送入预训练编辑模型；轻量映射器把表示朝干净图像方向调整。作者用一个低秩适配器处理六类修复任务，报告与匹配的文字条件版本相比更好，且无需预先提供退化类别。",
+        "why": "它把修复条件从人工描述改成输入图像自身的连续表示，对未知退化类型有启发。连续指令的可控程度与跨数据集泛化值得细看。",
+        "priority": null,
+        "project": "https://suleymanaslan.github.io/imir/",
+        "github": "https://github.com/suleymanaslan/imir",
+        "huggingface": "https://huggingface.co/papers/2609.25267",
+        "arxiv": "https://arxiv.org/abs/2609.25267"
+      },
+      {
+        "id": "2609.26346",
+        "title": "Blaming Across the Aisle: Political Contrasting and Blame Attribution in the Danish Parliament",
+        "authors": "Markus Lundsfryd Jensen、Rune Egeskov Trust、Kenneth Christian Enevoldsen 等",
+        "topics": [
+          "政治文本",
+          "文本分类"
+        ],
+        "explainer": "这项研究分析丹麦议会长期辩论中的归责语言。作者构建专门的 BlameBERT 分类器，再用多层统计模型研究不同年份、执政与在野身份以及政治立场的差异。论文报告归责表达先下降、近年上升；在野党整体更多归责，意识形态也影响这种差异。结论针对所收集的丹麦议会资料，不应直接推广到其他政治制度。",
+        "why": "它展示了用专门分类器辅助长期政治话语分析的路径。关键是核对标注与分类误差如何影响时间趋势和组间差异。",
+        "priority": null,
+        "project": null,
+        "github": "https://github.com/Lundsfryd/BlameBERT",
+        "huggingface": "https://huggingface.co/papers/2609.26346",
+        "arxiv": "https://arxiv.org/abs/2609.26346"
+      },
+      {
+        "id": "2609.22323",
+        "title": "ALPINE: Adaptive Localization for Parameter- and Sample-Efficient Few-Shot Learning",
+        "authors": "Neeraj Yadav",
+        "topics": [
+          "小样本学习",
+          "轻量视觉"
+        ],
+        "explainer": "小样本图像分类通常只比准确率，忽略模型参数和训练样本预算。ALPINE 结合固定的 Gabor 边缘引导与按图像内容选择局部区域的轻量架构，在相同元训练 episode 预算下与几种经典基线比较。作者报告跨随机种子的一致收益、较少参数及更好的遮挡和位移鲁棒性；消融也指出，主要贡献来自自适应区域定位而非成对关系计算。",
+        "why": "它把准确率和资源预算放在同一个比较协议中，且用反证式消融修正机制解释。适合关注可复现的小样本视觉方法。",
+        "priority": null,
+        "project": null,
+        "github": "https://github.com/NeerajYadav-coder/alpine-fewshot",
+        "huggingface": "https://huggingface.co/papers/2609.22323",
+        "arxiv": "https://arxiv.org/abs/2609.22323"
+      },
+      {
+        "id": "2609.25247",
+        "title": "Geometric and Semantic Coupling for Interaction Understanding in 3D Scenes",
+        "authors": "Hanyang Kong、Xingyi Yang",
+        "topics": [
+          "三维理解",
+          "可动部件"
+        ],
+        "explainer": "理解三维场景中可操作物体，需要同时找出部件、把手及其运动方式。Segment-Snap 先预测部件表面与把手，再用平面和竖直等几何先验约束运动，并依据把手位置选择铰链线；反过来，部件信息也帮助筛选把手候选和修正运动类别。作者只进行单次双向信息传递，在 Articulate3D 验证集上报告运动与把手检测指标改善。",
+        "why": "它把语义检测与几何约束相互校正，避免完全依赖运动回归。适合看物体交互理解中把手位置为何能帮助确定运动。",
+        "priority": null,
+        "project": "https://hyokong.github.io/segment-snap-page/",
+        "github": "https://github.com/HyoKong/Segment-Snap",
+        "huggingface": "https://huggingface.co/papers/2609.25247",
+        "arxiv": "https://arxiv.org/abs/2609.25247"
+      },
+      {
+        "id": "2609.26793",
+        "title": "HARMONY: Hierarchical Agentic Reasoning for MONocular Image-to-Scene Synthesis",
+        "authors": "Shufan Sun、Chen Wang、Enxin Song 等",
+        "topics": [
+          "三维重建",
+          "智能体"
+        ],
+        "explainer": "HARMONY 从单张室内图像重建可组合的三维场景。系统先校准相机并推断房间布局，再让视觉语言智能体按墙面元素、独立家具和依附装饰的层次逐件放置；每放一个物体，就用点云估计进行几何校正，并通过反馈避免误差累积。作者在合成与真实图像上比较重建结果，报告物体关系和视觉对齐优于所评估基线。",
+        "why": "它将语义布局推理与逐步几何校正结合，适合看单图场景重建的分层流程。推理链较长，误差传播和成本是重要边界。",
+        "priority": null,
+        "project": "https://cwchenwang.github.io/harmony",
+        "github": "https://github.com/ShufanSun/harmony-release",
+        "huggingface": "https://huggingface.co/papers/2609.26793",
+        "arxiv": "https://arxiv.org/abs/2609.26793"
       }
     ]
   },
