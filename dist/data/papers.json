@@ -1,5 +1,477 @@
 [
   {
+    "date": "2026-09-24",
+    "title": "记忆系统、交互世界模型与实验理解",
+    "summary": "本期 29 篇论文集中在多人对话、视频与机器人记忆，交互世界模型和智能体训练，也关注代码评测的仓库熟悉度、研究智能体的实验理解及教育中的真实学习收益。优先阅读按编辑判断排序；本期卡片已齐，优先论文的原文精读仍待补充，可先由详情页进入原文。",
+    "papers": [
+      {
+        "id": "2609.26780",
+        "title": "SpeakerMem-R1: Speaker-Centered Dual-Track Memory for Multi-Party Dialogue",
+        "authors": "Haobo Zheng、Tan Tang 等",
+        "topics": [
+          "对话记忆",
+          "多人对话"
+        ],
+        "explainer": "多人长对话不仅要记住内容，还要保留谁说了什么、涉及谁以及群体状态如何变化。SpeakerMem-R1 同时存储带说话人标签的原始消息与结构化状态，并按个人、群体、事件和时间组合证据；作者还训练专门的记忆写入模型，在多个多人记忆基准上验证两条记忆路径的互补作用。",
+        "why": "它把人物归属和群体关系当作记忆系统的核心问题。适合多人会议或群聊应用，重点看写入错误怎样影响长期状态更新。",
+        "priority": null,
+        "project": "https://2022hpsk.github.io/SpeakerMemR1/",
+        "github": "https://github.com/2022hpsk/SpeakerMemR1",
+        "huggingface": "https://huggingface.co/papers/2609.26780",
+        "arxiv": "https://arxiv.org/abs/2609.26780"
+      },
+      {
+        "id": "2609.28466",
+        "title": "The Past Frames the Future: Memory for Autoregressive Video Generation",
+        "authors": "Harold Haodong Chen、Rongjin Guo 等",
+        "topics": [
+          "视频生成",
+          "记忆",
+          "综述"
+        ],
+        "explainer": "自回归视频越生成越长，但模型能保留的上下文有限，角色身份、历史动作与因果变化会逐渐离开可见窗口。这篇综述把记忆定义为跨生成步骤持续保存并能影响未来的历史信息，从表示、功能、读写管理、学习和评测五个角度梳理方法，并提出状态更新和闭环训练等开放问题。",
+        "why": "适合建立长视频记忆的研究地图。它提供的是分类和评测视角，阅读时可用来判断某种“长上下文”方法是否真正保留历史状态。",
+        "priority": null,
+        "project": null,
+        "github": "https://github.com/HaroldChen19/Awesome-AR-Video-Memory",
+        "huggingface": "https://huggingface.co/papers/2609.28466",
+        "arxiv": "https://arxiv.org/abs/2609.28466"
+      },
+      {
+        "id": "2609.23038",
+        "title": "Spatial-Interactor: Learning Spatial Reasoning through Interaction with the Observable Physical World",
+        "authors": "Kaixiang Yao、Xu Wang 等",
+        "topics": [
+          "空间推理",
+          "视觉语言模型"
+        ],
+        "explainer": "静态空间问答很难教会模型理解动作和视角变化后的状态。Spatial-Interactor 用仿真与真实交互轨迹构建课程，从被动物体变化、主动视角变化到长程交互逐级训练；先用监督微调学习局部转移，再用获得片段转移描述的教师指导学生整合长轨迹，在多个空间评测上报告改善。",
+        "why": "它把空间理解从单帧关系推进到连续状态更新。值得关注课程设计和带额外信息教师的作用，以及真实轨迹上的泛化。",
+        "priority": 4,
+        "project": "https://zju-omniai.github.io/Spatial-Interactor/",
+        "github": "https://github.com/ZJU-OmniAI/Spatial-Interactor",
+        "huggingface": "https://huggingface.co/papers/2609.23038",
+        "arxiv": "https://arxiv.org/abs/2609.23038"
+      },
+      {
+        "id": "2609.24308",
+        "title": "HappyWorld-Bench",
+        "authors": "Zhiqi Bai、Junai Cai 等",
+        "topics": [
+          "世界模型",
+          "评测"
+        ],
+        "explainer": "世界模型除了生成好看的画面，还应在探索、回访和修改后保持状态与动作响应一致。HappyWorld-Bench 按六层能力组织视频、空间和具身三条评测线，结合人工两两比较与行为指标评估多个系统。作者报告长程一致性、物体放置、编辑执行和多步状态保持仍存在缺口。",
+        "why": "它提供跨不同世界模型形式的共同评测框架。适合比较“视觉质量好”与“交互行为可靠”之间的差距，仍需看各指标的具体任务条件。",
+        "priority": null,
+        "project": null,
+        "github": null,
+        "huggingface": "https://huggingface.co/papers/2609.24308",
+        "arxiv": "https://arxiv.org/abs/2609.24308"
+      },
+      {
+        "id": "2609.27334",
+        "title": "Just-in-Time Memory: Learning to Curate Task-Adaptive Memory for LLM Agents",
+        "authors": "Yefan Zhou、Yang Li 等",
+        "topics": [
+          "智能体记忆",
+          "任务适配"
+        ],
+        "explainer": "多数智能体在任务结束时就把经历压缩成固定记忆，未来可能用到的信息因此丢失。JitMem 保留原始轨迹，检索后再依据当前任务生成紧凑记忆；由于这份记忆立即被使用，整理器可直接从当前任务成功信号训练。作者在环境交互和工具任务中报告优于所比较的写入时压缩方法。",
+        "why": "按需整理记忆是一种直观但有实质区别的设计。需要一起考虑原始轨迹存储、读取成本，以及相似任务检索是否足够可靠。",
+        "priority": 1,
+        "project": null,
+        "github": null,
+        "huggingface": "https://huggingface.co/papers/2609.27334",
+        "arxiv": "https://arxiv.org/abs/2609.27334"
+      },
+      {
+        "id": "2609.22947",
+        "title": "RewardVerse: Rubric-Guided Policy Optimization for Video Reward Modeling",
+        "authors": "Zhenchen Tang、Yang Li 等",
+        "topics": [
+          "视频评测",
+          "奖励模型"
+        ],
+        "explainer": "视频质量直接映射成单一分数时，不同提示之间评分尺度可能漂移。RewardVerse 先生成与查询相适应的明确评分细则，再让评分器按细则判断，给分数一个语义依据；两阶段训练先预热评分器，再联合优化细则生成与人工评分对齐。论文在多维视频评测和外部数据上检验稳定性及评分效果。",
+        "why": "它适合关注生成模型奖励设计的人，重点是评分细则能否减少跨提示漂移。可解释的细则也需要核对是否真的对应人的质量判断。",
+        "priority": null,
+        "project": "https://2kxx.github.io/RewardVerse/",
+        "github": "https://github.com/2kxx/RewardVerse",
+        "huggingface": "https://huggingface.co/papers/2609.22947",
+        "arxiv": "https://arxiv.org/abs/2609.22947"
+      },
+      {
+        "id": "2609.27891",
+        "title": "Schrödinger's Code Repository: Have LLMs Learned SWE-bench or Memorized It?",
+        "authors": "Silin Chen、Yufei Yang 等",
+        "topics": [
+          "代码智能体",
+          "评测污染"
+        ],
+        "explainer": "代码智能体在公开仓库基准上表现好，可能部分依赖熟悉的名字和文件布局。SchrodingerRepo 在评测时改变问题描述、命名空间、文件内布局和实现写法，同时维持可执行行为。作者在代码修复与仓库问答任务中报告，去掉熟悉线索会降低表现、增加探索定位成本，提示静态仓库成绩需谨慎解读。",
+        "why": "它把仓库熟悉度作为可干预变量，能补充数据泄漏分析。不过变换也可能本身增加搜索难度，性能下降不能全部归因于记忆。",
+        "priority": 3,
+        "project": null,
+        "github": "https://github.com/cslsolow/Schrodinger-Repo",
+        "huggingface": "https://huggingface.co/papers/2609.27891",
+        "arxiv": "https://arxiv.org/abs/2609.27891"
+      },
+      {
+        "id": "2609.26355",
+        "title": "PACT: From Credit Assignment to Critic Alignment",
+        "authors": "Jiayan Fu、Hang Xu 等",
+        "topics": [
+          "强化学习",
+          "信用分配"
+        ],
+        "explainer": "终点奖励如何分配到每个 token，常缺少统一定义。论文提出完整性、前缀一致性和中立性条件，据此刻画 token 信用并分析蒸馏、响应级奖励和价值估计误差。PACT 随后采用先更新策略、再训练价值模型的顺序，并用重要性修正对齐新策略，在数学智能体和代码修复任务中报告收益。",
+        "why": "理论条件与训练顺序之间的联系是这篇的阅读重点。实际增益仍需结合价值模型误差、基线设置和计算预算来判断。",
+        "priority": null,
+        "project": null,
+        "github": null,
+        "huggingface": "https://huggingface.co/papers/2609.26355",
+        "arxiv": "https://arxiv.org/abs/2609.26355"
+      },
+      {
+        "id": "2609.26637",
+        "title": "Capable yet Parsimonious: Extracting and Characterizing Hidden Chain-of-Thought in Frontier Models",
+        "authors": "Xiaoyu Luo、Tao Ren 等",
+        "topics": [
+          "推理评测",
+          "模型行为"
+        ],
+        "explainer": "论文通过注册工具让模型输出中间推理过程，并先在开放模型上与原生推理比较，再扩展到闭源系统。作者在数学、科学和代码任务上测试外显过程的解题表现，分析 token 使用、推理步骤及路径选择的差异。文章也明确提出这些输出可能是事后解释，因此将其用作行为层面的研究材料。",
+        "why": "它提供观察外显推理行为的实验方法。外显文本与真实内部计算之间仍有证据边界，不能仅凭解题表现把两者等同。",
+        "priority": null,
+        "project": null,
+        "github": null,
+        "huggingface": "https://huggingface.co/papers/2609.26637",
+        "arxiv": "https://arxiv.org/abs/2609.26637"
+      },
+      {
+        "id": "2609.27284",
+        "title": "Hunyuan-A13B Technical Report",
+        "authors": "Tencent Hunyuan Team、Ao Liu 等",
+        "topics": [
+          "开源模型",
+          "MoE"
+        ],
+        "explainer": "Hunyuan-A13B 是总参数约 800 亿、每次推理激活约 130 亿的混合专家模型。报告介绍大规模语料筛选、STEM 数据处理、监督微调和强化学习，并用快思考与慢思考两种模式调整任务推理深度；评测覆盖数学、科学、编程、语言理解和智能体任务，目标是在能力与部署开销间取得平衡。",
+        "why": "适合了解模型训练配方和推理模式的整体设计。具体部署价值取决于硬件、专家调度和任务分布，不能只用激活参数量判断成本。",
+        "priority": null,
+        "project": null,
+        "github": null,
+        "huggingface": "https://huggingface.co/papers/2609.27284",
+        "arxiv": "https://arxiv.org/abs/2609.27284"
+      },
+      {
+        "id": "2609.27901",
+        "title": "All modalities are equal, but video is more equal: Closing the Cross-Attention Gap in Joint Video Generation",
+        "authors": "Ohad Rahamim、Dvir Samuel 等",
+        "topics": [
+          "多模态生成",
+          "视频生成"
+        ],
+        "explainer": "视频与音频或人体动作联合生成时，两个方向的跨模态注意力对应可能并不对称。RecCAR 将较强方向的对应作为固定参考，用 KL 正则拉近较弱方向的分布，以增强伴随模态对视频的约束。作者在视频动作和视频音频联合生成中报告人体结构与同步指标改善，并观察整体生成效果。",
+        "why": "它用可比较的双向对应分布定位跨模态融合问题。值得核对正则是否同时改善多个模态，以及固定参考何时可能传播错误。",
+        "priority": null,
+        "project": "https://ohad204.github.io/RecCAR.github.io/",
+        "github": "https://github.com/ohad204/RecCAR",
+        "huggingface": "https://huggingface.co/papers/2609.27901",
+        "arxiv": "https://arxiv.org/abs/2609.27901"
+      },
+      {
+        "id": "2609.27321",
+        "title": "Verifiable Hidden Dynamics Play: Generating Agentic RL Environments from Solved Mechanisms",
+        "authors": "Xinjie Shen、Wei Fan 等",
+        "topics": [
+          "智能体训练",
+          "合成环境"
+        ],
+        "explainer": "生成智能体环境后再补评分规则，容易让动态过程与评估脱节。VHD-Play 先采样并求解数学机制，再把决策过程包装成有状态工具，使环境执行与轨迹评分继承同一个已解模型。作者生成多种环境训练语言模型，报告在未见机制和外部工具、规划任务上的迁移收益，并分析状态交互带来的学习难点。",
+        "why": "先确定机制与评分再构造环境，有利于可靠的强化学习反馈。阅读时应关注机制多样性、环境真实性和跨任务迁移的范围。",
+        "priority": null,
+        "project": null,
+        "github": null,
+        "huggingface": "https://huggingface.co/papers/2609.27321",
+        "arxiv": "https://arxiv.org/abs/2609.27321"
+      },
+      {
+        "id": "2609.28473",
+        "title": "On the Diffusibility of High-Dimensional Latents",
+        "authors": "Chao Feng、Zhiyang Xu 等",
+        "topics": [
+          "图像生成",
+          "潜空间"
+        ],
+        "explainer": "表示自编码器使用预训练视觉特征进行扩散生成，但增强重建能力后，表示几何也会改变。作者发现重建微调降低有效维度，标准速度预测因此还要拟合信号流形之外的噪声方向。论文改为直接预测干净数据，让学习聚焦信号结构，在多个重建较强的编码器上报告文生图表现改善。",
+        "why": "它把生成目标选择与潜空间几何联系起来，适合调整表示自编码器的人。关键在于低维流形分析是否能解释不同编码器上的收益。",
+        "priority": null,
+        "project": "https://cfeng16.github.io/on_the_diffusibility/",
+        "github": null,
+        "huggingface": "https://huggingface.co/papers/2609.28473",
+        "arxiv": "https://arxiv.org/abs/2609.28473"
+      },
+      {
+        "id": "2609.25963",
+        "title": "GeoPair: Geometry-Preserving Cross-Layer Factorization for Training-Free Transformer Compression",
+        "authors": "Baher Mohammad、Ammar Ali 等",
+        "topics": [
+          "模型压缩",
+          "矩阵分解"
+        ],
+        "explainer": "Transformer 不同层存在冗余，但逐层压缩或强行共享相邻层基底可能破坏各层激活结构。GeoPair 先寻找结构兼容的投影配对，再优化共享字典分解，尽量保留每层校准数据的几何；结合结构稀疏性完成无需常规再训练的压缩。作者在不同架构、规模和模态上比较独立分解及启发式配对。",
+        "why": "它将跨层共享建立在校准几何上，较容易解释配对依据。需要关注校准数据代表性，以及压缩后的实际内存与运行速度。",
+        "priority": null,
+        "project": null,
+        "github": null,
+        "huggingface": "https://huggingface.co/papers/2609.25963",
+        "arxiv": "https://arxiv.org/abs/2609.25963"
+      },
+      {
+        "id": "2609.23784",
+        "title": "PackLab: A Comprehensive Framework for Developing, Training, and Evaluating MLLMs in Robotic Bin Packing",
+        "authors": "Donghao Zhou、Jia-Hui Pan 等",
+        "topics": [
+          "机器人",
+          "装箱规划"
+        ],
+        "explainer": "机器人装箱每次放置都会改变后续可用空间，单步几何启发式可能难以规划长程结果。PackLab 提供物理仿真与轨迹生成平台、根据当前物体和容器状态选择对象及位置的专用多模态模型，以及分难度的标准评测。作者在多种物体组合和容器设置中比较传统启发式、强化学习与通用模型。",
+        "why": "它同时提供训练环境、模型和基准，适合研究闭环装箱规划。平均成绩之外，碰撞、稳定放置及复杂形状的失败情况更有部署参考价值。",
+        "priority": null,
+        "project": null,
+        "github": "https://github.com/Correr-Zhou/PackLab",
+        "huggingface": "https://huggingface.co/papers/2609.23784",
+        "arxiv": "https://arxiv.org/abs/2609.23784"
+      },
+      {
+        "id": "2609.28256",
+        "title": "MemBodied: Recurrent Associative Memory for Vision-Language-Action Models",
+        "authors": "Tej Deep Pala、Navonil Majumder 等",
+        "topics": [
+          "机器人记忆",
+          "VLA"
+        ],
+        "explainer": "部分操作任务必须记住早先观测，直接堆积历史图像会增加上下文和延迟。MemBodied 使用固定大小的情节记忆：关联状态记录跨策略调用的交互，初始场景锚点保留参照；生成动作时只读取当前输入与记忆。作者在需要历史信息的操作任务及长程基准上报告成功率改善。",
+        "why": "它把机器人记忆分成持续更新与初始参照两部分，结构清楚。固定容量的收益需要结合更长任务、记忆覆盖及更新错误来评估。",
+        "priority": 2,
+        "project": "https://declare-lab.github.io/MemBodied/",
+        "github": "https://github.com/declare-lab/MemBodied",
+        "huggingface": "https://huggingface.co/papers/2609.28256",
+        "arxiv": "https://arxiv.org/abs/2609.28256"
+      },
+      {
+        "id": "2609.25853",
+        "title": "MemoryAthena: Adaptive Routing over Latent and Generated Memories",
+        "authors": "Mingyuan Li、Guangsheng Yu 等",
+        "topics": [
+          "学习型记忆",
+          "动态路由"
+        ],
+        "explainer": "记忆既能从表中检索，也能根据检索线索或当前模型状态生成，但生成内容不总有帮助。MemoryAthena 保留直接检索作为基准，让轻量路由器选择是否引入两类生成记忆，再以受限插值改变残差；拒绝时恢复原路径。作者冻结主要模块，只训练路由器，在问答和通用语言任务中报告提升。",
+        "why": "它强调记忆何时介入比始终使用生成记忆更重要。需要核对路由训练信号、额外参数规模，以及错误记忆是否可稳定被拒绝。",
+        "priority": null,
+        "project": "https://www.olaresearch.org/MemoryATHENA/",
+        "github": "https://github.com/OLAResearch/ATHENA",
+        "huggingface": "https://huggingface.co/papers/2609.25853",
+        "arxiv": "https://arxiv.org/abs/2609.25853"
+      },
+      {
+        "id": "2609.27656",
+        "title": "InternW0: A Foundational Physical World Model for Efficient Real-World Interactions",
+        "authors": "Jisong Cai、Yao Mu 等",
+        "topics": [
+          "世界模型",
+          "机器人控制"
+        ],
+        "explainer": "InternW0 联合学习未来视觉动态和连续机器人动作，用较大视频专家提供较长预测上下文，较轻动作专家以更高频率控制。系统复用视频专家缓存并按新观测路由，避免每次动作都重生成未来；还引入力觉和触觉的接触任务训练。报告在仿真及多阶段真实实验室操作中评估这种异步架构。",
+        "why": "它把世界预测和控制频率分开，适合关注真实机器人响应效率的人。复杂实验室示范之外，泛化能力和实时条件仍需逐项核对。",
+        "priority": 5,
+        "project": "https://internrobotics.github.io/internw0/",
+        "github": null,
+        "huggingface": "https://huggingface.co/papers/2609.27656",
+        "arxiv": "https://arxiv.org/abs/2609.27656"
+      },
+      {
+        "id": "2609.27490",
+        "title": "WhatWorkedBench: Benchmarking Experimental Understanding in AI Agents",
+        "authors": "Jingjie Ning、Xueqi Li 等",
+        "topics": [
+          "研究智能体",
+          "实验评测"
+        ],
+        "explainer": "研究智能体找到一个好配置，不代表理解每个改动的作用。WhatWorkedBench 让智能体在有限实验预算下查看代码、选择测量，并预测所有组件组合的得分；完整执行结果提供真实对照。作者比较不同统计拟合和程序结构信息的作用，评估智能体能否恢复组件效应，而非只选最优配置。",
+        "why": "它对实验理解的考察比单个最终分数更细，适合做自动科研系统。还可检查更强统计推断是否比增加语言推理更有效。",
+        "priority": null,
+        "project": "https://ethanning.github.io/WhatWorkedBench/",
+        "github": "https://github.com/EthanNing/WhatWorkedBench",
+        "huggingface": "https://huggingface.co/papers/2609.27490",
+        "arxiv": "https://arxiv.org/abs/2609.27490"
+      },
+      {
+        "id": "2609.26634",
+        "title": "Knowledge Pull Requests for Continual Document Authoring",
+        "authors": "Alexander Martin、Benjamin Van Durme 等",
+        "topics": [
+          "文档维护",
+          "知识更新"
+        ],
+        "explainer": "文档持续更新时，直接重写可能丢掉旧内容，也难追溯新增知识。Knowledge Pull Requests 从新来源提取主张，筛选并路由到章节，标记与原文的冲突，同时生成知识变更记录和文本差异。作者在跨语言维基修订及动态报告上比较，报告增加信息的同时更好保留原内容。",
+        "why": "它适合需要长期维护的报告或知识文档，把每次更新的依据做成可审查对象。主张抽取、冲突判定和来源质量仍是关键环节。",
+        "priority": null,
+        "project": null,
+        "github": "https://github.com/alexmartin1722/kpr",
+        "huggingface": "https://huggingface.co/papers/2609.26634",
+        "arxiv": "https://arxiv.org/abs/2609.26634"
+      },
+      {
+        "id": "2609.24815",
+        "title": "Uranus: Building the Next-Generation Simulation Infrastructure for Embodied AI",
+        "authors": "Wenkang Qin、Yukun Zhou 等",
+        "topics": [
+          "机器人仿真",
+          "视频世界模型"
+        ],
+        "explainer": "Uranus 用关节轨迹条件化的自回归扩散模型生成机器人多视角视频，试图降低手工搭建仿真环境的成本。系统在线接收未来关节位置、持续生成潜帧，并以统一接口支持不同机器人和摄像机配置；作者报告优化后可达到较低延迟，并在分布内外数据上评估画面与控制响应及其局限。",
+        "why": "它提供数据驱动仿真的具体工具，适合关注机器人数据生成的人。视频仿真是否保留精确物理与接触反馈，需与传统仿真能力分开核对。",
+        "priority": null,
+        "project": "https://d-robotics-ai-lab.github.io/large-model-team/blog/uranus/",
+        "github": "https://github.com/D-Robotics-AI-Lab/Uranus-OSS",
+        "huggingface": "https://huggingface.co/papers/2609.24815",
+        "arxiv": "https://arxiv.org/abs/2609.24815"
+      },
+      {
+        "id": "2609.28470",
+        "title": "StudentBench: AI and human tutoring yield equivalent GRE learning gains",
+        "authors": "Curtis Northcutt、Inaara Hasmani 等",
+        "topics": [
+          "教育评测",
+          "AI 辅导"
+        ],
+        "explainer": "StudentBench 用真实参与者的学习收益评估 AI 辅导，涵盖 GRE 数学与语言任务，并比较 AI、专家人工辅导和无辅导条件。另一个研究由专家评价课程计划与练习题。论文报告所测 AI 辅导在这些任务的收益与人工辅导达到统计等效，并分析互动、成本和学习进步的关联。",
+        "why": "它把教学评价落到学生是否学会，而非模型是否会答题。结论针对所测 GRE 学习场景，等效检验条件和长期保留效果值得细读。",
+        "priority": null,
+        "project": "https://studentbench.org",
+        "github": "https://github.com/Handshake-AI-Research/studentbench",
+        "huggingface": "https://huggingface.co/papers/2609.28470",
+        "arxiv": "https://arxiv.org/abs/2609.28470"
+      },
+      {
+        "id": "2609.27657",
+        "title": "FLEET: From Logits Entropy to Enhanced Trajectories in Text Generation",
+        "authors": "Oleksii Streltsov、Oleksandra Vitko 等",
+        "topics": [
+          "文本生成",
+          "采样效率"
+        ],
+        "explainer": "重复温度采样会越来越多地产生语义相近答案，浪费多次尝试预算。FLEET 记录生成中高熵位置形成的稀疏轨迹，结合先前尝试和评估推断 token 效用，再调整后续 logits，给生成过程加入记忆。作者报告在部分设置中用更少计算达到重复采样的准确率，并在相同预算的复杂代码任务中改善表现。",
+        "why": "它把多次生成当作连续搜索而非独立抽样，适合优化测试时计算。需要关注轨迹记录成本、重复度判断和不同模型上的稳定性。",
+        "priority": null,
+        "project": null,
+        "github": "https://github.com/Alexiush/fleet",
+        "huggingface": "https://huggingface.co/papers/2609.27657",
+        "arxiv": "https://arxiv.org/abs/2609.27657"
+      },
+      {
+        "id": "2609.22682",
+        "title": "Self-Organizing Agent Teams Learn to Reason Together",
+        "authors": "Aneesh Pappu、Mirac Suzgun 等",
+        "topics": [
+          "多智能体",
+          "团队协作"
+        ],
+        "explainer": "固定的智能体团队可以从过去协作中学会怎样分配角色、组织对话和传递信息。SAT 在少量数学及知识问题上学习可复用协作策略，再原样迁移到未见基准，让成员交换、质疑和修复部分推理。作者比较最强单成员、计算量匹配推理及答案路由，报告团队在部分任务中获得更高表现。",
+        "why": "它把组织方式本身当作可学习能力。收益与团队能否识别正确推理相关，因此应按任务的可验证性和协作成本判断适用范围。",
+        "priority": null,
+        "project": null,
+        "github": null,
+        "huggingface": "https://huggingface.co/papers/2609.22682",
+        "arxiv": "https://arxiv.org/abs/2609.22682"
+      },
+      {
+        "id": "2609.27980",
+        "title": "Six Layers Less: Encoder Pruning for Whisper with Label-Free Recovery",
+        "authors": "Rasmus Aagaard、Nicki Skafte Detlefsen 等",
+        "topics": [
+          "语音识别",
+          "模型剪枝"
+        ],
+        "explainer": "Whisper 解码器剪枝已有应用，这篇进一步压缩编码器。作者逐层移除并测量词错误率变化，删除影响最小的六层，再用无标注语音蒸馏恢复部分性能；模型仍是普通浅层编码器，不需要专用推理实现。四种语言的实验显示蒸馏减少了直接剪枝的损失，但准确率尚未完全回到原模型水平。",
+        "why": "它给出了易部署的编码器压缩路线和明确的性能代价。实际使用应结合不同语言的错误率、端到端时延和硬件条件选择。",
+        "priority": null,
+        "project": null,
+        "github": "https://github.com/rasgaard/whisper-encoder-layer-prune",
+        "huggingface": "https://huggingface.co/papers/2609.27980",
+        "arxiv": "https://arxiv.org/abs/2609.27980"
+      },
+      {
+        "id": "2609.27158",
+        "title": "The Linear Representation Hypothesis Needs a Group Action",
+        "authors": "Louie Hong Yao、Yuhao Li 等",
+        "topics": [
+          "表示理论",
+          "可解释性"
+        ],
+        "explainer": "讨论模型表示是否线性，需要先说明哪些表示变换应视为等价。论文用群作用形式化表示对象、产生过程和所断言的性质，并考虑架构本身允许的等价关系；据此指出不同度量、探针和干预可能对应不同的线性表示假设，再审视常用表示量和近期可解释性分析。",
+        "why": "它适合帮助澄清表示研究的前提和比较尺度。主要贡献是理论框架，不能直接当作某个探针或干预方法效果更好的证据。",
+        "priority": null,
+        "project": null,
+        "github": null,
+        "huggingface": "https://huggingface.co/papers/2609.27158",
+        "arxiv": "https://arxiv.org/abs/2609.27158"
+      },
+      {
+        "id": "2609.26489",
+        "title": "Calibration as a First-Class Criterion in LLM Evaluation",
+        "authors": "Mario Sanz-Guerrero、Katharina von der Wense 等",
+        "topics": [
+          "模型评测",
+          "置信度校准"
+        ],
+        "explainer": "模型置信度与真实正确率是否一致，关系到部署决策，也影响裁判模型、合成数据和主动学习。文章指出校准测量已有方法，主要问题是未被广泛纳入评测；许多基准已有置信度和正确性标签，可一起报告校准指标。作者同时承认开放式生成中如何定义这两个输入仍有困难。",
+        "why": "它是一篇评测立场文章，适合检查现有报告是否只报准确率。把校准加入评价之前，需明确置信度含义和开放任务的正确性标准。",
+        "priority": null,
+        "project": null,
+        "github": null,
+        "huggingface": "https://huggingface.co/papers/2609.26489",
+        "arxiv": "https://arxiv.org/abs/2609.26489"
+      },
+      {
+        "id": "2609.27308",
+        "title": "EmbodiedSWE: Coding Agents for Long Horizon Dexterous Robotics",
+        "authors": "Haoxiang You、Zeyu Shen 等",
+        "topics": [
+          "代码智能体",
+          "机器人数据"
+        ],
+        "explainer": "EmbodiedSWE 研究代码智能体能否解决长程灵巧操作，并把成功代码转为机器人训练数据。框架先在接触、可变形物体及长时仿真任务中让智能体迭代求解，再将单个解法扩展成多样演示训练 VLA。作者报告增加生成演示能提升策略表现，且有仅用仿真演示微调后完成真实长程任务的例子。",
+        "why": "它连接代码求解、可验证仿真与策略数据生成。应重点看解法多样化怎样改善泛化，以及专用实例代码转向通用策略的边界。",
+        "priority": null,
+        "project": "https://embodiedswe.github.io/",
+        "github": "https://github.com/EmbodiedSWE/EmbodiedSWE",
+        "huggingface": "https://huggingface.co/papers/2609.27308",
+        "arxiv": "https://arxiv.org/abs/2609.27308"
+      },
+      {
+        "id": "2609.25187",
+        "title": "X-Planner: Event-Structured Task Planning for Embodied Intelligence",
+        "authors": "Howard Lu、Shalfun Li 等",
+        "topics": [
+          "具身规划",
+          "VLA"
+        ],
+        "explainer": "高层指令与底层动作之间的任务结构常被 VLA 隐式处理。X-Planner 用多来源操作数据及接管、失败标注学习事件式规划，共享视觉语言骨干提供可读离散事件和连续潜推理两种接口，并用潜表示到文本的重建目标保留语义。作者在离线规划文本质量和真实机器人执行中评估该前端。",
+        "why": "它提供显式事件规划和潜表示规划的两种接口，适合研究长程任务分解。摘要中的真实机器人结果描述不完整，具体数值需回看原文。",
+        "priority": null,
+        "project": "https://x-square-robot.github.io/Xplanner/",
+        "github": "https://github.com/X-Square-Robot/Xplanner",
+        "huggingface": "https://huggingface.co/papers/2609.25187",
+        "arxiv": "https://arxiv.org/abs/2609.25187"
+      }
+    ]
+  },
+  {
     "date": "2026-09-23",
     "title": "长程智能体、多模态表示与三维生成",
     "summary": "本期 24 篇论文覆盖智能体长程决策、自我改进与协作风险，统一多模态表示、扩散语言模型推理、机器人指令遵循和三维场景重建，也包含形式化数学知识库与专业领域综述。卡片用于快速筛选，优先阅读顺序是编辑判断；实验结论仍应按原文条件理解。",
