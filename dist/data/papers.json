@@ -1,5 +1,364 @@
 [
   {
+    "date": "2026-09-25",
+    "title": "世界模型、智能体迭代与可验证探索",
+    "summary": "本期 22 篇论文涵盖物体持续性训练、智能体状态修订与搜索、机器人规划、空间音频、视频生成及形式化数学。多篇工作把可验证环境反馈用于训练或评测，也关注推理和生成成本。卡片已全部收录，优先阅读排序属于编辑判断，原文精读待补。",
+    "papers": [
+      {
+        "id": "2609.28654",
+        "title": "Training Object Permanence in World Models",
+        "authors": "Haotian Zhang、Fengyuan Yu 等",
+        "topics": [
+          "世界模型",
+          "物理推理"
+        ],
+        "explainer": "视频世界模型是否知道被遮挡的物体仍然存在？WROP 用认知科学启发的任务构建数据，随机改变速度、光照和视角而保留任务结构，提供训练语料与测试题。作者用其训练世界模型，并比较多种视频生成、编辑及续写模型，报告专门训练能改善物体持续性相关表现。",
+        "why": "它把抽象物理常识转成可重复生成的任务，适合看数据能否教会视频模型基本认知。应核对模型是否只学到合成场景规律。",
+        "priority": 1,
+        "project": "https://www.object-permanence.world/",
+        "github": "https://github.com/hokindeng/object-permanence",
+        "huggingface": "https://huggingface.co/papers/2609.28654",
+        "arxiv": "https://arxiv.org/abs/2609.28654"
+      },
+      {
+        "id": "2609.29845",
+        "title": "Your Transformer Can Hold Two Thoughts at Once: Evidence of Linear Superposition in LLMs",
+        "authors": "Pavel Tikhonov、Anton Korznikov 等",
+        "topics": [
+          "模型表示",
+          "并行生成"
+        ],
+        "explainer": "论文把两条文本流的输入表示线性混合，研究模型输出是否接近两个独立下一 token 分布的叠加。作者发现这种线性现象在 Transformer 中存在，预训练后可能减弱，但可通过轻量微调恢复；随后用引导解码分离叠加输出，尝试在一次前向计算中得到两条连贯续写。",
+        "why": "它提供了利用表示叠加减少计算的实验方向。混合输入下的分布规律与真实任务的通用并行能力仍需分别验证。",
+        "priority": null,
+        "project": null,
+        "github": null,
+        "huggingface": "https://huggingface.co/papers/2609.29845",
+        "arxiv": "https://arxiv.org/abs/2609.29845"
+      },
+      {
+        "id": "2609.30221",
+        "title": "WanPE: Towards Cinematic Prompt Enhancement for Modern Text-to-Video Generation",
+        "authors": "Yubo Zhu、Yawen Shao 等",
+        "topics": [
+          "视频生成",
+          "提示规划"
+        ],
+        "explainer": "WanPE 将用户视频需求扩展为包含动作、运镜、光照和声音安排的多镜头计划。作者从真实视频反向构造导演式文本，再用语义一致性强化学习保持跨镜头用户要求；另设人工评测比较不同长度的生成结果。论文报告在所测视频生成器上，增强提示比直接使用原始提示更受偏好。",
+        "why": "它关注视频生成前的文本规划，适合长片段和多镜头需求。提升程度依赖后端生成器，提示展开也必须避免改写用户意图。",
+        "priority": null,
+        "project": "https://wan-pe.github.io/",
+        "github": null,
+        "huggingface": "https://huggingface.co/papers/2609.30221",
+        "arxiv": "https://arxiv.org/abs/2609.30221"
+      },
+      {
+        "id": "2609.28416",
+        "title": "Agent-Editing World Model: Rethinking World Modeling for LLM Agents",
+        "authors": "Shuang Sun、Guoxin Chen 等",
+        "topics": [
+          "智能体",
+          "状态修订"
+        ],
+        "explainer": "工具响应既然能实际执行获得，再预测整个响应未必划算。AEWM 改为判断动作对任务进展的作用，并修订混入错误假设或过时计划的推理动作历史。EditAct 将判断与修订接入真实执行，随后也用验证过的轨迹微调智能体；作者在搜索、终端和软件任务上报告改善。",
+        "why": "它把世界建模用于清理决策依据，适合分析长期智能体怎样累积错误。修订历史时是否误删有效信息是重要边界。",
+        "priority": 2,
+        "project": "https://huggingface.co/RUC-AIBOX/collections",
+        "github": "https://github.com/RUCAIBox/Agent-Editing-World-Model",
+        "huggingface": "https://huggingface.co/papers/2609.28416",
+        "arxiv": "https://arxiv.org/abs/2609.28416"
+      },
+      {
+        "id": "2609.29421",
+        "title": "Rufus-Air: An Open LLM Post-Training Recipe",
+        "authors": "Chia-Yuan Chang、Renyuan Cheng 等",
+        "topics": [
+          "模型后训练",
+          "开源配方"
+        ],
+        "explainer": "Rufus-Air 以公开基础模型为起点，提供从监督微调、推理与代码强化学习，到工具智能体训练和偏好对齐的八阶段配方。报告逐阶段说明数据、奖励、基础设施和顺序，强调高质量初始微调、难度筛选及奖励可靠性。作者用公开组件和数据复现训练并比较最终能力。",
+        "why": "它的价值在于公开可复现的整套后训练过程，而非单个新损失。适合核对阶段顺序和工程选择如何影响能力保持。",
+        "priority": null,
+        "project": null,
+        "github": null,
+        "huggingface": "https://huggingface.co/papers/2609.29421",
+        "arxiv": "https://arxiv.org/abs/2609.29421"
+      },
+      {
+        "id": "2609.23407",
+        "title": "OmniEcho: Spatial Audio Understanding for Embodied Agents",
+        "authors": "Ruixun Liu、Yuxuan Wang 等",
+        "topics": [
+          "空间音频",
+          "具身导航"
+        ],
+        "explainer": "具身智能体需要判断声音来自哪里，并结合视觉行动。OmniEcho 提供真实空间音视频场景的感知与导航基准，再用几何一致的渲染管线扩充训练数据；模型将一阶环绕声空间编码器与语义音频路径结合。作者报告空间感知和声音引导导航的效果，同时指出精细定位与距离估计仍困难。",
+        "why": "它把空间声学纳入多模态理解和导航，适合视觉受限的场景。需要关注合成音频与真实环境混响、遮挡之间的差异。",
+        "priority": null,
+        "project": null,
+        "github": "https://github.com/PKU-VaLuE-Lab/OmniEcho",
+        "huggingface": "https://huggingface.co/papers/2609.23407",
+        "arxiv": "https://arxiv.org/abs/2609.23407"
+      },
+      {
+        "id": "2609.29892",
+        "title": "Qwen-Planner-Agent: A Closed-Loop AI-for-AI Framework for Real-World Mobile Planner Agents",
+        "authors": "Tingyu Qu、Weigao Sun 等",
+        "topics": [
+          "移动智能体",
+          "闭环训练"
+        ],
+        "explainer": "Qwen-Planner-Agent 把移动设备任务的数据生产、模型训练和部署反馈连成闭环。专门智能体收集并整理轨迹，模型先学规划再进行混合环境在线强化学习；运行时记忆、技能与工具的执行证据又反馈到后续改进。作者在移动规划基准上报告工具使用、记忆和协作能力提升。",
+        "why": "它提供模型与运行框架共同演进的工程案例。适合看真实设备成本如何限制数据获取，以及人类审核在闭环中的位置。",
+        "priority": null,
+        "project": "https://tongyi-mai.github.io/Qwen-Planner-Agent/",
+        "github": "https://github.com/Tongyi-MAI/Qwen-Planner-Agent",
+        "huggingface": "https://huggingface.co/papers/2609.29892",
+        "arxiv": "https://arxiv.org/abs/2609.29892"
+      },
+      {
+        "id": "2609.29429",
+        "title": "Just Ask Jev: Reinforcement Learning for Calibrated Decisions as a Zero-Shot Detector of AI Alignment Failures",
+        "authors": "Ruoqi Guo、Yi Liu 等",
+        "topics": [
+          "对齐评测",
+          "置信度"
+        ],
+        "explainer": "Jev 用一次调用回答多个带类型的问题并给出概率。论文将其用于检测迎合、注入、幻觉等对齐失败，在多个基准中分别改变提问措辞与可见上下文，发现上下文对判断影响更大。作者也比较人工标签与基准评分器的一致性，报告较低评测成本，并发现部分标签缺陷。",
+        "why": "它把检测问题与输入证据分开研究，提醒人们关系型失败不能只看回答文本。评分器一致性也不能自动当作真实安全性。",
+        "priority": null,
+        "project": "https://sumleo.github.io/RLCDAlignBench/",
+        "github": "https://github.com/sumleo/RLCDAlignBench",
+        "huggingface": "https://huggingface.co/papers/2609.29429",
+        "arxiv": "https://arxiv.org/abs/2609.29429"
+      },
+      {
+        "id": "2609.30199",
+        "title": "ExplorationBench: Measuring AI Systems' Exploration in Verifiable Alien Worlds",
+        "authors": "Ming Zhang、Zhenghao Xiang 等",
+        "topics": [
+          "探索评测",
+          "研究智能体"
+        ],
+        "explainer": "ExplorationBench 用规则可执行且不同于常识的陌生世界，评估模型能否靠探索学习新规律。系统获得不完整甚至有误的手册、环境反馈和工具接口，先探索再解决保留测试任务；两个沙箱覆盖代码与逻辑规则。作者发现强模型能获得并运用新知识，但继续探索也可能停滞或破坏已得结论。",
+        "why": "它为科学探索提供可验证的缩小模型，适合检查假设提出和实验反馈的作用。沙箱规律与开放科研之间仍有迁移距离。",
+        "priority": 5,
+        "project": "https://www.explorationbench.com/",
+        "github": null,
+        "huggingface": "https://huggingface.co/papers/2609.30199",
+        "arxiv": "https://arxiv.org/abs/2609.30199"
+      },
+      {
+        "id": "2609.30233",
+        "title": "Coding Agents for Generalized Task and Motion Planning Problems",
+        "authors": "Matteo Merler、Bowen Li 等",
+        "topics": [
+          "代码智能体",
+          "机器人规划"
+        ],
+        "explainer": "任务与运动规划需要同时满足离散步骤和几何、动力学约束。作者让代码智能体在固定预算内利用仿真器开发程序，完成后冻结代码并在未见实例上测试。多环境实验报告这些程序能泛化到更多物体，并与手工规划器和一次生成基线比较；交互日志显示测试边界情况和校准物理参数很重要。",
+        "why": "它把智能体产物设为可复用规划程序，适合比较开发成本和每次执行成本。泛化仍依赖任务结构和模拟器反馈的准确性。",
+        "priority": 3,
+        "project": "https://agenticgentamp.github.io",
+        "github": "https://github.com/tomsilver/robocode",
+        "huggingface": "https://huggingface.co/papers/2609.30233",
+        "arxiv": "https://arxiv.org/abs/2609.30233"
+      },
+      {
+        "id": "2609.29837",
+        "title": "PUBG Ally: A Conversational Embodied Agent as an AI Teammate",
+        "authors": "Beomsoo Kim、Byeongju Kim 等",
+        "topics": [
+          "游戏智能体",
+          "实时交互"
+        ],
+        "explainer": "PUBG Ally 是能语音交流的游戏队友，高层语言智能体读取场景和玩家发言，决定回应与动作意图，较快控制层负责移动、战斗及恢复。作者用真实玩家会话迭代训练，结合反馈改进队友质量评测，并讨论设备端低延迟、上下文压缩和交流约束等部署条件。",
+        "why": "它提供同时协调语言与实时动作的产品案例。玩家调查和偏好结果应结合样本选择理解，不能直接替代客观任务表现。",
+        "priority": null,
+        "project": null,
+        "github": null,
+        "huggingface": "https://huggingface.co/papers/2609.29837",
+        "arxiv": "https://arxiv.org/abs/2609.29837"
+      },
+      {
+        "id": "2609.29444",
+        "title": "IterSynth: Rethinking Deep Search Agents via Role-Decoupled Iterative Synthesis",
+        "authors": "Xingyu Wu、Yuchen Yan 等",
+        "topics": [
+          "深度搜索",
+          "智能体训练"
+        ],
+        "explainer": "深度搜索智能体要规划查询、读取证据和写答案，单个策略兼任所有角色时容易积累噪声。IterSynth 让规划器识别缺失信息，综合器把新证据写进持续更新的摘要，再交替迭代；训练时结合最终奖励和每轮评分，按角色分配优势。作者在多个长程搜索基准及提示设置中报告改善。",
+        "why": "它用摘要作为搜索状态，角色分工清楚。值得核对摘要压缩会否丢失反证，以及角色训练与单纯提示分工各贡献多少。",
+        "priority": 4,
+        "project": null,
+        "github": "https://github.com/Tencent/IterSynth",
+        "huggingface": "https://huggingface.co/papers/2609.29444",
+        "arxiv": "https://arxiv.org/abs/2609.29444"
+      },
+      {
+        "id": "2609.28811",
+        "title": "DeltaWAM: Delta World Action Models for Bimanual Manipulation",
+        "authors": "Han Yan、Zishang Xiang 等",
+        "topics": [
+          "机器人",
+          "世界动作模型"
+        ],
+        "explainer": "世界动作模型反复预测完整未来帧会浪费对静态内容的计算。DeltaWAM 联合预测视觉变化量和动作，分别保留稠密锚点、稀疏变化与动作流；流式记忆再用观测变化更新缓存，减少重型视频模块处理。作者在双臂操作仿真和真实任务上报告成功率、训练开销及推理延迟改善。",
+        "why": "它将变化量建模用于机器人控制的效率优化。需要关注小变化表示能否覆盖接触、快速运动和遮挡引起的重要状态变化。",
+        "priority": null,
+        "project": "https://aigeeksgroup.github.io/DeltaWAM/",
+        "github": "https://github.com/AIGeeksGroup/DeltaWAM",
+        "huggingface": "https://huggingface.co/papers/2609.28811",
+        "arxiv": "https://arxiv.org/abs/2609.28811"
+      },
+      {
+        "id": "2609.29362",
+        "title": "Parts-of-Speech as Emergent Categories in SAE Latent Space",
+        "authors": "Alessandro Bondielli、Lucia Passaro 等",
+        "topics": [
+          "可解释性",
+          "稀疏自编码器"
+        ],
+        "explainer": "稀疏自编码器特征是否对应明确的语法类别？论文用词性作为受控案例，发现词性可由激活恢复，却通常由一组特征共同支持，而非一个特征对应一个类别。作者检验词汇记忆的影响及未见数据稳定性，发现相关类别之间有重叠，开放和封闭词类的分布也不同。",
+        "why": "它有助于纠正把每个稀疏特征当作独立语义单位的直觉。词性只是一个案例，结论外推到其他概念仍需额外证据。",
+        "priority": null,
+        "project": null,
+        "github": "https://github.com/colinglab/pos-sae-latents",
+        "huggingface": "https://huggingface.co/papers/2609.29362",
+        "arxiv": "https://arxiv.org/abs/2609.29362"
+      },
+      {
+        "id": "2609.29028",
+        "title": "RGBD20K: A Large-Scale Benchmark for RGB-D Semantic Segmentation",
+        "authors": "Shaohua Dong、Zexuan Meng 等",
+        "topics": [
+          "语义分割",
+          "RGB-D 数据"
+        ],
+        "explainer": "RGBD20K 提供两万对彩色与深度图，覆盖更多细粒度类别，并重新检查与纠正已有标注，目标是改善 RGB-D 分割的数据规模和语义覆盖。论文还提出分数净化融合方法利用两种模态，在多个基准中比较分割表现。核心贡献同时包括数据资源与融合模型。",
+        "why": "它适合需要更丰富室内类别与深度信息的分割研究。数据来源、划分独立性及类别长尾表现比总体分数更值得核对。",
+        "priority": null,
+        "project": null,
+        "github": "https://github.com/ShaohuaDong2021/RGBD20K",
+        "huggingface": "https://huggingface.co/papers/2609.29028",
+        "arxiv": "https://arxiv.org/abs/2609.29028"
+      },
+      {
+        "id": "2609.29647",
+        "title": "AgentKernel: The Trust-Native Agentic Operating System",
+        "authors": "Zhenhua Zou、Sheng Guo 等",
+        "topics": [
+          "智能体安全",
+          "系统架构"
+        ],
+        "explainer": "AgentKernel 主张在智能体框架之下设置强制执行边界，将身份、输入处理、记忆管理和工具执行统一控制。论文借用操作系统原则处理提示注入、记忆投毒和委托滥用等语义风险，并通过系统比较与安全分析讨论各模块如何协作。摘要主要呈现架构论证，未给出完整量化攻击实验。",
+        "why": "它适合梳理智能体生命周期的控制边界。具体保障取决于实现与威胁假设，架构设计不能单独证明所有攻击可被阻止。",
+        "priority": null,
+        "project": null,
+        "github": null,
+        "huggingface": "https://huggingface.co/papers/2609.29647",
+        "arxiv": "https://arxiv.org/abs/2609.29647"
+      },
+      {
+        "id": "2609.28603",
+        "title": "Learning to Discover Interesting Mathematics",
+        "authors": "Niket Patel、Ahmad Rammal 等",
+        "topics": [
+          "形式化数学",
+          "自动发现"
+        ],
+        "explainer": "模型能提出并证明定理，并不意味着定理有用。作者用证明长度与命题长度之比刻画内在趣味性，并研究它与下游用途的关系，再训练模型预测证明难度。系统据此生成、筛选命题并持续扩展形式化库；论文报告减少与已有库的重合，探索无需人工指定目标的数学发现。",
+        "why": "它尝试给自动数学发现一个选择信号。长证明并不总等于重要定理，指标与数学价值之间的相关性和反例都值得细看。",
+        "priority": null,
+        "project": null,
+        "github": null,
+        "huggingface": "https://huggingface.co/papers/2609.28603",
+        "arxiv": "https://arxiv.org/abs/2609.28603"
+      },
+      {
+        "id": "2609.29964",
+        "title": "World Action Agent: Harnessing VLMs for Robot Manipulation via World Action Rehearsal",
+        "authors": "Yehang Zhang、Haojian Huang 等",
+        "topics": [
+          "机器人",
+          "视觉语言智能体"
+        ],
+        "explainer": "World Action Agent 给视觉语言模型提供可编辑动作工作区，利用接触视角观察交互，预演动作并按规划反馈修正，再执行和闭环校准。系统还能从视频及人类教学积累技能，或用交互轨迹训练较小模型。作者在操作基准上比较端到端策略和其他智能体，报告技能迁移收益。",
+        "why": "它把动作预演放到决策流程里，适合看通用视觉语言模型如何直接控制机器人。多模块运行开销和预演反馈可靠性是主要问题。",
+        "priority": null,
+        "project": null,
+        "github": null,
+        "huggingface": "https://huggingface.co/papers/2609.29964",
+        "arxiv": "https://arxiv.org/abs/2609.29964"
+      },
+      {
+        "id": "2609.29816",
+        "title": "AV-GRPO: Modality-Anchored Decoupling Diffusion Reinforcement Learning for Joint Audio-Video Generation",
+        "authors": "Zhiyu Xu、Weilong Yan 等",
+        "topics": [
+          "音视频生成",
+          "强化学习"
+        ],
+        "explainer": "联合音视频生成的奖励相互耦合，同步质量也受样本难度影响。AV-GRPO 固定一个模态作为锚点，把学习拆为单模态子问题，并冻结另一侧轨迹以降低成本、明确奖励归属；同时使用可控制难度的解耦数据和模态专用目标。作者报告画质、语义对齐和同步指标改善。",
+        "why": "它针对多模态奖励分配和计算成本给出具体分解。需要关注交替优化时是否牺牲某一模态，以及同步提升在不同样本上的一致性。",
+        "priority": null,
+        "project": null,
+        "github": "https://github.com/zhiyuxu03/AV-GRPO",
+        "huggingface": "https://huggingface.co/papers/2609.29816",
+        "arxiv": "https://arxiv.org/abs/2609.29816"
+      },
+      {
+        "id": "2609.23087",
+        "title": "Neural Spectral Capacity: Measuring and Designing Architectures from Network Specification Alone",
+        "authors": "Chenyu Zhu、Ruoyu Zhao 等",
+        "topics": [
+          "架构设计",
+          "模型压缩"
+        ],
+        "explainer": "同参数量模型可能因深宽和注意力配置不同而表现不同。Neural Spectral Capacity 从权重矩阵奇异值谱出发，利用随机初始化理论仅由架构规格计算容量指标，再通过动态规划寻找预算内最优配置。作者在多个模型家族中测试排序能力，并展示架构搜索与无需校准数据的剪枝。",
+        "why": "它提供比参数量更考虑结构的训练前指标。理论最优针对指标本身，仍应核对指标与训练后任务成绩的相关性。",
+        "priority": null,
+        "project": null,
+        "github": "https://github.com/Optima-CityU/neural-spectral-capacity",
+        "huggingface": "https://huggingface.co/papers/2609.23087",
+        "arxiv": "https://arxiv.org/abs/2609.23087"
+      },
+      {
+        "id": "2609.28923",
+        "title": "ViRDM: Taming Representation Distribution Matching for Few-Step Causal Video Generation",
+        "authors": "Zichong Meng、Chongjian Ge 等",
+        "topics": [
+          "视频生成",
+          "蒸馏效率"
+        ],
+        "explainer": "少步因果视频生成常需教师、生成器和在线评分网络共同训练。ViRDM 改用预先计算的表示目标分布，只后训练生成器，并通过截断监督、轻量解码和分阶段梯度计算控制显存；再加入动力学正则约束时间变化。作者报告降低训练资源的同时保持或改善视频评测成绩。",
+        "why": "它探索取消在线教师与评分网络的资源收益。静态表示分布如何约束时间动态是核心问题，应结合长时序一致性判断。",
+        "priority": null,
+        "project": "https://neu-vi.github.io/ViRDM/",
+        "github": "https://github.com/neu-vi/ViRDM",
+        "huggingface": "https://huggingface.co/papers/2609.28923",
+        "arxiv": "https://arxiv.org/abs/2609.28923"
+      },
+      {
+        "id": "2609.30077",
+        "title": "Rate-distortion optimization for full-reference image quality metrics via stochastic Hessian estimates",
+        "authors": "Samuel Fernández-Menduiña、Eduardo Pavez 等",
+        "topics": [
+          "视频编码",
+          "图像质量"
+        ],
+        "explainer": "视频编码逐块选择参数通常用平方误差，但感知质量指标难以分块计算。作者在源图像处用 Hessian 将参考型质量指标近似为二次失真，再采用分块或对角近似以及随机估计，使其进入率失真优化。VVC 实验报告在目标感知指标下节省码率，同时增加部分编码开销。",
+        "why": "它把感知质量近似接入现有编码流程，解码器无需改动。实际取舍在码率、编码时间和目标指标与人眼体验的一致性。",
+        "priority": null,
+        "project": null,
+        "github": "https://github.com/sf219/RDO_IQA_FR",
+        "huggingface": "https://huggingface.co/papers/2609.30077",
+        "arxiv": "https://arxiv.org/abs/2609.30077"
+      }
+    ]
+  },
+  {
     "date": "2026-09-24",
     "title": "记忆系统、交互世界模型与实验理解",
     "summary": "本期 29 篇论文集中在多人对话、视频与机器人记忆，交互世界模型和智能体训练，也关注代码评测的仓库熟悉度、研究智能体的实验理解及教育中的真实学习收益。优先阅读按编辑判断排序；本期卡片已齐，优先论文的原文精读仍待补充，可先由详情页进入原文。",
