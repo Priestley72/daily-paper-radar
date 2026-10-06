@@ -1,5 +1,172 @@
 [
   {
+    "date": "2026-09-28",
+    "title": "分阶段量化、智能体工具与机器人先验（持续补录）",
+    "summary": "本期页面与接口共列出 33 篇论文，目前收录 10 篇。首批涵盖量化推理、数据流水线、工具自进化、稀疏注意力、在线蒸馏，以及机器人视觉和触觉表示。余下 23 篇待补录，优先阅读排序暂定为编辑判断；原文精读待补，详情页可进入论文来源。",
+    "papers": [
+      {
+        "id": "2609.31620",
+        "title": "FuseReg: Regularizing Layer Fusion Mitigates the Reconstruction-Generation Gap in Representation Autoencoders",
+        "authors": "Hongyang Du、Yunfei Xie 等",
+        "topics": [
+          "图像生成",
+          "表示自编码器"
+        ],
+        "explainer": "表示自编码器要选择视觉编码器哪些层作为潜空间，浅层更保留细节、深层往往更利于生成。FuseReg 在随机编码层子集上训练下游模型，降低它对层间差异的敏感度，使同一个解码器能适应多种融合方式。作者在图像重建和扩散生成中报告改善，无需修改预训练编码器。",
+        "why": "它将层选择从固定经验规则改成鲁棒训练，适合调试表示自编码器。生成收益与重建收益应在相同骨干条件下分别核对。",
+        "priority": null,
+        "project": "https://hongyang-du.github.io/FuseReg/",
+        "github": "https://github.com/Hongyang-Du/FuseReg",
+        "huggingface": "https://huggingface.co/papers/2609.31620",
+        "arxiv": "https://arxiv.org/abs/2609.31620"
+      },
+      {
+        "id": "2609.26333",
+        "title": "Disaggregated Quantization: Specializing LLM Prefill and Decode",
+        "authors": "Andrei Panferov、Maximilian Kleinegger 等",
+        "topics": [
+          "模型量化",
+          "推理效率"
+        ],
+        "explainer": "提示预填充和逐 token 解码有不同瓶颈，统一量化格式未必最优。Disaggregated Quantization 为两个阶段分别选择计算格式、权重和存储位置，预填充利用低精度计算，解码侧减少内存流量；还尝试从 SSD 流入额外权重。作者在不同模型、任务和推理框架中比较准确率及首 token 延迟。",
+        "why": "它把量化选择与推理阶段绑定，适合长提示和本地推理场景。额外权重加载能否被摊薄取决于提示长度、存储和硬件。",
+        "priority": 1,
+        "project": null,
+        "github": "https://github.com/IST-DASLab/disaggregated-quantization",
+        "huggingface": "https://huggingface.co/papers/2609.26333",
+        "arxiv": "https://arxiv.org/abs/2609.26333"
+      },
+      {
+        "id": "2609.18703",
+        "title": "RayOrch: Programming and Executing Lineage-Controlled Multi-Grain Dataflows for Foundation-Model Data Preparation",
+        "authors": "Xiaochen Ma、Zimo Meng 等",
+        "topics": [
+          "数据处理",
+          "分布式系统"
+        ],
+        "explainer": "文档或视频处理会把一个输入拆成数量不等的子任务，GPU 批处理后仍须恢复父子关系和原始顺序。RayOrch 用显式展开与汇聚声明，记录子项归属、序号及完成状态，让运行时跨父项批处理并正确重组；失败也按父项隔离。作者在文档解析和视频管线上测试扩展速度与端到端耗时。",
+        "why": "它处理多粒度数据流水线中容易被忽略的顺序和归属问题。适合大规模训练数据准备，需结合真实输入长尾和故障负载评估。",
+        "priority": null,
+        "project": "https://opendcai.github.io/RayOrch-doc/",
+        "github": "https://github.com/OpenDCAI/RayOrch",
+        "huggingface": "https://huggingface.co/papers/2609.18703",
+        "arxiv": "https://arxiv.org/abs/2609.18703"
+      },
+      {
+        "id": "2609.27277",
+        "title": "TimeEvo: Failure-Driven Self-Evolution of a Time Series Agent",
+        "authors": "Jie Yang、Yan Zheng 等",
+        "topics": [
+          "时间序列",
+          "智能体工具"
+        ],
+        "explainer": "给时间序列智能体预装专家工具不一定有益，平均分还可能掩盖部分答案被改坏。TimeEvo 先诊断并聚类失败，识别能力缺口，再为每种缺口设计测量并生成提供证据的工具；候选工具库通过配对验收后才加入。作者在多个时序问答任务和模型上报告从空工具库逐步增长的收益。",
+        "why": "它强调工具是否有用要由任务证据验证，适合研究自动工具生成。配对验收能否发现少数任务退化是阅读重点。",
+        "priority": 2,
+        "project": null,
+        "github": "https://github.com/Muyiiiii/TimeEvo",
+        "huggingface": "https://huggingface.co/papers/2609.27277",
+        "arxiv": "https://arxiv.org/abs/2609.27277"
+      },
+      {
+        "id": "2609.31093",
+        "title": "Block Sparse Attention with Log-Linear Complexity",
+        "authors": "Bohao Tang、Zhen Qin 等",
+        "topics": [
+          "稀疏注意力",
+          "长上下文"
+        ],
+        "explainer": "块稀疏注意力虽然少算部分注意力，但选择保留块本身仍可能需要二次复杂度。PISA 建立由粗到细的键层次，每层只给有限候选打分并筛选，再逐级定位相关细块，将选择与注意力总体开销降为对数线性。作者设计训练和推理内核，并在语言任务中比较通用能力及检索效果。",
+        "why": "它同时优化稀疏计算和路由成本，适合超长上下文。需要核对层次选择是否漏掉局部重要信息，以及硬件下的实际加速。",
+        "priority": null,
+        "project": null,
+        "github": null,
+        "huggingface": "https://huggingface.co/papers/2609.31093",
+        "arxiv": "https://arxiv.org/abs/2609.31093"
+      },
+      {
+        "id": "2609.28845",
+        "title": "LastOPD: Taming Collapse in Latent On-Policy Distillation",
+        "authors": "Jie Yang、Zhengyu Fang 等",
+        "topics": [
+          "在线蒸馏",
+          "训练稳定性"
+        ],
+        "explainer": "对齐教师与学生的中间表示可能早期有益，继续训练却出现表现崩溃，即使对齐指标仍改善。LastOPD 认为按深度配对的层不一定承担相同功能，因此只在两者最后一层施加短期潜表示监督，再逐步转向 token 蒸馏。作者在数学及保留任务中报告更稳定的表现和较少训练步骤。",
+        "why": "它展示了表示对齐指标和任务效果可能背离，适合分析蒸馏失稳。短期交接策略的最佳时长及跨架构泛化值得检验。",
+        "priority": null,
+        "project": null,
+        "github": "https://github.com/Muyiiiii/LastOPD",
+        "huggingface": "https://huggingface.co/papers/2609.28845",
+        "arxiv": "https://arxiv.org/abs/2609.28845"
+      },
+      {
+        "id": "2609.31394",
+        "title": "InternW0-Δ: A World Action Model Bridging Predictive Dynamics and Actions with 20K+ Hours of Open Data",
+        "authors": "Xingyu Miao、Zizun Li 等",
+        "topics": [
+          "机器人",
+          "世界动作模型"
+        ],
+        "explainer": "InternW0-Δ 把视频动态、视觉语义、四维几何和动作先验融入统一机器人模型。视频专家与动作专家交互，冻结视觉语言模型提供语义指导，几何模型仅在训练时蒸馏；另用未来监督学习预测表示，推理时无需生成完整未来视频。报告采用多来源操作数据，在仿真与真实平台上测试。",
+        "why": "它尝试在保留预测信息的同时减少控制时的生成开销。应关注训练数据对齐，以及哪些资源已经开放、哪些仍为计划。",
+        "priority": 3,
+        "project": "https://internrobotics.github.io/InternW0-Delta/",
+        "github": null,
+        "huggingface": "https://huggingface.co/papers/2609.31394",
+        "arxiv": "https://arxiv.org/abs/2609.31394"
+      },
+      {
+        "id": "2609.24385",
+        "title": "Tactile-JEPA: Topology-Aware Self-Supervised Representation Learning for Distributed Tactile Sensors",
+        "authors": "Elizaveta Kovtun、Matvey Konovalov 等",
+        "topics": [
+          "触觉",
+          "自监督学习"
+        ],
+        "explainer": "分布式电子皮肤的传感点稀疏且位置不规则，直接套用视觉预训练未必合适。Tactile-JEPA 根据传感器连接图进行掩码，让可见点预测隐藏点表示，并以双尺度掩码同时学习局部接触和整块表面状态。作者在不同传感器、机器人及配置的数据上测试力估计、物体姿态和策略学习。",
+        "why": "它针对触觉传感器拓扑设计预训练，适合视觉遮挡下的操作。跨传感器迁移和接触分布变化是重要的适用边界。",
+        "priority": null,
+        "project": "https://bosbobos.github.io/Tactile-JEPA/",
+        "github": "https://github.com/E-Kovtun/tactile",
+        "huggingface": "https://huggingface.co/papers/2609.24385",
+        "arxiv": "https://arxiv.org/abs/2609.24385"
+      },
+      {
+        "id": "2609.25716",
+        "title": "FoMo: Forking Moment in Generative Trajectory as a Perceptual Distance",
+        "authors": "Jaihyun Lew、Mingi Jung 等",
+        "topics": [
+          "图像质量",
+          "合成数据"
+        ],
+        "explainer": "人工标注图像感知距离成本高且判断有噪声。FoMo 用扩散生成轨迹的分叉时刻作为距离信号：早分叉更可能改变整体结构，晚分叉主要改变细节。作者自动生成图像对和连续距离标签，用来训练参考型图像质量指标，并在不同骨干和评测集上比较与人工标注数据训练的效果。",
+        "why": "它把生成过程转为感知监督来源，适合降低质量评估标注成本。分叉时刻与人类感受的对应需要在真实退化图像上验证。",
+        "priority": null,
+        "project": null,
+        "github": "https://github.com/JHLew/FoMo",
+        "huggingface": "https://huggingface.co/papers/2609.25716",
+        "arxiv": "https://arxiv.org/abs/2609.25716"
+      },
+      {
+        "id": "2609.29167",
+        "title": "IndicBankBench: Evaluating Safety and Reliability of Language Model Assistants in Indian Retail Banking",
+        "authors": "Suvradip Paul、Chandra Bhushan 等",
+        "topics": [
+          "银行助手",
+          "可靠性评测"
+        ],
+        "explainer": "银行助手可能口头说对了，却调用错账户或写入错误数值。IndicBankBench 用模拟环境分别检查安全、工具动作、回答充分性和建议质量，多数安全及工具检查采用确定规则；每题重复三次，以全部成功作为严格通过。作者比较多个模型，指出至少一次成功会高估持续可靠性。",
+        "why": "它将最终回答与实际操作拆开验证，适合高要求的工具助手。基准覆盖印度零售银行场景，结果需按具体流程理解。",
+        "priority": null,
+        "project": null,
+        "github": "https://github.com/npci/IndicBankBench",
+        "huggingface": "https://huggingface.co/papers/2609.29167",
+        "arxiv": "https://arxiv.org/abs/2609.29167"
+      }
+    ]
+  },
+  {
     "date": "2026-09-25",
     "title": "世界模型、智能体迭代与可验证探索",
     "summary": "本期 22 篇论文涵盖物体持续性训练、智能体状态修订与搜索、机器人规划、空间音频、视频生成及形式化数学。多篇工作把可验证环境反馈用于训练或评测，也关注推理和生成成本。卡片已全部收录，优先阅读排序属于编辑判断，原文精读待补。",
