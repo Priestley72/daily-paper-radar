@@ -2,7 +2,7 @@
   {
     "date": "2026-09-28",
     "title": "分阶段量化、智能体工具与机器人先验（持续补录）",
-    "summary": "本期页面与接口共列出 33 篇论文，目前收录 10 篇。首批涵盖量化推理、数据流水线、工具自进化、稀疏注意力、在线蒸馏，以及机器人视觉和触觉表示。余下 23 篇待补录，优先阅读排序暂定为编辑判断；原文精读待补，详情页可进入论文来源。",
+    "summary": "本期页面与接口共列出 33 篇论文，目前收录 18 篇。内容涵盖量化推理、工具自进化、机器人先验与触觉、三维跟踪、长程多智能体评测和轻量分割。余下 15 篇待补录；优先阅读顺序暂定为编辑判断，原文精读待补，详情页提供来源链接。",
     "papers": [
       {
         "id": "2609.31620",
@@ -163,6 +163,134 @@
         "github": "https://github.com/npci/IndicBankBench",
         "huggingface": "https://huggingface.co/papers/2609.29167",
         "arxiv": "https://arxiv.org/abs/2609.29167"
+      },
+      {
+        "id": "2609.24749",
+        "title": "D-JEPA: A Decision-Aligned Latent World Model",
+        "authors": "Shuaijun Liu、Chengyu Wu 等",
+        "topics": [
+          "世界模型",
+          "决策对齐"
+        ],
+        "explainer": "潜世界模型预测准确，不代表距离目标最近的候选动作实际最好。D-JEPA 根据已执行结果学习候选未来之间的优劣关系，用有界且不受候选排序影响的模块修正预测几何，再把决策结构写回兼容原模型的未来表示。作者在控制、操作、实体机器人和自动驾驶场景测试动作选择改善。",
+        "why": "它直接对齐预测表示与决策结果，适合研究世界模型为什么会选错动作。需关注排序证据覆盖与不同控制任务的迁移范围。",
+        "priority": null,
+        "project": "https://nebulis-lab.com/D-JEPA",
+        "github": "https://github.com/NEBULIS-Lab/D-JEPA",
+        "huggingface": "https://huggingface.co/papers/2609.24749",
+        "arxiv": "https://arxiv.org/abs/2609.24749"
+      },
+      {
+        "id": "2609.28660",
+        "title": "Morphometric Imitation: From Morphology and Contact Aware Hand Retargeting to Sim-to-Real Visuomotor Policy",
+        "authors": "Tara Sadjadpour、Siming He 等",
+        "topics": [
+          "灵巧操作",
+          "动作重定向"
+        ],
+        "explainer": "人手演示转成机器人操作时，形态差异与接触可行性都很重要。Morphometric Imitation 先保持接触关系做运动学重定向，再用残差强化学习将参考动作修正为动力学可行演示，最后蒸馏为视觉控制策略。作者在多种机器人手和人手交互任务中比较，并进行真实物体操作测试。",
+        "why": "它把接触保持、动态修正和视觉策略学习串成完整流程。仿真到真实的效果仍应结合物体范围和接触条件判断。",
+        "priority": null,
+        "project": "https://morphometricimitation.github.io/",
+        "github": "https://github.com/tsadja/morphometric",
+        "huggingface": "https://huggingface.co/papers/2609.28660",
+        "arxiv": "https://arxiv.org/abs/2609.28660"
+      },
+      {
+        "id": "2609.30216",
+        "title": "Jev in the Wild: A Data-Driven Analysis of the Jev Model's Functionality, Applications and Ecosystem",
+        "authors": "Guoming Ling、Muen Xue 等",
+        "topics": [
+          "模型生态",
+          "应用分析"
+        ],
+        "explainer": "这项研究分析公开 GitHub 项目中 Jev 决策模型的用途，区分属性判断、评分、动作选择、内容过滤以及模型和工具路由等功能。作者观察项目增长、领域分布和不同接口的组合，发现公开关注度集中于部分类型，未必对应实际项目数量。结论描述的是特定时间截面的公开生态。",
+        "why": "适合快速了解决策模型怎样嵌入实际工作流。公开仓库数量不能代表真实使用规模，统计也不直接评价各项目效果。",
+        "priority": null,
+        "project": null,
+        "github": "https://github.com/godxue1/Jev_in_the_wild",
+        "huggingface": "https://huggingface.co/papers/2609.30216",
+        "arxiv": "https://arxiv.org/abs/2609.30216"
+      },
+      {
+        "id": "2609.31199",
+        "title": "Enhancing Photogrammetric Digital Surface Models with Pretrained Diffusion Models and Multimodal Conditioning",
+        "authors": "Antoine Lorentz、Stéphane May 等",
+        "topics": [
+          "遥感",
+          "高程重建"
+        ],
+        "explainer": "由卫星图像立体摄影测量得到的地表模型常有噪声、空洞和离群值。作者同时输入已有高程模型与卫星影像，改造预训练扩散模型，裁剪文字分支并采用分块归一化，以高精度激光雷达数据训练修复。法国城市实验报告高程误差下降，也在未参与训练的城市检验迁移。",
+        "why": "它把生成模型用于有几何依据的高程修复。需要核对生成细节是否忠于测量，以及跨城市、地形和卫星条件的稳定性。",
+        "priority": null,
+        "project": null,
+        "github": null,
+        "huggingface": "https://huggingface.co/papers/2609.31199",
+        "arxiv": "https://arxiv.org/abs/2609.31199"
+      },
+      {
+        "id": "2609.30222",
+        "title": "TrackEverything: Long Horizon Dense Tracking via De-Duplicating 3D Scene Representations",
+        "authors": "Ayush Jain、Sreeharsha Paruchuri 等",
+        "topics": [
+          "三维跟踪",
+          "长视频"
+        ],
+        "explainer": "密集点跟踪难以兼顾全部像素和长时序。TrackEverything 把视频表示为世界坐标中的持久三维轨迹，在滑动窗口边界合并同一表面的重复观测；先预测点的终点和动静类别，再只为动态点解码轨迹，并用场景点云特征采样减少相关体开销。作者比较短片段和长序列的精度及显存。",
+        "why": "它让计算更多随独特场景几何增长，适合长视频密集追踪。去重误差、动态物体与相机估计失败是重要的验证方向。",
+        "priority": null,
+        "project": null,
+        "github": null,
+        "huggingface": "https://huggingface.co/papers/2609.30222",
+        "arxiv": "https://arxiv.org/abs/2609.30222"
+      },
+      {
+        "id": "2609.31590",
+        "title": "AgentWorld: Benchmarking Long-Horizon Collaboration of Multi-agent LLMs",
+        "authors": "Raphael Shu、Yusen Zhang 等",
+        "topics": [
+          "多智能体",
+          "协作评测"
+        ],
+        "explainer": "AgentWorld 在多人角色扮演沙箱中评估长程协作，任务需要不同能力的智能体交流、规划与共享资源，各自看不到他人的内部状态。除最终成功率，作者用动作因果依赖图衡量团队投入有多少真正贡献于结果。实验暴露沟通中断、角色混乱和长期共享计划丢失等问题。",
+        "why": "它尝试区分真正协作与独立答案汇总，适合多智能体系统评测。因果贡献图的构建方式及任务可分工程度值得核对。",
+        "priority": null,
+        "project": "https://agentworld.io/",
+        "github": null,
+        "huggingface": "https://huggingface.co/papers/2609.31590",
+        "arxiv": "https://arxiv.org/abs/2609.31590"
+      },
+      {
+        "id": "2609.28327",
+        "title": "LightMIS: Ultra-Lightweight Medical Image Segmentation Without a Stage-Wise Decoder",
+        "authors": "Andrei Arhire、Mihaela-Elena Breabăn 等",
+        "topics": [
+          "医学图像",
+          "轻量分割"
+        ],
+        "explainer": "LightMIS 用五级卷积编码器提取特征，将各层对齐到共同分辨率后一次融合，再由自适应融合模块细化，避免逐级学习型解码器。作者在多种二维二值医学分割数据上采用共同交叉验证协议，比较精度与计算量，并测试移动 GPU 延迟，报告较好的资源与准确率折中。",
+        "why": "它提供轻量分割的具体设计和设备端测量。结果限于所测二维二值任务，不能直接外推到三维影像或临床使用效果。",
+        "priority": null,
+        "project": null,
+        "github": "https://github.com/AndreiiArhire/LightMIS",
+        "huggingface": "https://huggingface.co/papers/2609.28327",
+        "arxiv": "https://arxiv.org/abs/2609.28327"
+      },
+      {
+        "id": "2608.09444",
+        "title": "Depth-adaptive Inference of Looped Language Models via Continuous Depth Batching",
+        "authors": "Kristian Schwethelm、Daniel Rueckert 等",
+        "topics": [
+          "循环语言模型",
+          "推理调度"
+        ],
+        "explainer": "循环语言模型可给不同 token 分配不同层循环次数，但普通批处理难以容纳可变深度。Continuous Depth Batching 在循环步骤之间动态重组批次，管理循环缓存，并提前预测退出位置以异步准备工作。作者在两种模型上测试，发现循环核心之外较大的非共享模块会限制调度收益。",
+        "why": "它解决自适应深度从理论节省到实际加速的调度问题。速度提升取决于模型架构、退出分布和批量负载，也受循环次数之外的开销影响。",
+        "priority": null,
+        "project": null,
+        "github": "https://github.com/kschwethelm/continuous-depth-batching",
+        "huggingface": "https://huggingface.co/papers/2608.09444",
+        "arxiv": "https://arxiv.org/abs/2608.09444"
       }
     ]
   },
