@@ -1,8 +1,8 @@
 [
   {
     "date": "2026-09-28",
-    "title": "分阶段量化、智能体工具与机器人先验（持续补录）",
-    "summary": "本期页面与接口共列出 33 篇论文，目前收录 18 篇。内容涵盖量化推理、工具自进化、机器人先验与触觉、三维跟踪、长程多智能体评测和轻量分割。余下 15 篇待补录；优先阅读顺序暂定为编辑判断，原文精读待补，详情页提供来源链接。",
+    "title": "量化与蒸馏、机器人先验及可靠评测",
+    "summary": "本期 33 篇论文已全部收录，涵盖分阶段量化、多教师蒸馏、工具智能体训练、机器人视觉与触觉先验、流式视频及多智能体评测，也包括个性化生成和代码知识图谱。优先阅读排序是编辑判断；本期卡片已齐，基于原文的优先论文精读仍待补充。",
     "papers": [
       {
         "id": "2609.31620",
@@ -291,6 +291,246 @@
         "github": "https://github.com/kschwethelm/continuous-depth-batching",
         "huggingface": "https://huggingface.co/papers/2608.09444",
         "arxiv": "https://arxiv.org/abs/2608.09444"
+      },
+      {
+        "id": "2609.29050",
+        "title": "SLCA-GRPO: Resolving Cross-Segment Credit Misattribution in Tool-Calling RL",
+        "authors": "Yan Zhan、Shaobo Liu 等",
+        "topics": [
+          "工具智能体",
+          "强化学习"
+        ],
+        "explainer": "工具智能体会交替生成结构化调用和面向用户的总结，但整条轨迹共享优势可能把总结噪声传入工具决策。SLCA-GRPO 按结构片段分别估计并分配优势，将执行奖励交给工具 token、偏好奖励交给总结 token；配合模式引导模拟器训练。作者在相同预算下比较调用精度、收敛和工具冗余。",
+        "why": "它针对混合输出的信用分配问题，适合训练工具智能体。需要核对奖励拆分是否完整，以及模拟反馈向真实工具的迁移。",
+        "priority": null,
+        "project": null,
+        "github": "https://github.com/SLCA-GRPO/SLCA-GRPO",
+        "huggingface": "https://huggingface.co/papers/2609.29050",
+        "arxiv": "https://arxiv.org/abs/2609.29050"
+      },
+      {
+        "id": "2609.31473",
+        "title": "Game Arena: Strategic LLM Evaluation in Competitive Environments",
+        "authors": "Bovard Doerschuk-Tiberi、Yao Yan 等",
+        "topics": [
+          "游戏评测",
+          "战略推理"
+        ],
+        "explainer": "Game Arena 用模型之间的游戏对抗评估战略规划和适应能力，首批涵盖棋类、扑克和狼人杀，分别涉及完全信息、不完全信息和多人互动。报告介绍运行基础设施、游戏规则、指标及比赛结果，目标是用不断增强的对手缓解静态基准饱和，并支持新增游戏与变体。",
+        "why": "它提供动态竞争式评测平台，适合比较不确定性下的决策。不同游戏的成绩受规则接口、计算预算和对手组成影响。",
+        "priority": null,
+        "project": "https://www.kaggle.com/game-arena",
+        "github": null,
+        "huggingface": "https://huggingface.co/papers/2609.31473",
+        "arxiv": "https://arxiv.org/abs/2609.31473"
+      },
+      {
+        "id": "2609.30670",
+        "title": "TRACE: Temporal Audit and Condition-aware Evaluation of Streaming Video Understanding",
+        "authors": "Yibo Ma、Qianqian Zhang 等",
+        "topics": [
+          "流式视频",
+          "系统评测"
+        ],
+        "explainer": "流式视频模型不仅要答对，还要在证据出现后及时回应。TRACE 标注证据有效时间和指令触发条件，并控制可用历史，记录实际处理与响应事件；报告答案质量、时延、误报、遗漏和工作量。作者发现相近问答准确率可能掩盖完成度与响应有效性的显著差异。",
+        "why": "它把流式理解作为带时间约束的系统行为评估，适合实时视频应用。触发窗口和历史处理策略是读懂结果的关键。",
+        "priority": null,
+        "project": null,
+        "github": "https://github.com/om-ai-lab/trace-bench",
+        "huggingface": "https://huggingface.co/papers/2609.30670",
+        "arxiv": "https://arxiv.org/abs/2609.30670"
+      },
+      {
+        "id": "2601.06362",
+        "title": "Do Implicit Personalization and Explicit Styles Conflict? PsPLUG: A Lightweight Plug-in for Balancing Personalization and Style in Customized LLMs",
+        "authors": "Yutong Song、Jiang Wu 等",
+        "topics": [
+          "个性化",
+          "风格控制"
+        ],
+        "explainer": "个性化模型既要保留用户特点，又要服从明确风格要求，二者可能冲突。PsPLUG 在考虑指定风格后学习用户专属残差，并允许推理时调节个性化强度。作者观察到显式风格指令会削弱部分现有方法的个性化表现，再比较该插件如何维持偏好与风格遵循之间的平衡。",
+        "why": "它关注实际写作助手常见的双重约束。需要核对用户偏好怎样定义，以及调节强度是否在新用户和新风格下仍可控。",
+        "priority": null,
+        "project": null,
+        "github": null,
+        "huggingface": "https://huggingface.co/papers/2601.06362",
+        "arxiv": "https://arxiv.org/abs/2601.06362"
+      },
+      {
+        "id": "2609.22237",
+        "title": "Not All Ranks Are Equal: Budget-Aware LoRA Merging Across Tasks",
+        "authors": "Avinash Amballa、Yashas Malur Saidutta 等",
+        "topics": [
+          "LoRA 合并",
+          "预算分配"
+        ],
+        "explainer": "合并多个任务适配器时，各层和任务平均分配秩预算可能浪费容量。作者先分解每个 LoRA 的奇异方向，按任务效用及与其他方向的干扰打分，再在全局预算内选择得分较高的方向。论文将该数据无关指标接入多种合并方法，在视觉与语言任务上报告改善。",
+        "why": "它把秩预算分配做成显式选择问题，适合多任务适配器部署。指标估计的效用能否对应实际任务，以及合并损失仍需核对。",
+        "priority": null,
+        "project": null,
+        "github": null,
+        "huggingface": "https://huggingface.co/papers/2609.22237",
+        "arxiv": "https://arxiv.org/abs/2609.22237"
+      },
+      {
+        "id": "2609.04355",
+        "title": "VLA-Precision: Asymmetric Co-Bootstrapping for Efficient Real-World Online RL of Vision-Language-Action Models",
+        "authors": "Chenyu Su、Zhaolong Shen 等",
+        "topics": [
+          "机器人",
+          "在线强化学习"
+        ],
+        "explainer": "精密操作中的 VLA 可能因不可靠价值信号而偏离已有能力，模型开销也限制在线试错。VLA-Precision 早期用干预引导行为，随后结合全局回报和局部偏好校准价值，并用参考约束更新策略；流式架构提高数据与策略交互效率。作者在多种机器人和高精度化学操作上验证。",
+        "why": "它同时处理在线学习稳定性和实际吞吐，适合精密机器人任务。实验成功率应结合干预量、训练时间和任务重复条件理解。",
+        "priority": null,
+        "project": "https://vla-precision.github.io/",
+        "github": "https://github.com/scy-v/VLA-Precision",
+        "huggingface": "https://huggingface.co/papers/2609.04355",
+        "arxiv": "https://arxiv.org/abs/2609.04355"
+      },
+      {
+        "id": "2609.30192",
+        "title": "SAGE: Mitigating Long-Horizon Reasoning Biases via Topological Guidance",
+        "authors": "Xinyue Zeng、Jiawei Zhang 等",
+        "topics": [
+          "长程推理",
+          "结构引导"
+        ],
+        "explainer": "稀疏奖励下，推理可能进入局部合理但不稳定的分支，小误差也会随深度累积。SAGE 用符号闭包分析解释这些问题，再结合代数子空间筛选和双曲空间中的深度信号引导搜索。作者在多个基准和模型家族中比较，并测试较长的形式化推理问题。",
+        "why": "它把推理空间结构作为搜索先验，适合可形式化的长程任务。理论分析与较自由语言任务之间的对应条件值得细看。",
+        "priority": null,
+        "project": null,
+        "github": "https://github.com/Susan571/SAGE-NeurIPS2026",
+        "huggingface": "https://huggingface.co/papers/2609.30192",
+        "arxiv": "https://arxiv.org/abs/2609.30192"
+      },
+      {
+        "id": "2609.30837",
+        "title": "MOPD-Router: Rethinking Teacher Routing in Multi-Teacher On-Policy Distillation",
+        "authors": "Tianze Xu、Yanzhao Zheng 等",
+        "topics": [
+          "多教师蒸馏",
+          "动态路由"
+        ],
+        "explainer": "多教师在线蒸馏常按整条提示的领域固定选择教师，可能漏掉其他教师的局部优势。MOPD-Router 在每个 token 上选择和加权教师监督，无需领域标签或独立路由模型；ExpertAlign 衡量教师修正是否体现其后训练专长。作者在不同师生规模及标注条件下比较置信度和差异度路由。",
+        "why": "它把教师选择细化到 token，适合整合互补能力。收益需结合多教师前向成本及路由分数对专业能力的判断可靠性。",
+        "priority": null,
+        "project": null,
+        "github": "https://github.com/TURLEing/MOPD-Router",
+        "huggingface": "https://huggingface.co/papers/2609.30837",
+        "arxiv": "https://arxiv.org/abs/2609.30837"
+      },
+      {
+        "id": "2604.02103",
+        "title": "BoundInk: Boundary-Aware Online Handwriting Generation",
+        "authors": "Jinsu Shin、Sungeun Hong 等",
+        "topics": [
+          "手写生成",
+          "字符边界"
+        ],
+        "explainer": "在线手写不仅要字形正确，还要连接、间距和对齐符合书写者习惯。BoundInk 将相邻字符边界设为显式生成单元，联合建模局部过渡与上下文，并提供评估连笔和空间关系的指标。作者在多种匹配设置和盲测偏好中报告边界质量及轨迹相似性改善。",
+        "why": "它让字符间关系成为可测对象，适合个性化轨迹生成。需要结合完整文本的可读性、不同书写者和文本覆盖判断效果。",
+        "priority": null,
+        "project": null,
+        "github": "https://github.com/jinsu0000/cashg-official",
+        "huggingface": "https://huggingface.co/papers/2604.02103",
+        "arxiv": "https://arxiv.org/abs/2604.02103"
+      },
+      {
+        "id": "2609.23551",
+        "title": "Paragraph Boundaries Are Not White Space:Compression Depth as the Signature of Hierarchical Structure",
+        "authors": "Shuyang Xiang",
+        "topics": [
+          "位置编码",
+          "文本结构"
+        ],
+        "explainer": "阅读顺序并不能完全表示段落和句子的层级。论文用独立的段落、句子和 token 位置通道，在固定文本下干预段落坐标，比较跨段注意力。作者发现随机标签也会产生压缩，真正结构更明显地体现在压缩深度，并用多种语料属性分析这种差异。",
+        "why": "它用随机对照提醒注意力变化未必证明学到了结构。结论依赖所用层级编码和估计方式，适合表示分析的实验设计参考。",
+        "priority": null,
+        "project": null,
+        "github": "https://github.com/ShuyangenFrance/hrope",
+        "huggingface": "https://huggingface.co/papers/2609.23551",
+        "arxiv": "https://arxiv.org/abs/2609.23551"
+      },
+      {
+        "id": "2601.06352",
+        "title": "CARD: Cluster-level Adaptation with Reward-guided Decoding for Personalized Text Generation",
+        "authors": "Yutong Song、Jiang Wu 等",
+        "topics": [
+          "个性化生成",
+          "轻量适配"
+        ],
+        "explainer": "为每个用户维护大模型成本高。CARD 先按风格聚类用户并训练群组 LoRA，再比较用户文本和群组生成以学习个体偏好；推理时用轻量偏好向量和低秩 logits 修正细化输出，基础模型保持冻结。作者在长短个性化生成基准中比较质量、效率和扩展性。",
+        "why": "它用群组共享加个体解码降低部署负担。需要关注聚类错误、少量用户文本与隐式偏好估计对生成效果的影响。",
+        "priority": null,
+        "project": null,
+        "github": null,
+        "huggingface": "https://huggingface.co/papers/2601.06352",
+        "arxiv": "https://arxiv.org/abs/2601.06352"
+      },
+      {
+        "id": "2609.31291",
+        "title": "Softmax Reparameterization for Output-Head Quantization",
+        "authors": "Asim Kadav、Christian Flores 等",
+        "topics": [
+          "输出层量化",
+          "推理效率"
+        ],
+        "explainer": "小模型的大词表输出头也可能占据可观推理开销。论文利用 softmax 对共同平移不敏感，先从输出权重各行减去缩放后的均值，再选择量化失真较小的系数；全精度分布保持一致。作者比较多个量化器和数据集，报告部分低比特设置改善及输出头推理收益。",
+        "why": "它通过等价参数化改善量化，不需改动主干。实际效果集中于原输出头量化失真较大的设置，应结合端到端延迟判断。",
+        "priority": null,
+        "project": null,
+        "github": null,
+        "huggingface": "https://huggingface.co/papers/2609.31291",
+        "arxiv": "https://arxiv.org/abs/2609.31291"
+      },
+      {
+        "id": "2609.30867",
+        "title": "Evidence-Grounded Auditing of Identification Assumptions in Climate-Policy Causal Evaluations",
+        "authors": "Yonghong Zhang、Yong Xie 等",
+        "topics": [
+          "因果研究",
+          "证据审计"
+        ],
+        "explainer": "ARGUS 按识别假设、推论和证据的细则检查气候政策双重差分研究，找不到证据时弃权，并输出可追溯风险报告。作者测试注入缺陷和经济学论文，发现能定位部分问题，但小规模人工核对中风险判断偏高、一致性较低。系统定位为辅助专家审查。",
+        "why": "它对自动文献审计的能力与局限都给出证据。适合查找潜在薄弱处，但低一致性意味着不能代替专家判定因果结论。",
+        "priority": null,
+        "project": null,
+        "github": "https://github.com/yonghongzhang-io/ARGUS",
+        "huggingface": "https://huggingface.co/papers/2609.30867",
+        "arxiv": "https://arxiv.org/abs/2609.30867"
+      },
+      {
+        "id": "2609.29474",
+        "title": "CodeGraph: Open-Taxonomy Knowledge Graph for Source Code with Wikidata Grounding",
+        "authors": "Federico Pennino、Andrea Gurioli 等",
+        "topics": [
+          "代码知识图谱",
+          "语义标注"
+        ],
+        "explainer": "CodeGraph 用代码模型抽取源文件中的算法、范式、设计模式和应用概念，再通过规则查询、研究代理及上位类别展开链接到 Wikidata。系统把文件、概念和层级关系构成开放分类图谱，并用少量人工标准及模型过滤估计标注质量。作者在大规模多语言代码语料上构建资源。",
+        "why": "它扩展了代码检索的语义粒度，适合分析工程知识分布。图谱规模之外，实体消歧、抽取精度和下游用途更值得验证。",
+        "priority": null,
+        "project": null,
+        "github": "https://github.com/halykoss/CodeGraph",
+        "huggingface": "https://huggingface.co/papers/2609.29474",
+        "arxiv": "https://arxiv.org/abs/2609.29474"
+      },
+      {
+        "id": "2609.31002",
+        "title": "ZooWork-ShopRanker: An Open, Preference-Aligned E-Commerce Reranker",
+        "authors": "Siqiao Xue、Shuxuan Liu 等",
+        "topics": [
+          "电商检索",
+          "偏好排序"
+        ],
+        "explainer": "电商重排不仅依赖主题相关，还需考虑约束和商品比较。ShopRanker 由多个模型家族的裁判为真实搜索候选标注偏好，去除位置偏差并按一致性分级；较大重排器再蒸馏出小模型。作者发布偏好基准，在两种文本格式中比较对齐前后及通用重排基线。",
+        "why": "它针对购物决策而非一般网页相关性设计监督。裁判共识仍可能共享偏差，需要结合真实用户选择和约束违背情况评估。",
+        "priority": null,
+        "project": null,
+        "github": null,
+        "huggingface": "https://huggingface.co/papers/2609.31002",
+        "arxiv": "https://arxiv.org/abs/2609.31002"
       }
     ]
   },
