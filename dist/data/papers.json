@@ -1,5 +1,140 @@
 [
   {
+    "date": "2026-09-29",
+    "title": "从能力蒸馏到可控生成：9 月 29 日（待补齐）",
+    "summary": "本期已核验首批 8 篇，覆盖能力迁移、多教师蒸馏、视觉骨干、音乐生成、机器人执行、代码训练和多人语音评测。编辑建议先看注意力计算分配、可读乐谱生成及代码化机器人执行。目前 API 去重后为 109 篇，页面提取为 105 篇，差异待核对；尚未完整收录，优先论文全文精读也待补齐。",
+    "papers": [
+      {
+        "id": "2609.29233",
+        "title": "Post-Training Leaves Behavioral Shadows on Unrelated Decisions",
+        "authors": "Ziyang Zhang、Yubin Jing 等",
+        "topics": [
+          "蒸馏",
+          "后训练"
+        ],
+        "explainer": "ATD 研究教师模型的能力能否通过与目标任务无关的文本传给学生。它挑选共同基座对两个普通词几乎没有偏好的提示，只收集教师给出的单词，再用提示与单词对训练学生。论文报告编码、科学知识等能力迁移，不需要目标任务样本、教师参数或 logits。",
+        "why": "编辑判断：值得关注能力迁移与数据安全之间的联系。不过摘要局部文本存在损坏，具体编码增益暂不摘录，结论仍需结合原文实验边界理解。",
+        "priority": null,
+        "project": null,
+        "github": "https://github.com/myboker/ATD",
+        "huggingface": "https://huggingface.co/papers/2609.29233",
+        "arxiv": "https://arxiv.org/abs/2609.29233"
+      },
+      {
+        "id": "2609.33325",
+        "title": "VisionHOPE: Visual Backbones as Self-Modifying Learning Systems",
+        "authors": "Siran Peng、Tianshuo Zhang 等",
+        "topics": [
+          "视觉骨干",
+          "自适应学习"
+        ],
+        "explainer": "VisionHOPE 把视觉骨干设计成在处理图像时调整自身学习过程的系统。五类耦合记忆共同更新内容、键值表示、学习率与保留机制，并沿图像行列进行四向扫描。为避免自引用更新不稳定，方法加入步长控制与谱约束，在分类、检测和分割任务上报告有竞争力的结果。",
+        "why": "编辑判断：它的价值在于把适应机制本身纳入可更新状态，而不只是更新图像特征。阅读时应重点检查稳定性证明的假设，以及扫描结构带来的计算成本。",
+        "priority": null,
+        "project": null,
+        "github": "https://github.com/PSRben/VisionHOPE",
+        "huggingface": "https://huggingface.co/papers/2609.33325",
+        "arxiv": "https://arxiv.org/abs/2609.33325"
+      },
+      {
+        "id": "2609.33757",
+        "title": "YuE2: Unifying Symbolic and Audio Music Generation at Frontier Quality",
+        "authors": "Ruibin Yuan、Jiahao Pan 等",
+        "topics": [
+          "音乐生成",
+          "可控生成"
+        ],
+        "explainer": "YuE2 将可读乐谱与完整音频生成接在同一模型内：先规划旋律和和声，再展开为语义音乐 token，最后生成歌曲音频。作者用音乐表征与转谱模型补充缺少对齐乐谱的训练监督，并报告专家听评支持符号规划的作用。同一模型还支持乐谱修改和零样本翻唱。",
+        "why": "编辑判断：优先关注可读乐谱如何成为音乐生成的编辑接口。相比只听最终歌曲，检查修改能否保留未编辑部分，更有助于判断它是否适合实际创作流程。",
+        "priority": 2,
+        "project": "https://map-yue2.github.io/",
+        "github": "https://github.com/multimodal-art-projection/YuE",
+        "huggingface": "https://huggingface.co/papers/2609.33757",
+        "arxiv": "https://arxiv.org/abs/2609.33757"
+      },
+      {
+        "id": "2609.35347",
+        "title": "Beyond Teacher Assignment: Domain-Normalized Multi-Teacher On-Policy Distillation",
+        "authors": "Xin Li、Hao Jiang 等",
+        "topics": [
+          "多教师蒸馏",
+          "训练稳定性"
+        ],
+        "explainer": "DN-MOPD 针对多位专家共同蒸馏时反馈强度失衡的问题。学生先生成回答，对应领域教师逐 token 提供反馈，再按照各领域反馈的离散程度重新缩放。作者发现指令遵循反馈容易主导更新，归一化后在不同模型规模和多个基准上改善平均表现，恢复部分数学能力收益。",
+        "why": "编辑判断：这篇提醒我们，选对教师不等于有效融合能力。固定领域权重也能取得相近表现，因此应特别关注归一化的实际收益与调参成本，而非只看方法名称。",
+        "priority": null,
+        "project": "https://lixin.ai/DN-MOPD/",
+        "github": "https://github.com/LiXin97/DN-MOPD",
+        "huggingface": "https://huggingface.co/papers/2609.35347",
+        "arxiv": "https://arxiv.org/abs/2609.35347"
+      },
+      {
+        "id": "2609.35432",
+        "title": "Self-Evolving Coding Agents: From Digital Programs to Physical-World Intelligence",
+        "authors": "Hongcheng Gao、Jingjing Zhou 等",
+        "topics": [
+          "机器人",
+          "编码智能体"
+        ],
+        "explainer": "Physical Coding 用代码显式记录物体关系、任务约束与执行进度，并用程序组织规划、验证和失败恢复。HexaAnything 调用感知、规划及控制工具，也可使用 VLA/WAM 策略，依据现场反馈修改执行。论文在仿真、物理实验及双臂机器人上验证，并将核验轨迹用于数据与模型改进。",
+        "why": "编辑判断：适合优先阅读代码表示如何连接任务状态和闭环控制。摘要同时包含已验证结果与未来自主改造目标，后者不能当作系统已经具备的能力。",
+        "priority": 3,
+        "project": "https://hexafuture.ai/blog/physical-coding",
+        "github": "https://github.com/HexaFuture/PhysicalCoding",
+        "huggingface": "https://huggingface.co/papers/2609.35432",
+        "arxiv": "https://arxiv.org/abs/2609.35432"
+      },
+      {
+        "id": "2609.32577",
+        "title": "Groupwise Agentic Grading and Advantage Redistribution for Code Agent RL",
+        "authors": "Jinhao Dong、Liang Zhao 等",
+        "topics": [
+          "代码智能体",
+          "强化学习"
+        ],
+        "explainer": "GAGAR 处理代码智能体训练中所有通过测试的轨迹获得相同优势值的问题。它保留同时包含成功与失败轨迹的组，由训练过的评分智能体联合检查并排序成功实现，再降低低质量实现的权重，同时保持成功轨迹优势总和不变。作者报告性能、轨迹长度增长和训练稳定性改善。",
+        "why": "编辑判断：它把通过测试与实现质量分开处理，适合关注代码强化学习的人。重点应看评分器能否可靠识别越界修改，以及质量排序是否引入额外偏差。",
+        "priority": null,
+        "project": null,
+        "github": null,
+        "huggingface": "https://huggingface.co/papers/2609.32577",
+        "arxiv": "https://arxiv.org/abs/2609.32577"
+      },
+      {
+        "id": "2609.31948",
+        "title": "Duplex-MPE: Benchmarking Multi-Party Interaction in Full-Duplex Dialogue",
+        "authors": "Chengqian Ma、Wenhao Feng 等",
+        "topics": [
+          "语音交互",
+          "评测"
+        ],
+        "explainer": "Duplex-MPE 测试全双工语音助手在多人对话里何时回答、保持沉默或停止发言。基准让模型直接接收持续音频，不提供文本或轮次边界，并把同一请求的明确点名与隐含寻址配对。评测发现，频繁开口并不代表回答准确，也不代表模型能在不该介入时保持安静。",
+        "why": "编辑判断：这是面向真实会议或多人场景的实用评测。它把是否应发言和回答是否正确拆开，能够揭示传统单用户语音测试容易遗漏的交互问题。",
+        "priority": null,
+        "project": "https://step-out.github.io/Duplex-MPE-Page/",
+        "github": null,
+        "huggingface": "https://huggingface.co/papers/2609.31948",
+        "arxiv": "https://arxiv.org/abs/2609.31948"
+      },
+      {
+        "id": "2609.32712",
+        "title": "MassAlloc Attention: Let Attention Allocate Its Own Compute",
+        "authors": "Jingze Shi、Zhangyang Peng 等",
+        "topics": [
+          "注意力",
+          "计算效率"
+        ],
+        "explainer": "MALA 保留对全部合法因果位置的打分访问，再依据归一化注意力贡献分配打分之后的计算。前向使用在线 softmax 状态，反向利用最终归一化状态确定保留范围，以统一容差控制训练和推理。论文报告算子延迟及训练计算量降低，并在多个规模上保持接近完整注意力的表现。",
+        "why": "编辑判断：优先看它究竟省掉哪些计算，而不是将其理解为完全跳过全局打分。算子级收益与端到端收益需要分开核验，同时关注误差容差对不同任务的影响。",
+        "priority": 1,
+        "project": null,
+        "github": "https://github.com/HKUSTDial/flash-sparse-attention",
+        "huggingface": "https://huggingface.co/papers/2609.32712",
+        "arxiv": "https://arxiv.org/abs/2609.32712"
+      }
+    ]
+  },
+  {
     "date": "2026-09-28",
     "title": "量化与蒸馏、机器人先验及可靠评测",
     "summary": "本期 33 篇论文已全部收录，涵盖分阶段量化、多教师蒸馏、工具智能体训练、机器人视觉与触觉先验、流式视频及多智能体评测，也包括个性化生成和代码知识图谱。优先阅读排序是编辑判断；本期卡片已齐，基于原文的优先论文精读仍待补充。",
