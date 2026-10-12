@@ -2,7 +2,7 @@
   {
     "date": "2026-09-29",
     "title": "从能力蒸馏到可控生成：9 月 29 日（待补齐）",
-    "summary": "本期已核验首批 8 篇，覆盖能力迁移、多教师蒸馏、视觉骨干、音乐生成、机器人执行、代码训练和多人语音评测。编辑建议先看注意力计算分配、可读乐谱生成及代码化机器人执行。目前 API 去重后为 109 篇，页面提取为 105 篇，差异待核对；尚未完整收录，优先论文全文精读也待补齐。",
+    "summary": "本期已核验 16 篇，覆盖能力蒸馏、注意力效率、视觉架构、音乐生成、机器人执行及智能体评测。编辑建议先看计算分配、可读乐谱与代码化执行，也可对照阅读循环推理和机器人经验蒸馏。API 去重后为 109 篇，页面提取为 105 篇，4 个差异条目待核对；仍未完整收录，优先论文全文精读待补齐。",
     "papers": [
       {
         "id": "2609.29233",
@@ -131,6 +131,134 @@
         "github": "https://github.com/HKUSTDial/flash-sparse-attention",
         "huggingface": "https://huggingface.co/papers/2609.32712",
         "arxiv": "https://arxiv.org/abs/2609.32712"
+      },
+      {
+        "id": "2609.33295",
+        "title": "TraceDance: An Automated System for Building Agent Behavior Benchmarks from Real-World Agent Deployment Traces",
+        "authors": "Dehai Min、Daoan Zhang 等",
+        "topics": [
+          "智能体",
+          "评测"
+        ],
+        "explainer": "TraceDance 从真实部署轨迹中构建针对特定不良行为的测试。用户指定关注的行为后，系统通过程序检索、模型确认和迭代修订筛选实例，再让被测模型从记录中的决策点继续回答。它无需重放完整环境或提供标准答案，论文在编码与工具使用场景中验证了构建质量与行为评测效果。",
+        "why": "编辑判断：适合把线上失败转成回归测试的团队。应注意决策点续写并不等同于完整任务重跑，自动评分与人工标注的一致性也需要单独核验。",
+        "priority": null,
+        "project": "https://zhishanq.github.io/TraceDance/",
+        "github": "https://github.com/ZhishanQ/TraceDance",
+        "huggingface": "https://huggingface.co/papers/2609.33295",
+        "arxiv": "https://arxiv.org/abs/2609.33295"
+      },
+      {
+        "id": "2609.35457",
+        "title": "How Far Are We from Removing the Visual Encoder? Scaling Laws for Encoder-Free Multimodal Pretraining",
+        "authors": "Lin Chen、Bolin Ni 等",
+        "topics": [
+          "多模态",
+          "缩放规律"
+        ],
+        "explainer": "论文比较有视觉编码器和直接处理像素的多模态模型如何随训练计算量扩展。结果显示，两者的文本目标较接近，但无编码器模型在小规模多模态训练中落后；随着规模增长，语言模型逐步承担视觉处理。作者依据拟合规律预测差距可能缩小，这不是所有规模均已实测持平。",
+        "why": "编辑判断：值得看视觉预训练先验的收益如何随预算变化。阅读时务必区分已测数据与缩放外推，并检查计算口径是否包含视觉编码器的预训练成本。",
+        "priority": null,
+        "project": null,
+        "github": null,
+        "huggingface": "https://huggingface.co/papers/2609.35457",
+        "arxiv": "https://arxiv.org/abs/2609.35457"
+      },
+      {
+        "id": "2609.32704",
+        "title": "CoWindow Attention: Full Causal Coverage Is a Collective Property",
+        "authors": "Jingze Shi、Zhangyang Peng 等",
+        "topics": [
+          "注意力",
+          "长上下文"
+        ],
+        "explainer": "CoWA 将远距离历史分配给不同 KV 头，各头共享近邻和前缀窗口，互补长窗口的并集覆盖全部因果历史。因此单个头不必重复访问所有过去位置，也不需要学习路由器。作者用匹配窗口的消融验证互补覆盖的作用，并报告长上下文算子效率及多个模型规模上的能力保持。",
+        "why": "编辑判断：可与 MALA 对照阅读：前者改变各头的访问结构，后者分配打分后的计算。完整集体覆盖不等于每个头信息不变，仍需检查任务相关的质量损失。",
+        "priority": null,
+        "project": null,
+        "github": "https://github.com/flash-algo/flash-sparse-attention",
+        "huggingface": "https://huggingface.co/papers/2609.32704",
+        "arxiv": "https://arxiv.org/abs/2609.32704"
+      },
+      {
+        "id": "2609.35748",
+        "title": "Improving Test-Time Scaling with Adaptive Looped Transformers",
+        "authors": "Yichen You、Tianyu Fu 等",
+        "topics": [
+          "推理效率",
+          "循环模型"
+        ],
+        "explainer": "TaH2 针对循环 Transformer 对每个 token 都增加相同迭代次数的浪费。它联合训练主干和迭代决策器，用在线前瞻监督判断进一步迭代是否改善预测，把额外计算留给确实受益的位置。论文在数学推理中比较准确率随解码计算量增长的关系，报告比固定循环更好的效率与可达准确率。",
+        "why": "编辑判断：值得关注按 token 分配隐式推理预算的做法。关键是相同测试计算量下是否仍有优势，而不能仅用更深循环或更长输出取得的最高分比较。",
+        "priority": null,
+        "project": "https://fuvty.github.io/thinking_yard_project_page/projects/tah2/",
+        "github": "https://github.com/thu-nics/TaH",
+        "huggingface": "https://huggingface.co/papers/2609.35748",
+        "arxiv": "https://arxiv.org/abs/2609.35748"
+      },
+      {
+        "id": "2609.35767",
+        "title": "Learning Native Reflection in Unified Models with Interleaved Reinforcement Learning",
+        "authors": "Yijia Fan、Ziqi Huang 等",
+        "topics": [
+          "图像生成",
+          "强化学习"
+        ],
+        "explainer": "UMM-Reflection 让统一多模态模型自己检查图像、写反思并修改生成结果。训练时将共享初始图像的多条修复轨迹分组，用整条轨迹的优势值同时更新反思文本和图像修订过程，而非只优化其中一部分。作者在 BAGEL 上报告优于监督微调的效果，并在未用于训练的生成基准上观察到收益。",
+        "why": "编辑判断：它把描述错误与实际改图的反馈接起来，适合研究生成模型自我修复的人。应看跨轮更新如何避免信用分配失真，以及推理时多次生成的成本。",
+        "priority": null,
+        "project": "https://waltstephen.github.io/UMM-Reflection/",
+        "github": "https://github.com/waltstephen/UMM-Reflection",
+        "huggingface": "https://huggingface.co/papers/2609.35767",
+        "arxiv": "https://arxiv.org/abs/2609.35767"
+      },
+      {
+        "id": "2609.33848",
+        "title": "QwenGyre: An Elastic Reinforcement Learning Framework for Training xLong-Horizon Agents",
+        "authors": "Weiqi Wang、Yuxin Zhou 等",
+        "topics": [
+          "智能体训练",
+          "系统优化"
+        ],
+        "explainer": "QwenGyre 面向一次执行可能持续数小时的超长程智能体强化学习。框架在不打断正在运行的任务时，动态调整用于采样和训练的 GPU；轨迹处理器重建分支、评估部分进展并去掉重复路径。论文报告代码仓库任务上的成功率提升，以及相对两种资源组织基线的训练速度改善。",
+        "why": "编辑判断：主要价值是解决长任务采样拖延与分支冗余，而不是提出新的任务规划算法。阅读时应检查资源调度收益的硬件配置与训练成本口径是否一致。",
+        "priority": null,
+        "project": null,
+        "github": null,
+        "huggingface": "https://huggingface.co/papers/2609.33848",
+        "arxiv": "https://arxiv.org/abs/2609.33848"
+      },
+      {
+        "id": "2609.33781",
+        "title": "Surprising Success, Repeated Failure: Entropy-Guided Credit Assignment for Exploration in LLM Reasoning",
+        "authors": "Woongyeong Yeo、Minki Kang 等",
+        "topics": [
+          "强化学习",
+          "探索"
+        ],
+        "explainer": "EAPO 用策略熵与回答优势值的正负号共同分配 token 级训练信号。成功回答中，对不确定的决策加强奖励；失败回答中，对高置信错误加强惩罚，同时减轻不确定位置的惩罚以保留探索空间。它直接利用已有采样信号，不增加辅助监督，论文在不同推理模型和任务上验证了效果。",
+        "why": "编辑判断：成功与失败采用不同信用分配规则，是这篇最值得检查的设计。应重点看消融能否区分探索收益与简单权重调整，以及不同任务上的稳定性。",
+        "priority": null,
+        "project": "https://eapo-explore.github.io/",
+        "github": "https://github.com/wgcyeo/EAPO",
+        "huggingface": "https://huggingface.co/papers/2609.33781",
+        "arxiv": "https://arxiv.org/abs/2609.33781"
+      },
+      {
+        "id": "2609.33378",
+        "title": "Recursive Harness Distillation across Agents for Robot Manipulation",
+        "authors": "Seungyeon Kim、Junhoo Lee 等",
+        "topics": [
+          "机器人",
+          "经验蒸馏"
+        ],
+        "explainer": "Recursive Harness Distillation 将强智能体操控机器人的干预经验提炼为轻量智能体可复用的操作手册，再根据轻量智能体执行反馈递归修订。手册帮助诊断失败和调整行为，不更新模型参数。论文在真实机器人和 SimplerEnv 中报告操控成功率提高，并发现同一手册也能帮助强智能体。",
+        "why": "编辑判断：适合关注低成本复用机器人经验的人。阅读时应辨别手册在新任务实例中的泛化范围，以及强智能体收集与迭代这些经验的前期成本。",
+        "priority": null,
+        "project": "https://seungyeon.me/RHD",
+        "github": null,
+        "huggingface": "https://huggingface.co/papers/2609.33378",
+        "arxiv": "https://arxiv.org/abs/2609.33378"
       }
     ]
   },
