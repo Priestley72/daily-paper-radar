@@ -2,7 +2,7 @@
   {
     "date": "2026-09-29",
     "title": "从能力蒸馏到可控生成：9 月 29 日（待补齐）",
-    "summary": "本期已核验 24 篇，涉及能力蒸馏、注意力效率、视觉与音乐生成，以及智能体训练和机器人记忆。新增内容重点讨论学生状态上的教师接续、知识不足时的选择性求助，以及可执行训练环境的合成。编辑建议先看 MALA、YuE2 和 Physical Coding。最近一次远端核对为 API 109 篇、页面 105 篇，差异待复核；卡片及优先论文精读仍待补齐。",
+    "summary": "本期已核验 32 篇，覆盖能力蒸馏、推理效率、视觉与音乐生成，以及智能体训练和机器人执行。新增卡片关注训练引擎概率校准、修图工具参数生成、上下文数据合成与有效模型深度。编辑建议先看 MALA、YuE2 和 Physical Coding。最近核对 API 为 109 篇、页面为 105 篇，差异尚待复核；本期仍未完整，优先论文精读待补齐。",
     "papers": [
       {
         "id": "2609.29233",
@@ -387,6 +387,134 @@
         "github": "https://github.com/thunlp/DRM",
         "huggingface": "https://huggingface.co/papers/2609.33803",
         "arxiv": "https://arxiv.org/abs/2609.33803"
+      },
+      {
+        "id": "2609.32444",
+        "title": "Rethinking Training-Inference Mismatch in LLM Reinforcement Learning: Where It Arises and How to Correct It",
+        "authors": "Tianrun Yu、Kaixiang Zhao 等",
+        "topics": [
+          "强化学习",
+          "训练校准"
+        ],
+        "explainer": "CIS 针对语言模型强化学习中推理引擎与训练引擎对相同 token 给出不同概率的问题。方法用 log-odds 位移刻画差异，再按置信度截断重要性权重，高置信 token 的上限更严格。论文在多个混合专家模型与数学基准中验证效果，并分析截断偏差如何影响低置信 token。",
+        "why": "编辑判断：适合排查训练与采样系统不一致的问题。重点看位移分布假设的适用条件，以及截断降低方差时引入的偏差，而不只比较最终准确率。",
+        "priority": null,
+        "project": "https://kzhao5.github.io/CIS-website/",
+        "github": "https://github.com/kzhao5/CIS-RL",
+        "huggingface": "https://huggingface.co/papers/2609.32444",
+        "arxiv": "https://arxiv.org/abs/2609.32444"
+      },
+      {
+        "id": "2609.35673",
+        "title": "FlowTool: Controlling Tool Parameter in Image Retouching via Flow Matching",
+        "authors": "Thanh-Long V. Le、Steven Walton 等",
+        "topics": [
+          "图像编辑",
+          "流匹配"
+        ],
+        "explainer": "FlowTool 将修图工具参数视为连续结构化生成问题，而不是让语言模型逐步输出推理、工具和数值。视觉语言主干理解图像及指令，扩散 Transformer 通过条件流匹配从噪声生成编辑计划，再经奖励后训练优化。论文报告多个修图基准上的质量与效率收益。",
+        "why": "编辑判断：适合关注工具参数生成的低延迟替代方案。应区分有参考图和无参考图的评测，并检查速度比较是否包含工具执行及相同编辑任务的成本。",
+        "priority": null,
+        "project": null,
+        "github": null,
+        "huggingface": "https://huggingface.co/papers/2609.35673",
+        "arxiv": "https://arxiv.org/abs/2609.35673"
+      },
+      {
+        "id": "2609.33642",
+        "title": "Learning to Learn from Context: Synthetic Training from Perturbed Public Documents",
+        "authors": "Haoyi Wu、Yang Xiao 等",
+        "topics": [
+          "上下文学习",
+          "数据合成"
+        ],
+        "explainer": "论文利用经过小幅改写的公开文档训练模型从上下文学习，而非依靠已有记忆。流程先扰动文档，再生成必须基于文档推理的问题和评分准则，随后生成回答，并只保留真正依赖文档的样本。监督微调及评分准则奖励训练改善上下文学习，部分收益迁移到长文本理解与指令遵循。",
+        "why": "编辑判断：适合研究如何避免合成数据只奖励知识回忆。重点看文档依赖筛选是否可靠，且代码与知识能力基本不变，不能把收益概括为全面能力提升。",
+        "priority": null,
+        "project": null,
+        "github": null,
+        "huggingface": "https://huggingface.co/papers/2609.33642",
+        "arxiv": "https://arxiv.org/abs/2609.33642"
+      },
+      {
+        "id": "2609.32534",
+        "title": "DepthBench: Measuring How Residual Connections Enable More Computational Depth",
+        "authors": "Keyu Wang、Yangyi Huang 等",
+        "topics": [
+          "模型架构",
+          "深度评测"
+        ],
+        "explainer": "DepthBench 固定模型规模和预训练方案，系统改变宽度与层数比例，研究增加架构深度能否增加有效计算。作者比较多种归一化和残差连接设计，发现更深更窄并非普遍有益，部分残差方案能持续利用新增层。逐层分析进一步检查收益是否来自更有效的信息流与计算。",
+        "why": "编辑判断：适合在固定预算下选择深宽比例。应检查不同结构的参数与训练口径如何匹配，并避免把某些结构的深度收益推广到全部 Transformer。",
+        "priority": null,
+        "project": "https://keyu-wang-2002.github.io/DepthBench-Website/",
+        "github": "https://github.com/keyu-wang-2002/DepthBench",
+        "huggingface": "https://huggingface.co/papers/2609.32534",
+        "arxiv": "https://arxiv.org/abs/2609.32534"
+      },
+      {
+        "id": "2609.35560",
+        "title": "WorldPlay2: Extending Real-Time Interactive World Models in Control and Horizon",
+        "authors": "Haiyu Zhang、Wenqiang Sun 等",
+        "topics": [
+          "世界模型",
+          "视频生成"
+        ],
+        "explainer": "WorldPlay2 将逐帧动作控制与场景外观、角色身份及动态事件的语义控制拆分建模。历史上下文压缩为教师和学生共享的记忆 token，让蒸馏按片段评估而非处理完整长轨迹；Stable Forcing 再用少步初始化和整段轨迹重放稳定自回归学生，以兼顾长程一致性与实时响应。",
+        "why": "编辑判断：关注控制接口、记忆压缩和蒸馏如何共同作用。摘要未提供足够的延迟细节，不能仅凭实时目标判断其在任意硬件或长程交互中都达到实时。",
+        "priority": null,
+        "project": "https://worldplay2.github.io/",
+        "github": "https://github.com/WorldPlay2/WorldPlay2",
+        "huggingface": "https://huggingface.co/papers/2609.35560",
+        "arxiv": "https://arxiv.org/abs/2609.35560"
+      },
+      {
+        "id": "2609.34972",
+        "title": "Just MLPs: Efficient Visual State Reconstruction for Multimodal Language Models",
+        "authors": "Jingdi lei、Junxian Li 等",
+        "topics": [
+          "多模态",
+          "推理效率"
+        ],
+        "explainer": "δ-Vision 不直接删除视觉 token，而是减少它们在 Transformer 各层重复演化的成本。作者观察到视觉到文本的信息影响集中于少量方向，且逐层视觉状态能由轻量 MLP 近似重建，因此使用低秩适配器生成层级视觉记忆，保留全部视觉 token 供文本查询。论文报告优于部分剪枝基线的质量效率权衡。",
+        "why": "编辑判断：适合与视觉 token 剪枝对照阅读。保留全部 token 不代表状态重建无损，重点应看复杂视频或细粒度视觉任务中的误差与适配训练成本。",
+        "priority": null,
+        "project": null,
+        "github": "https://github.com/declare-lab/delta-Vision",
+        "huggingface": "https://huggingface.co/papers/2609.34972",
+        "arxiv": "https://arxiv.org/abs/2609.34972"
+      },
+      {
+        "id": "2609.33616",
+        "title": "SpatialSpeak: QA-Native Reconstruction with Local and Global Context for Spatial Chain-of-Thought Reasoning",
+        "authors": "Yang Cao、Jiaxin Zhang 等",
+        "topics": [
+          "空间推理",
+          "多视图"
+        ],
+        "explainer": "SpatialSpeak 先以文本问答形式训练多视图几何重建，分别使用标记点三维查询和物体中心查询学习局部几何与全局场景。第二阶段训练空间推理链，显式给出问题相关的几何估计并据此推导答案，必要时进行可靠性评估和视觉补偿。消融支持两类重建监督对后续推理的作用。",
+        "why": "编辑判断：值得看中间几何监督是否真正帮助定量推理。应检查视觉补偿的具体触发条件，以及提升来自重建预训练还是更丰富的推理链数据。",
+        "priority": null,
+        "project": "https://yangcaoai.github.io/SpatialSpeak/",
+        "github": "https://github.com/yangcaoai/SpatialSpeak-VLM",
+        "huggingface": "https://huggingface.co/papers/2609.33616",
+        "arxiv": "https://arxiv.org/abs/2609.33616"
+      },
+      {
+        "id": "2609.35505",
+        "title": "An RL View of OPD: Least Square Policy Distillation for Sample-Efficient LLM Reasoning",
+        "authors": "Shangzhe Li、Yuxiao Yang 等",
+        "topics": [
+          "蒸馏",
+          "样本效率"
+        ],
+        "explainer": "LSPD 从强化学习角度解释 on-policy 蒸馏，将反向 KL 目标与 KL 正则化策略优化联系起来。方法加入乐观探索以保留策略多样性，并重复利用已收集轨迹减少新采样需求。论文在数学任务和多种教师学生配置中验证，还用多候选测试分析覆盖率随采样数量的变化。",
+        "why": "编辑判断：适合关注蒸馏采样成本的人。理论遗憾界针对理想化条件，不等同于实际大模型保证；还应比较离策略复用带来的偏差与单次回答性能。",
+        "priority": null,
+        "project": null,
+        "github": "https://github.com/UNCSciML/LSPD",
+        "huggingface": "https://huggingface.co/papers/2609.35505",
+        "arxiv": "https://arxiv.org/abs/2609.35505"
       }
     ]
   },
