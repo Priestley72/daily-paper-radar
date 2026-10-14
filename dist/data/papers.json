@@ -2,7 +2,7 @@
   {
     "date": "2026-09-29",
     "title": "从能力蒸馏到可控生成：9 月 29 日（待补齐）",
-    "summary": "本期已核验 32 篇，覆盖能力蒸馏、推理效率、视觉与音乐生成，以及智能体训练和机器人执行。新增卡片关注训练引擎概率校准、修图工具参数生成、上下文数据合成与有效模型深度。编辑建议先看 MALA、YuE2 和 Physical Coding。最近核对 API 为 109 篇、页面为 105 篇，差异尚待复核；本期仍未完整，优先论文精读待补齐。",
+    "summary": "本期已核验 36 篇，覆盖能力蒸馏、推理效率、视觉与音乐生成，以及智能体训练和机器人执行。新增卡片关注训练引擎概率校准、修图工具参数生成、上下文数据合成与有效模型深度。编辑建议先看 MALA、YuE2 和 Physical Coding。最近核对 API 为 109 篇、页面为 105 篇，差异尚待复核；本期仍未完整，优先论文精读待补齐。",
     "papers": [
       {
         "id": "2609.29233",
@@ -515,6 +515,70 @@
         "github": "https://github.com/UNCSciML/LSPD",
         "huggingface": "https://huggingface.co/papers/2609.35505",
         "arxiv": "https://arxiv.org/abs/2609.35505"
+      },
+      {
+        "id": "2609.32862",
+        "title": "RoboFoundry: System-as-Policy Evolution for Self-Learning Embodied Agents",
+        "authors": "Jingsong Liang、Shuhao Liao 等",
+        "topics": [
+          "具身智能",
+          "系统演化"
+        ],
+        "explainer": "RoboFoundry 将机器人智能体的上下文、记忆和技能系统视为可共同演化的策略。执行轨迹先用于诊断能力缺口，再转成经过验证的任务级更新，反复有效的更新提升到通用系统。框架以语义接口分离通用决策与机器人专属执行，并在具身任务、长程记忆及真实部署中评估效果。",
+        "why": "编辑判断：值得检查系统更新如何验证与保留，而不仅看基础模型得分提升。跨机器人迁移的范围及失败更新的回退机制，是判断实用性的关键。",
+        "priority": null,
+        "project": "https://jingsongliang.com/robofoundry/",
+        "github": null,
+        "huggingface": "https://huggingface.co/papers/2609.32862",
+        "arxiv": "https://arxiv.org/abs/2609.32862"
+      },
+      {
+        "id": "2609.35718",
+        "title": "Hard Vision, Easy Vision: What GPT-6 Astra Reveals Across Computer Vision",
+        "authors": "Hanoona Rasheed、Mohammed Irfan Kurpath 等",
+        "topics": [
+          "计算机视觉",
+          "评测"
+        ],
+        "explainer": "论文比较多个通用前沿系统在视觉理解、空间推理和结构化预测等任务上的表现，并在有合适参照时对照专用模型与人类。结果呈现不同能力的分化：语义和物体中心推理较强，精确几何、忠实重建、时序一致的密集预测仍存在缺口；增加推理或工具的收益也因任务而异。",
+        "why": "编辑判断：适合了解通用视觉系统的能力边界。不能把一组基准概括为全面取代专用模型，还应核对评测日期、输入协议与各领域参照的可比性。",
+        "priority": null,
+        "project": "https://mbzuai-oryx.github.io/frontier-vision/",
+        "github": "https://github.com/mbzuai-oryx/frontier-vision",
+        "huggingface": "https://huggingface.co/papers/2609.35718",
+        "arxiv": "https://arxiv.org/abs/2609.35718"
+      },
+      {
+        "id": "2609.32814",
+        "title": "Change the Product, Keep the Parameters: Associative Algebra Layers for Transformers",
+        "authors": "Ilya Koziev、Ivan Oseledets 等",
+        "topics": [
+          "模型架构",
+          "计算效率"
+        ],
+        "explainer": "论文不只加速普通矩阵乘法，而是让 Transformer 投影使用更稀疏的结合代数乘积，保持权重块并改变交互结构。作者推导 GPU 执行的形状约束，并在相同规模和训练预算的小型语言模型中比较。实验报告生成吞吐提高，但全部已报告下游指标下降，定位为可训练性与可行性验证。",
+        "why": "编辑判断：速度与质量的明确权衡值得注意。代数最优性不等于端到端效果最优，且小模型结果不能直接外推到大型模型或不同硬件配置。",
+        "priority": null,
+        "project": null,
+        "github": null,
+        "huggingface": "https://huggingface.co/papers/2609.32814",
+        "arxiv": "https://arxiv.org/abs/2609.32814"
+      },
+      {
+        "id": "2609.34645",
+        "title": "Nereus: Adaptive Parallelism for LLM Post-Training",
+        "authors": "Songlin Jiang、Tuo Shi 等",
+        "topics": [
+          "训练系统",
+          "自适应并行"
+        ],
+        "explainer": "Nereus 针对强化学习后训练中序列长度、资源与瓶颈变化导致固定执行计划失效的问题。控制器选择满足显存约束的全局计划，再用运行时校准的成本模型判断切换是否划算。系统将模型各阶段的分布式状态表示为弹性单元，借助转换图协调状态变换与 GPU 转移，并报告集群吞吐改善。",
+        "why": "编辑判断：适合关注动态集群训练效率的人。重点看切换成本、收益持续时间和基线配置，避免把特定资源变化轨迹上的收益当作所有训练任务的通用加速。",
+        "priority": null,
+        "project": null,
+        "github": null,
+        "huggingface": "https://huggingface.co/papers/2609.34645",
+        "arxiv": "https://arxiv.org/abs/2609.34645"
       }
     ]
   },
