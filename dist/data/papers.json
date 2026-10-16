@@ -2,7 +2,7 @@
   {
     "date": "2026-09-29",
     "title": "从能力蒸馏到可控生成：9 月 29 日（待补齐）",
-    "summary": "本期已核验 44 篇，覆盖能力蒸馏、推理效率、视觉与音乐生成，以及智能体训练和机器人执行。新增卡片关注训练引擎概率校准、修图工具参数生成、上下文数据合成与有效模型深度。编辑建议先看 MALA、YuE2 和 Physical Coding。最近核对 API 为 109 篇、页面为 105 篇，差异尚待复核；本期仍未完整，优先论文精读待补齐。",
+    "summary": "本期已核验 48 篇，覆盖能力蒸馏、推理效率、视觉与音乐生成，以及智能体训练和机器人执行。新增卡片关注训练引擎概率校准、修图工具参数生成、上下文数据合成与有效模型深度。编辑建议先看 MALA、YuE2 和 Physical Coding。最近核对 API 为 109 篇、页面为 105 篇，差异尚待复核；本期仍未完整，优先论文精读待补齐。",
     "papers": [
       {
         "id": "2609.29233",
@@ -707,6 +707,70 @@
         "github": "https://github.com/ZJU-ACES-ISE/WideSWE",
         "huggingface": "https://huggingface.co/papers/2609.33382",
         "arxiv": "https://arxiv.org/abs/2609.33382"
+      },
+      {
+        "id": "2609.33203",
+        "title": "Structured Residual Connectivity Matters for Diffusion Transformers",
+        "authors": "Yuhe Liu、Xinyin Ma 等",
+        "topics": [
+          "扩散模型",
+          "残差连接"
+        ],
+        "explainer": "论文将扩散 Transformer 的跨层连接从被动累加改为主动检索。作者先分析早期特征复用和对称层指导的作用，再结合局部残差与长程路径，让每个块选择性访问较早的空间和语义表示。实验报告很小的参数增量下收敛加快，并在已有强模型基础上改善图像生成质量。",
+        "why": "编辑判断：适合关注结构改动而非单纯扩模型的人。应检查跨深度检索的计算开销，以及训练迭代减少是否也意味着相同硬件上的实际时间下降。",
+        "priority": null,
+        "project": null,
+        "github": null,
+        "huggingface": "https://huggingface.co/papers/2609.33203",
+        "arxiv": "https://arxiv.org/abs/2609.33203"
+      },
+      {
+        "id": "2609.35504",
+        "title": "SolveEdit: Benchmarking Visual Problem Solving in Generative Models",
+        "authors": "Wenjie Shu、Yexin Liu 等",
+        "topics": [
+          "图像编辑",
+          "评测"
+        ],
+        "explainer": "SolveEdit 评测模型能否根据图像与目标推断所需变换，并在实现目标时保护无关内容。基准以原子条件分别定义必须改变和不能破坏的部分，不依赖唯一参考图像。作者另提出先实例化变换、再调用生成器的两阶段规划，在不修改编辑器的情况下报告问题求解表现提升。",
+        "why": "编辑判断：值得关注目标完成与附带破坏的分开衡量。来源摘要存在若干名称文本异常，因此不摘录具体分数，数值与指标名称需要回到原文复核。",
+        "priority": null,
+        "project": "https://wenjieshu.github.io/SolveEdit-project-page/",
+        "github": "https://github.com/WenjieShu/SolveEdit",
+        "huggingface": "https://huggingface.co/papers/2609.35504",
+        "arxiv": "https://arxiv.org/abs/2609.35504"
+      },
+      {
+        "id": "2609.35261",
+        "title": "Imprint Reader: From Weight-Update Readout to Behavioral Intervention",
+        "authors": "Guanxu Chen、Qihao Lin 等",
+        "topics": [
+          "模型解释",
+          "权重编辑"
+        ],
+        "explainer": "Imprint Reader 尝试把冻结权重更新读成自然语言描述，并用无变化与随机扰动对照约束无依据的陈述。论文同时把 Reader 用作可微代理，引导 MetaEdit 挑选参数干预，检查拒答、推理表达和工具使用行为。作者报告的未见更新自由读出可靠性仍低，定位是可行性探索。",
+        "why": "编辑判断：读出更新含义与控制行为是不同证据链，不能相互替代。应特别关注低成功率、多次采样与评判模型的依赖，避免把探索性结果写成可靠自我理解。",
+        "priority": null,
+        "project": "https://huggingface.co/quantumfr/imprint-reader-v1.0-0928",
+        "github": "https://github.com/biuboomc/SMaRT-Vibe-Alignment",
+        "huggingface": "https://huggingface.co/papers/2609.35261",
+        "arxiv": "https://arxiv.org/abs/2609.35261"
+      },
+      {
+        "id": "2609.33855",
+        "title": "Program-Verified Self-Evolution for Vision-Language Models",
+        "authors": "Ahmed Heakl、Sungik Choi 等",
+        "topics": [
+          "视觉语言模型",
+          "自训练"
+        ],
+        "explainer": "VQS 不通过多数投票直接决定自生成视觉问答的答案，而是先把图像解析为场景图、表格或图结构，再由固定程序生成问题并计算答案。模型只逐条检查程序实际读取的事实，这些检查又为解析器提供训练目标。论文通过人工核验及多个基准比较标签质量和迭代训练效果。",
+        "why": "编辑判断：程序验证能减少部分自由判断错误，但最终仍依赖视觉解析和事实检查。阅读时应确认哪些任务可被结构记录覆盖，以及程序正确是否掩盖输入事实错误。",
+        "priority": null,
+        "project": "https://ahmedheakl.github.io/VQS/",
+        "github": "https://github.com/ahmedheakl/VQS",
+        "huggingface": "https://huggingface.co/papers/2609.33855",
+        "arxiv": "https://arxiv.org/abs/2609.33855"
       }
     ]
   },
