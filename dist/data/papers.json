@@ -2,7 +2,7 @@
   {
     "date": "2026-09-29",
     "title": "从能力蒸馏到可控生成：9 月 29 日（待补齐）",
-    "summary": "本期已核验 40 篇，覆盖能力蒸馏、推理效率、视觉与音乐生成，以及智能体训练和机器人执行。新增卡片关注训练引擎概率校准、修图工具参数生成、上下文数据合成与有效模型深度。编辑建议先看 MALA、YuE2 和 Physical Coding。最近核对 API 为 109 篇、页面为 105 篇，差异尚待复核；本期仍未完整，优先论文精读待补齐。",
+    "summary": "本期已核验 44 篇，覆盖能力蒸馏、推理效率、视觉与音乐生成，以及智能体训练和机器人执行。新增卡片关注训练引擎概率校准、修图工具参数生成、上下文数据合成与有效模型深度。编辑建议先看 MALA、YuE2 和 Physical Coding。最近核对 API 为 109 篇、页面为 105 篇，差异尚待复核；本期仍未完整，优先论文精读待补齐。",
     "papers": [
       {
         "id": "2609.29233",
@@ -643,6 +643,70 @@
         "github": "https://github.com/tommyEzreal/ExpVoyager",
         "huggingface": "https://huggingface.co/papers/2609.32630",
         "arxiv": "https://arxiv.org/abs/2609.32630"
+      },
+      {
+        "id": "2609.33419",
+        "title": "TT-VidT: Decoupling the Temporal Axis for Efficient Motion-Centric Video Pretraining",
+        "authors": "Shih-Ying Yeh、Daniel Z. Kaplan 等",
+        "topics": [
+          "视频表征",
+          "自监督学习"
+        ],
+        "explainer": "TT-VidT 用逐帧空间路径处理外观，再以紧凑时间模块学习运动，训练时从首帧外观锚点和逐帧运动 token 重建目标帧。作者在匹配规模、数据与训练设置的架构和目标组合实验中，分析时间结构与压缩目标的共同作用。多个运动敏感任务受益，但其他数据集也界定了结论范围。",
+        "why": "编辑判断：适合关注视频表征是否真正学到运动的人。比较重点是控制变量与不同任务的收益分布，不能将运动敏感基准优势当成通用视频理解全面领先。",
+        "priority": null,
+        "project": "https://kohakublueleaf.github.io/TTVidT/",
+        "github": "https://github.com/KohakuBlueleaf/TTVidT",
+        "huggingface": "https://huggingface.co/papers/2609.33419",
+        "arxiv": "https://arxiv.org/abs/2609.33419"
+      },
+      {
+        "id": "2609.33399",
+        "title": "SciGen-Verifier: A Multimodal Reasoner for Explainable Verification in Scientific Image Generation",
+        "authors": "Jiali Chen、Zhengteng Lin 等",
+        "topics": [
+          "科学图像",
+          "验证模型"
+        ],
+        "explainer": "SciGen-Verifier 面向电路、几何及函数图等科学图像的正确性验证，不只输出单个分数，还提供判断理由和修正指令。作者构建多学科评测，以监督微调启动，再用分阶段强化学习先增强科学推理、后对齐正确标注。验证器还可作为在线批评者，支持图像的迭代修正。",
+        "why": "编辑判断：适合关注科学制图可靠性的人。应分别检查判断准确率、解释是否有依据，以及给出的修改能否真正修复错误；三者不能相互替代。",
+        "priority": null,
+        "project": null,
+        "github": null,
+        "huggingface": "https://huggingface.co/papers/2609.33399",
+        "arxiv": "https://arxiv.org/abs/2609.33399"
+      },
+      {
+        "id": "2609.32472",
+        "title": "AdaTutoRank: Learning to Rerank Document Sets via Adaptive Tutoring Optimization for RAG and Deep Research",
+        "authors": "Kailin Jiang、Lei Liu 等",
+        "topics": [
+          "检索增强",
+          "重排序"
+        ],
+        "explainer": "AdaTutoRank 将检索重排视为组合互补且少冗余的文档集合，而不是独立打相关性分数。训练按当前输出质量分配不同粒度的指导：评分准则、替代文档集或对比反思，再将提示引起的变化蒸馏为 token 级优势，与集合结果奖励结合。论文在 RAG、深度检索及集合评测中验证该设计。",
+        "why": "编辑判断：适合复杂问题需要多份证据的检索场景。重点看自适应指导是否改善集合完整性，以及训练评分准则是否会偏向特定问题形式。",
+        "priority": null,
+        "project": "https://adatutorank.github.io/",
+        "github": "https://github.com/AdaTutoRank/AdaTutoRank",
+        "huggingface": "https://huggingface.co/papers/2609.32472",
+        "arxiv": "https://arxiv.org/abs/2609.32472"
+      },
+      {
+        "id": "2609.33382",
+        "title": "WideSWE: Can Coding Agents Coordinate Changes Across Repositories?",
+        "authors": "Baoyi Wang、Xingliang Wang 等",
+        "topics": [
+          "代码智能体",
+          "评测"
+        ],
+        "explainer": "WideSWE 从多个软件生态中整理需要跨仓库协调的真实修复与功能任务，并审查隐藏测试，使不同正确实现仍可通过行为与回归检查。评测发现智能体既会遗漏必要仓库，也会识别修改但未完成或验证不足；逐仓库独立执行能补回部分遗漏，却未必修好已尝试但失败的实现。",
+        "why": "编辑判断：适合评估真实软件生态中的编码助手。它提醒单仓库成功率不能代表跨仓库协作能力，阅读时应注意仓库间信息共享和完整验收方式。",
+        "priority": null,
+        "project": "https://zju-aces-ise.github.io/WideSWE/",
+        "github": "https://github.com/ZJU-ACES-ISE/WideSWE",
+        "huggingface": "https://huggingface.co/papers/2609.33382",
+        "arxiv": "https://arxiv.org/abs/2609.33382"
       }
     ]
   },
